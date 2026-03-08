@@ -1,0 +1,286 @@
+/*
+Theme Name: il-panino-theme
+Theme URI: 
+Author: Mattia Filosa
+Author URI: 
+Description: Tema custom per Il Panino con supporto ad Advanced Custom Fields (ACF).
+Version: 1.0.0
+Text Domain: il-panino-theme
+*/
+
+/* ==========================================================================
+   Variabili Globali e Reset
+   ========================================================================== */
+:root {
+    --color-primary: #A03D26; /* Rosso mattone */
+    --color-secondary: #C55B24; /* Arancione per Recensiscici */
+    --color-bg-header: #FFF8E7; /* Preso dallo screenshot */
+    --color-text-dark: #6D4D43; /* Colore testo default per menu */
+    
+    --font-heading: 'Bebas Neue', sans-serif;
+    --font-body: sans-serif; /* Usiamo un generico per il body se non specificato */
+    
+    --transition-speed: 0.3s;
+}
+
+/* Reset base per bordi e box-sizing */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    /* Selezionato dall'utente: applica Bebas ovunque su Headings e simili */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    margin-top: 0;
+    letter-spacing: 0.05em;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color var(--transition-speed) ease;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* ==========================================================================
+   Bottoni & Animazione "Space Patty Burger"
+   ========================================================================== */
+.btn {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    overflow: hidden; /* Nasconde il testo di backup che arriva dal basso */
+    transition: background-color var(--transition-speed) ease, 
+                color var(--transition-speed) ease, 
+                border-color var(--transition-speed) ease;
+}
+
+.btn-primary {
+    background-color: var(--color-secondary);
+    color: #fff;
+    border: 2px solid var(--color-secondary);
+}
+
+.btn-outline {
+    background-color: var(--color-primary);
+    color: #fff;
+    border: 2px solid var(--color-primary);
+}
+
+/* Preparazione Animazione Text Shift */
+.btn span {
+    display: inline-block; /* Necessario per translazione */
+    transition: transform var(--transition-speed) cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Elemento pseudo per il testo che entra dal basso */
+.btn::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 100%; /* Parte dal basso, nascosto grazie a overflow:hidden */
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--transition-speed) cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Hover: Il testo visibile va su, il testo pseudo entra al suo posto */
+.btn:hover span {
+    transform: translateY(-150%);
+}
+
+.btn:hover::after {
+    transform: translateY(-100%);
+}
+
+
+/* ==========================================================================
+   Header Component
+   ========================================================================== */
+.site-header {
+    background-color: var(--color-bg-header);
+    border-bottom: 2px solid rgba(0,0,0,0.05); /* Separatore leggero */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+/* --- Sinistra: Navbar --- */
+.header-nav-left {
+    flex: 1; /* Prende 1/3 dello spazio */
+}
+
+.nav-list {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-list li a {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--color-text-dark);
+    letter-spacing: 0.05em;
+    position: relative;
+}
+
+/* Sottolineatura animata sui link (Bonus UX!) */
+.nav-list li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--color-primary);
+    transition: width 0.3s ease;
+}
+
+.nav-list li a:hover::after {
+    width: 100%;
+}
+
+/* --- Centro: Logo --- */
+.header-logo {
+    flex: 1; /* Prende 1/3 dello spazio */
+    text-align: center;
+}
+
+.header-logo a {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    color: var(--color-primary);
+    font-weight: bold;
+    letter-spacing: 0.05em;
+}
+
+/* --- Destra: Bottoni --- */
+.header-actions {
+    flex: 1; /* Prende 1/3 dello spazio */
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+
+/* ==========================================================================
+   Mobile Menu (Hamburger & Overlay)
+   ========================================================================== */
+.mobile-only {
+    display: none;
+}
+
+.menu-toggle {
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    color: var(--color-primary);
+    cursor: pointer;
+    padding: 0;
+}
+
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color-bg-header);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobile-nav-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-nav-inner {
+    text-align: center;
+    width: 100%;
+}
+
+.mobile-nav-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    font-size: 3rem;
+    color: var(--color-primary);
+    cursor: pointer;
+}
+
+.mobile-menu-wrapper ul {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.mobile-menu-wrapper a {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--color-primary);
+}
+
+.mobile-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ==========================================================================
+   Media Queries (Responsive)
+   ========================================================================== */
+@media screen and (max-width: 900px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    .mobile-only {
+        display: block;
+    }
+    
+    .header-nav-left {
+        flex: 0;
+    }
+    
+    .header-logo {
+        text-align: right;
+        flex: 1;
+    }
+}
