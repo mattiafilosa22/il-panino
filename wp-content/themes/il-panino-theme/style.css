@@ -322,7 +322,7 @@ ul {
     font-size: clamp(5rem, 15vw, 9rem);
     color: #933320;
     /* Darker brick red as seen in image */
-    line-height: 0.9;
+    line-height: 0.5;
     margin-bottom: 20px;
     letter-spacing: 0.02em;
     text-shadow: 2px 2px 0px #fff;
@@ -333,7 +333,7 @@ ul {
     margin: 20px 0;
     position: relative;
     width: 100%;
-    max-width: 800px;
+    max-width: 1200px;
 }
 
 .hero-main-image {
