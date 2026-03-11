@@ -1,0 +1,85 @@
+// ==========================================================================
+// Homepage & Hero Section
+// ==========================================================================
+.hero-section {
+    position: relative;
+    padding: 60px 20px 80px;
+    text-align: center;
+    /* Soft radial gradient from white-ish to pale yellow */
+    background: radial-gradient(circle at center, #ffffff 0%, var(--color-bg-header) 70%);
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: clamp(5rem, 15vw, 9rem);
+    color: #933320;
+    /* Darker brick red as seen in image */
+    line-height: 0.5;
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+    text-shadow: 2px 2px 0px #fff;
+    /* Slight text outline for contrast if needed, optional */
+
+    @media screen and (max-width: 1420px) {
+        font-size: clamp(5rem, 15vw, 9rem);
+        line-height: 0.8;
+    }
+
+    @media screen and (max-width: 768px) {
+        line-height: 0.9;
+    }
+}
+
+.hero-image-wrapper {
+    margin: 20px 0;
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.hero-main-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    /* Floating animation */
+    animation: floatImage 6s ease-in-out infinite;
+}
+
+@keyframes floatImage {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.hero-subtitle {
+    font-family: var(--font-menu);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--color-text-dark);
+    font-weight: 500;
+    max-width: 600px;
+    margin: 10px auto 30px;
+    line-height: 1.5;
+}
+
+.hero-actions-bottom {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}

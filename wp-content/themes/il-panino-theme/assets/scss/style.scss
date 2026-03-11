@@ -1,0 +1,26 @@
+/*
+Theme Name: il-panino-theme
+Theme URI: 
+Author: Mattia Filosa
+Author URI: 
+Description: Tema custom per Il Panino con supporto ad Advanced Custom Fields (ACF).
+Version: 1.0.0
+Text Domain: il-panino-theme
+*/
+
+// ==========================================================================
+// 1. Utilities / Variables
+// ==========================================================================
+@use "utils/variables";
+
+// ==========================================================================
+// 2. Base
+// ==========================================================================
+@use "base/reset";
+
+// ==========================================================================
+// 3. Components
+// ==========================================================================
+@use "components/buttons";
+@use "components/header";
+@use "components/hero-banner";

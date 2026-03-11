@@ -1,0 +1,23 @@
+// ==========================================================================
+// Variabili Globali
+// ==========================================================================
+:root {
+    --color-primary: #A03D26;
+    /* Rosso mattone */
+    --color-secondary: #C55B24;
+    /* Arancione per Recensiscici */
+    --color-bg-header: #FFF8E7;
+    /* Preso dallo screenshot */
+    --color-text-dark: #413831;
+    /* Colore testo default per menu */
+    --color-menu-active: #9A6553;
+    /* Colore menu attivo/hover */
+
+    --font-heading: 'Bebas Neue', sans-serif;
+    --font-body: sans-serif;
+    /* Usiamo un generico per il body se non specificato */
+    --font-menu: 'Quicksand', 'Nunito', sans-serif;
+    /* Font per il menu */
+
+    --transition-speed: 0.3s;
+}
