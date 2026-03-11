@@ -12,8 +12,8 @@ get_header(); ?>
     <div class="homepage-content">
         <?php
         // Esempio di utilizzo dei campi ACF
-        $hero_title = get_field('hero_title');
-        $hero_subtitle = get_field('hero_subtitle');
+        $hero_title = function_exists('get_field') ? get_field('hero_title') : '';
+        $hero_subtitle = function_exists('get_field') ? get_field('hero_subtitle') : '';
         ?>
         
         <section class="hero-section">

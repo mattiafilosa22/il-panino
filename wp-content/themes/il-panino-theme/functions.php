@@ -36,6 +36,44 @@ function il_panino_theme_scripts() {
 add_action( 'wp_enqueue_scripts', 'il_panino_theme_scripts' );
 
 /**
+ * Registrazione campi ACF per Homepage
+ */
+if( function_exists('acf_add_local_field_group') ) {
+    acf_add_local_field_group(array(
+        'key' => 'group_homepage',
+        'title' => 'Homepage - Hero Section',
+        'fields' => array(
+            array(
+                'key' => 'field_hero_title',
+                'label' => 'Hero Title',
+                'name' => 'hero_title',
+                'type' => 'text',
+                'instructions' => 'Titolo principale della hero section',
+            ),
+            array(
+                'key' => 'field_hero_subtitle',
+                'label' => 'Hero Subtitle',
+                'name' => 'hero_subtitle',
+                'type' => 'textarea',
+                'instructions' => 'Sottotitolo della hero section',
+                'rows' => 3,
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'template-homepage.php',
+                ),
+            ),
+        ),
+        'position' => 'normal',
+        'style' => 'default',
+    ));
+}
+
+/**
  * Setup ACF Options Page (se necessario)
  */
 if( function_exists('acf_add_options_page') ) {
