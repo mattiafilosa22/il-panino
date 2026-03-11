@@ -12,21 +12,30 @@ Text Domain: il-panino-theme
    Variabili Globali e Reset
    ========================================================================== */
 :root {
-    --color-primary: #A03D26; /* Rosso mattone */
-    --color-secondary: #C55B24; /* Arancione per Recensiscici */
-    --color-bg-header: #FFF8E7; /* Preso dallo screenshot */
-    --color-text-dark: #413831; /* Colore testo default per menu */
-    --color-menu-active: #9A6553; /* Colore menu attivo/hover */
-    
+    --color-primary: #A03D26;
+    /* Rosso mattone */
+    --color-secondary: #C55B24;
+    /* Arancione per Recensiscici */
+    --color-bg-header: #FFF8E7;
+    /* Preso dallo screenshot */
+    --color-text-dark: #413831;
+    /* Colore testo default per menu */
+    --color-menu-active: #9A6553;
+    /* Colore menu attivo/hover */
+
     --font-heading: 'Bebas Neue', sans-serif;
-    --font-body: sans-serif; /* Usiamo un generico per il body se non specificato */
-    --font-menu: 'Quicksand', 'Nunito', sans-serif; /* Font per il menu */
-    
+    --font-body: sans-serif;
+    /* Usiamo un generico per il body se non specificato */
+    --font-menu: 'Quicksand', 'Nunito', sans-serif;
+    /* Font per il menu */
+
     --transition-speed: 0.3s;
 }
 
 /* Reset base per bordi e box-sizing */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -36,7 +45,12 @@ body {
     /* Selezionato dall'utente: applica Bebas ovunque su Headings e simili */
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: var(--font-heading);
     margin-top: 0;
     letter-spacing: 0.05em;
@@ -67,10 +81,11 @@ ul {
     cursor: pointer;
     text-align: center;
     position: relative;
-    overflow: hidden; /* Nasconde il testo di backup che arriva dal basso */
-    transition: background-color var(--transition-speed) ease, 
-                color var(--transition-speed) ease, 
-                border-color var(--transition-speed) ease;
+    overflow: hidden;
+    /* Nasconde il testo di backup che arriva dal basso */
+    transition: background-color var(--transition-speed) ease,
+        color var(--transition-speed) ease,
+        border-color var(--transition-speed) ease;
 }
 
 .btn-primary {
@@ -87,7 +102,8 @@ ul {
 
 /* Preparazione Animazione Text Shift */
 .btn span {
-    display: inline-block; /* Necessario per translazione */
+    display: inline-block;
+    /* Necessario per translazione */
     transition: transform var(--transition-speed) cubic-bezier(0.76, 0, 0.24, 1);
 }
 
@@ -95,7 +111,8 @@ ul {
 .btn::after {
     content: attr(data-text);
     position: absolute;
-    top: 100%; /* Parte dal basso, nascosto grazie a overflow:hidden */
+    top: 100%;
+    /* Parte dal basso, nascosto grazie a overflow:hidden */
     left: 0;
     width: 100%;
     height: 100%;
@@ -120,7 +137,8 @@ ul {
    ========================================================================== */
 .site-header {
     background-color: var(--color-bg-header);
-    border-bottom: 2px solid rgba(0,0,0,0.05); /* Separatore leggero */
+    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+    /* Separatore leggero */
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -137,7 +155,8 @@ ul {
 
 /* --- Sinistra: Navbar --- */
 .header-nav-left {
-    flex: 1; /* Prende 1/3 dello spazio */
+    flex: 1;
+    /* Prende 1/3 dello spazio */
 }
 
 .nav-list {
@@ -155,7 +174,7 @@ ul {
     transition: color 0.3s ease;
 }
 
-.nav-list li.current-menu-item > a,
+.nav-list li.current-menu-item>a,
 .nav-list li a:hover {
     color: var(--color-menu-active);
 }
@@ -163,7 +182,8 @@ ul {
 
 /* --- Centro: Logo --- */
 .header-logo {
-    flex: 1; /* Prende 1/3 dello spazio */
+    flex: 1;
+    /* Prende 1/3 dello spazio */
     text-align: center;
 }
 
@@ -177,7 +197,8 @@ ul {
 
 /* --- Destra: Bottoni --- */
 .header-actions {
-    flex: 1; /* Prende 1/3 dello spazio */
+    flex: 1;
+    /* Prende 1/3 dello spazio */
     display: flex;
     justify-content: flex-end;
     gap: 15px;
@@ -265,7 +286,7 @@ ul {
 }
 
 .mobile-menu-wrapper a:hover,
-.mobile-menu-wrapper li.current-menu-item > a {
+.mobile-menu-wrapper li.current-menu-item>a {
     color: var(--color-menu-active);
 }
 
@@ -296,23 +317,16 @@ ul {
     overflow: hidden;
 }
 
-.hero-content-wrapper {
-    max-width: 1000px;
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 2;
-}
-
 .hero-title {
     font-family: var(--font-heading);
-    font-size: clamp(3rem, 8vw, 6rem);
-    color: #933320; /* Darker brick red as seen in image */
-    line-height: 1.1;
+    font-size: clamp(5rem, 15vw, 9rem);
+    color: #933320;
+    /* Darker brick red as seen in image */
+    line-height: 0.9;
     margin-bottom: 20px;
     letter-spacing: 0.02em;
+    text-shadow: 2px 2px 0px #fff;
+    /* Slight text outline for contrast if needed, optional */
 }
 
 .hero-image-wrapper {
@@ -332,9 +346,17 @@ ul {
 }
 
 @keyframes floatImage {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-    100% { transform: translateY(0px); }
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 .hero-subtitle {
@@ -366,11 +388,11 @@ ul {
     .mobile-only {
         display: block;
     }
-    
+
     .header-nav-left {
         display: none;
     }
-    
+
     .header-logo {
         text-align: left;
         order: 1;

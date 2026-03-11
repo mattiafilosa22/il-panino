@@ -15,7 +15,7 @@ $recensiscici_link = get_theme_mod('recensiscici_link', '#');
 ?>
 
 <section class="hero-section">
-    <div class="hero-content-wrapper">
+    <div class="container d-flex flex-column align-items-center" style="z-index: 2;">
         
         <?php if($hero_title): ?>
             <h1 class="hero-title"><?php echo wp_kses_post(nl2br($hero_title)); ?></h1>

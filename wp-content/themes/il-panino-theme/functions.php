@@ -28,6 +28,9 @@ function il_panino_theme_scripts() {
     // Caricamento Fonts: Bebas Neue, Quicksand, Nunito
     wp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&family=Quicksand:wght@400;600;700&display=swap', array(), null );
 
+    // Bootstrap 5 CSS
+    wp_enqueue_style( 'bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', array(), '5.3.3' );
+
     // Cache busting automatico usando l'ultima modifica del file style.css
     $theme_version = file_exists( get_stylesheet_directory() . '/style.css' ) ? filemtime( get_stylesheet_directory() . '/style.css' ) : '1.0.0';
     wp_enqueue_style( 'il-panino-style', get_stylesheet_uri(), array(), $theme_version );
@@ -38,51 +41,19 @@ function il_panino_theme_scripts() {
 add_action( 'wp_enqueue_scripts', 'il_panino_theme_scripts' );
 
 /**
- * Registrazione campi ACF per Homepage
+ * Load ACF Components
  */
-if( function_exists('acf_add_local_field_group') ) {
-    acf_add_local_field_group(array(
-        'key' => 'group_homepage',
-        'title' => 'Homepage - Hero Section',
-        'fields' => array(
-            array(
-                'key' => 'field_hero_title',
-                'label' => 'Hero Title',
-                'name' => 'hero_title',
-                'type' => 'text',
-                'instructions' => 'Titolo principale della hero section',
-            ),
-            array(
-                'key' => 'field_hero_subtitle',
-                'label' => 'Hero Subtitle',
-                'name' => 'hero_subtitle',
-                'type' => 'textarea',
-                'instructions' => 'Sottotitolo della hero section',
-                'rows' => 3,
-            ),
-            array(
-                'key' => 'field_hero_background-image',
-                'label' => 'Hero background image',
-                'name' => 'hero_bg_image',
-                'type' => 'image',
-                'instructions' => 'Immagine di background per la hero section',
-                'return_format' => 'url',
-                'preview_size' => 'medium',
-                'library' => 'all',
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'page_template',
-                    'operator' => '==',
-                    'value' => 'template-homepage.php',
-                ),
-            ),
-        ),
-        'position' => 'normal',
-        'style' => 'default',
-    ));
+$acf_components = array(
+    'hero-banner',
+    // Aggiungi qui gli altri componenti man mano che li crei
+    // 'cross-slider',
+);
+
+foreach ( $acf_components as $component ) {
+    $file = get_template_directory() . '/inc/acf/' . $component . '.php';
+    if ( file_exists( $file ) ) {
+        require_once $file;
+    }
 }
 
 /**
