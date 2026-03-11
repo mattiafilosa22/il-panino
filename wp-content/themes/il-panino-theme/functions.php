@@ -60,6 +60,16 @@ if( function_exists('acf_add_local_field_group') ) {
                 'instructions' => 'Sottotitolo della hero section',
                 'rows' => 3,
             ),
+            array(
+                'key' => 'field_hero_background-image',
+                'label' => 'Hero background image',
+                'name' => 'hero_bg_image',
+                'type' => 'image',
+                'instructions' => 'Immagine di background per la hero section',
+                'return_format' => 'url',
+                'preview_size' => 'medium',
+                'library' => 'all',
+            ),
         ),
         'location' => array(
             array(

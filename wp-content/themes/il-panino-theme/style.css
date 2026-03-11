@@ -280,6 +280,82 @@ ul {
 }
 
 /* ==========================================================================
+   Homepage & Hero Section
+   ========================================================================== */
+.hero-section {
+    position: relative;
+    padding: 60px 20px 80px;
+    text-align: center;
+    /* Soft radial gradient from white-ish to pale yellow */
+    background: radial-gradient(circle at center, #ffffff 0%, var(--color-bg-header) 70%);
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-content-wrapper {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 8vw, 6rem);
+    color: #933320; /* Darker brick red as seen in image */
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+}
+
+.hero-image-wrapper {
+    margin: 20px 0;
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+}
+
+.hero-main-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    /* Floating animation */
+    animation: floatImage 6s ease-in-out infinite;
+}
+
+@keyframes floatImage {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+.hero-subtitle {
+    font-family: var(--font-menu);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--color-text-dark);
+    font-weight: 500;
+    max-width: 600px;
+    margin: 10px auto 30px;
+    line-height: 1.5;
+}
+
+.hero-actions-bottom {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* ==========================================================================
    Media Queries (Responsive)
    ========================================================================== */
 @media screen and (max-width: 768px) {
