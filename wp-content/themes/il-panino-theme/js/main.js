@@ -1,3 +1,5 @@
+import ProductSliderCarousel from './modules/ProductSliderCarousel.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.menu-toggle');
     const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
@@ -31,5 +33,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 body.style.overflow = '';
             });
         });
+    }
+
+    // Initialize Homepage Product Slider
+    const productSliderElement = document.getElementById('homepage-product-slider');
+    if (productSliderElement && typeof Splide !== 'undefined') {
+        const carousel = new ProductSliderCarousel(productSliderElement);
+        carousel.mount();
     }
 });

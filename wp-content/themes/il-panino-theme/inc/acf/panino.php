@@ -56,6 +56,33 @@ acf_add_local_field_group(array(
             'max_size' => '',
             'mime_types' => 'png,webp,svg,jpg,jpeg',
         ),
+        array(
+            'key' => 'field_panino_posizione_label',
+            'label' => 'Posizione Label Nome',
+            'name' => 'posizione_label_nome',
+            'type' => 'select',
+            'instructions' => 'Seleziona dove far comparire l\'etichetta con il nome del panino all\'interno dello slider prodotti.',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '100',
+                'class' => '',
+                'id' => '',
+            ),
+            'choices' => array(
+                'top-left' => 'In alto a sinistra',
+                'top-right' => 'In alto a destra',
+                'bottom-left' => 'In basso a sinistra',
+                'bottom-right' => 'In basso a destra',
+            ),
+            'default_value' => 'bottom-left',
+            'allow_null' => 0,
+            'multiple' => 0,
+            'ui' => 0,
+            'return_format' => 'value',
+            'ajax' => 0,
+            'placeholder' => '',
+        ),
     ),
     'location' => array(
         array(

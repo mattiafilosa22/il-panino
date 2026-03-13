@@ -1,0 +1,230 @@
+// ==========================================================================
+// Product Slider Component (BEM & SOLID Principles)
+// ==========================================================================
+@use "../utils/variables" as var;
+
+.c-product-slider {
+    background-color: var(--color-bg-header); // Sfondo crema chiaro
+    padding: 6rem 0;
+
+    &__bg-fixed {
+        max-height: 100%; // Ensure images don't overflow vertically
+        pointer-events: none;
+        opacity: 0.9;
+    }
+
+    &__title {
+        color: var(--color-primary); // Rosso mattone
+        font-family: var(--font-heading);
+        text-transform: uppercase;
+        font-size: 4.5rem; // Very large
+        letter-spacing: 1px;
+
+        @media (max-width: 768px) {
+            font-size: 2.5rem;
+        }
+    }
+
+    &__subtitle {
+        color: var(--color-text-dark);
+        font-family: var(--font-menu);
+        font-weight: 600;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+// CTA Button Modifiers
+.c-btn {
+    border: none;
+    border-radius: 8px; // Rounded corners from design
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    
+    &--primary {
+        background-color: var(--color-primary);
+        color: #fff;
+        
+        &:hover {
+            background-color: var(--color-secondary);
+            color: #fff;
+        }
+    }
+    
+    &--cta {
+        padding: 0.75rem 2.5rem;
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+
+        &:hover {
+            transform: translateY(-2px);
+        }
+    }
+}
+
+// Product Card inside Slider
+.c-product-card {
+    position: relative; // Required for absolute logo positioning
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+    opacity: 0.4; // Non-active slides default
+    transform: scale(0.7); // Make side slides significantly smaller
+    z-index: 2;
+    
+    // Flexbox for perfect centering
+    display: flex !important; // Override splide default block
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &.is-active {
+        opacity: 1;
+        transform: scale(1.1); // Make center slide larger
+        z-index: 4; // Bring to front
+
+        @media (max-width: 768px) {
+            transform: scale(1); // Standard size on mobile to prevent overflow
+        }
+    }
+
+    &__bg-logo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 150%; // Make it larger than the panino
+        height: 150%;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 1; // Behind the image
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+        opacity: 0.5; // Slightly faded
+    }
+
+    &.is-active &__bg-logo {
+        opacity: 1; // Full opacity when active
+    }
+
+    &__figure {
+        margin: 0;
+        position: relative; // explicit relative positioning again to ensure stack context with logo
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__image {
+        max-width: 100%;
+        height: auto;
+        position: relative;
+        z-index: 2;
+        transition: transform 0.4s ease;
+        filter: drop-shadow(0 20px 15px rgba(0,0,0,0.25));
+    }
+
+    &__description {
+        font-family: var(--font-body);
+        font-size: 1.1rem;
+        color: var(--color-text-dark);
+        line-height: 1.6;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    // Show description when active
+    &.is-active &__description {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Space Patty Style Label
+.c-product-label {
+    pointer-events: none;
+    
+    &__text {
+        background-color: var(--color-primary);
+        color: #fff;
+        font-family: var(--font-heading);
+        font-size: 2rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        
+        // Solid black border and hard shadow based on design
+        border: 3px solid #000;
+        box-shadow: -4px 4px 0px #000;
+        border-radius: 8px;
+        
+        // Rotated slightly counter-clockwise
+        transform: rotate(-8deg);
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+
+        @media (max-width: 768px) {
+            font-size: 1.25rem;
+            padding: 0.25rem 1rem;
+            border-width: 2px;
+            box-shadow: -2px 2px 0px #000;
+        }
+    }
+
+    // Position Modifiers (Adjusted to overlap image nicely)
+    &--top-left {
+        top: 10%;
+        left: 0;
+        transform: translateX(-15%);
+    }
+    &--top-right {
+        top: 10%;
+        right: 0;
+        transform: translateX(15%);
+    }
+    &--bottom-left {
+        bottom: 10%;
+        left: 0;
+        transform: translateX(-15%);
+    }
+    &--bottom-right {
+        bottom: 10%;
+        right: 0;
+        transform: translateX(15%);
+    }
+}
+
+// Customizing Splide Global Elements within the Component Context
+.c-product-slider__carousel {
+    padding: 3rem 0; // Add breathing room for scaling
+
+    .splide__arrow {
+        background: var(--color-primary);
+        opacity: 1;
+        width: 3rem;
+        height: 3rem;
+        
+        svg {
+            fill: #fff;
+            width: 1.25em;
+            height: 1.25em;
+        }
+        
+        &:hover {
+            background: var(--color-secondary);
+        }
+
+        &--prev {
+            left: 20%;
+        }
+
+        &--next {
+            right: 20%;
+        }
+    }
+}

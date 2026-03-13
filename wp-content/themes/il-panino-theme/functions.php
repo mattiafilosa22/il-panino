@@ -35,10 +35,23 @@ function il_panino_theme_scripts() {
     $theme_version = file_exists( get_stylesheet_directory() . '/style.css' ) ? filemtime( get_stylesheet_directory() . '/style.css' ) : '1.0.0';
     wp_enqueue_style( 'il-panino-style', get_stylesheet_uri(), array(), $theme_version );
     
-    // Caricamento JS Custom
-    wp_enqueue_script( 'il-panino-navigation', get_template_directory_uri() . '/js/main.js', array(), '1.0.0', true );
+    // Splide.js CSS & JS (Local Import)
+    wp_enqueue_style( 'splide-css', get_template_directory_uri() . '/node_modules/@splidejs/splide/dist/css/splide.min.css', array(), '4.1.4' );
+    wp_enqueue_script( 'splide-js', get_template_directory_uri() . '/node_modules/@splidejs/splide/dist/js/splide.min.js', array(), '4.1.4', true );
+
+    // Caricamento JS Custom (Modulare)
+    wp_enqueue_script( 'il-panino-main', get_template_directory_uri() . '/js/main.js', array('splide-js'), '1.0.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'il_panino_theme_scripts' );
+
+// Aggiunge type="module" allo script custom per permettere l'utilizzo di ES6 Modules
+function il_panino_add_type_attribute( $tag, $handle, $src ) {
+    if ( 'il-panino-main' !== $handle ) {
+        return $tag;
+    }
+    return '<script type="module" src="' . esc_url( $src ) . '"></script>';
+}
+add_filter( 'script_loader_tag', 'il_panino_add_type_attribute', 10, 3 );
 
 /**
  * Load Custom Post Types
@@ -75,8 +88,7 @@ $acf_components = array(
     'hero-banner',
     'panino',
     'categoria_panino',
-    // Aggiungi qui gli altri componenti man mano che li crei
-    // 'cross-slider',
+    'slider-prodotti',
 );
 
 foreach ( $acf_components as $component ) {

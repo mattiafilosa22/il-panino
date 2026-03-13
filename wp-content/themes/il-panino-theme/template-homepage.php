@@ -13,6 +13,8 @@ get_header(); ?>
 
         <?php get_template_part('components/hero-banner'); ?>
 
+        <?php get_template_part('components/product-slider'); ?>
+
     </div>
 
 </main><!-- #main -->
