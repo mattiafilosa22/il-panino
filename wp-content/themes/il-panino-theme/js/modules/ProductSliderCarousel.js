@@ -17,19 +17,19 @@ export default class ProductSliderCarousel {
             perPage    : 3,
             perMove    : 1,
             focus      : 'center',
-            gap        : '8rem', // Increased gap between slides significantly for desktop
+            gap        : '2rem', // Reduced gap
             pagination : false,
             arrows     : true,
             breakpoints: {
                 992: {
                     perPage: 2,
                     focus  : 'center',
-                    gap    : '4rem',
+                    gap    : '1rem',
                 },
                 768: {
                     perPage: 1,
                     focus  : 'center',
-                    gap    : '1rem',
+                    gap    : '0',
                     arrows : false,
                 }
             }
