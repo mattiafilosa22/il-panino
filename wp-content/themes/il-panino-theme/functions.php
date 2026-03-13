@@ -41,10 +41,40 @@ function il_panino_theme_scripts() {
 add_action( 'wp_enqueue_scripts', 'il_panino_theme_scripts' );
 
 /**
+ * Load Custom Post Types
+ */
+$custom_post_types = array(
+    'panino',
+);
+
+foreach ( $custom_post_types as $cpt ) {
+    $file = get_template_directory() . '/inc/cpt/' . $cpt . '.php';
+    if ( file_exists( $file ) ) {
+        require_once $file;
+    }
+}
+
+/**
+ * Load Taxonomies
+ */
+$taxonomies = array(
+    'categoria_panino',
+);
+
+foreach ( $taxonomies as $tax ) {
+    $file = get_template_directory() . '/inc/taxonomy/' . $tax . '.php';
+    if ( file_exists( $file ) ) {
+        require_once $file;
+    }
+}
+
+/**
  * Load ACF Components
  */
 $acf_components = array(
     'hero-banner',
+    'panino',
+    'categoria_panino',
     // Aggiungi qui gli altri componenti man mano che li crei
     // 'cross-slider',
 );
