@@ -10,7 +10,7 @@ export default class ProductSliderCarousel {
     constructor(selector, customOptions = {}) {
         this.element = typeof selector === 'string' ? document.querySelector(selector) : selector;
         this.instance = null;
-        
+
         // Default options uniti alle customOptions (DIP/OCP)
         this.options = Object.assign({
             type       : 'loop',
@@ -28,7 +28,7 @@ export default class ProductSliderCarousel {
                     padding: '15%',
                 },
                 768: {
-                    padding: '0',
+                    padding: { left: '5%', right: '35%' },
                     arrows : false,
                 }
             }

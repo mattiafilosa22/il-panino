@@ -17,7 +17,7 @@
         color: var(--color-primary); // Rosso mattone
         font-family: var(--font-heading);
         text-transform: uppercase;
-        font-size: 4.5rem; // Very large
+        font-size: 6.5rem; // Very large
         letter-spacing: 1px;
 
         @media (max-width: 768px) {
@@ -28,7 +28,7 @@
     &__subtitle {
         color: var(--color-text-dark);
         font-family: var(--font-menu);
-        font-weight: 600;
+        font-weight: 500;
         max-width: 700px;
         margin-left: auto;
         margin-right: auto;
@@ -43,17 +43,17 @@
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
-    
+
     &--primary {
         background-color: var(--color-primary);
         color: #fff;
-        
+
         &:hover {
             background-color: var(--color-secondary);
             color: #fff;
         }
     }
-    
+
     &--cta {
         padding: 0.75rem 2.5rem;
         font-family: var(--font-heading);
@@ -94,6 +94,7 @@
 
         @media (max-width: 768px) {
             scale: 1;
+            filter: none;
         }
     }
 
@@ -119,8 +120,8 @@
         z-index: 3;
 
         @media (max-width: 768px) {
-            opacity: 0;
-            visibility: hidden;
+            scale: 1;
+            opacity: 0.5;
         }
     }
 
@@ -163,6 +164,11 @@
         transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s, filter 0.4s ease;
         filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
         will-change: transform;
+
+        @media (max-width: 768px) {
+            max-width: 130%;
+            width: 130%;
+        }
     }
 
     .is-active &__image {
@@ -192,7 +198,7 @@
 // Space Patty Style Label
 .c-product-label {
     pointer-events: none;
-    
+
     &__text {
         background-color: var(--color-primary);
         color: #fff;
@@ -200,12 +206,12 @@
         font-size: 2rem;
         letter-spacing: 2px;
         text-transform: uppercase;
-        
+
         // Solid black border and hard shadow based on design
         border: 3px solid #000;
         box-shadow: -4px 4px 0px #000;
         border-radius: 8px;
-        
+
         // Rotated slightly counter-clockwise
         transform: rotate(-8deg);
         display: inline-block;
@@ -240,7 +246,7 @@
 
 // Customizing Splide Global Elements within the Component Context
 .c-product-slider__carousel {
-    padding: 3rem 0; // Add breathing room for scaling
+    padding: 0 0 3rem 0; // Add breathing room for scaling
 
     // Hide slider until Splide is fully initialized, then fade in
     opacity: 0;

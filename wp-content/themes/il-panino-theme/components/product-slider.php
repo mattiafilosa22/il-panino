@@ -42,7 +42,7 @@ if ($panini_query->have_posts()) : ?>
         <?php endif; ?>
 
         <div class="container position-relative" style="z-index: 2;">
-            <header class="c-product-slider__header row mb-5 text-center">
+            <header class="c-product-slider__header row mb-1 text-center">
                 <div class="col-12">
                     <?php if ($titolo) : ?>
                         <h2 class="c-product-slider__title display-4 fw-bold mb-3"><?php echo esc_html($titolo); ?></h2>
