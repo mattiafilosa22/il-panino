@@ -28,7 +28,7 @@ $label_positions_map = array(
 
 if ($panini_query->have_posts()) : ?>
     <section class="c-product-slider position-relative overflow-hidden py-5">
-        
+
         <?php if ($sfondo_sinistra) : ?>
             <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--left position-absolute bottom-0 start-0 h-100 d-none d-lg-block" style="z-index: 1;">
                 <img src="<?php echo esc_url($sfondo_sinistra); ?>" alt="" class="h-100 w-auto object-fit-contain object-position-bottom">
@@ -47,11 +47,11 @@ if ($panini_query->have_posts()) : ?>
                     <?php if ($titolo) : ?>
                         <h2 class="c-product-slider__title display-4 fw-bold mb-3"><?php echo esc_html($titolo); ?></h2>
                     <?php endif; ?>
-                    
+
                     <?php if ($sottotitolo) : ?>
                         <p class="c-product-slider__subtitle lead mb-4"><?php echo esc_html($sottotitolo); ?></p>
                     <?php endif; ?>
-                    
+
                     <?php if ($cta) : ?>
                         <a href="<?php echo esc_url($cta['url']); ?>" class="c-btn c-btn--primary c-btn--cta" target="<?php echo esc_attr($cta['target'] ?: '_self'); ?>">
                             <?php echo esc_html($cta['title']); ?>
@@ -59,52 +59,50 @@ if ($panini_query->have_posts()) : ?>
                     <?php endif; ?>
                 </div>
             </header>
+        </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="c-product-slider__carousel splide js-product-slider" id="homepage-product-slider">
-                        <div class="splide__track">
-                            <ul class="splide__list">
-                                <?php while ($panini_query->have_posts()) : $panini_query->the_post(); 
-                                    $img_senza_sfondo = get_field('immagine_panino_senza_sfondo');
-                                    $logo = get_field('logo_panino');
-                                    $descrizione = get_field('descrizione') ? get_field('descrizione') : get_the_content();
-                                    $label_pos = get_field('posizione_label_nome');
-                                    $label_class = isset($label_positions_map[$label_pos]) ? $label_positions_map[$label_pos] : 'c-product-label--bottom-left';
-                                    
-                                    // Fallback to post thumbnail if no isolated image
-                                    $img_url = $img_senza_sfondo ? $img_senza_sfondo['url'] : get_the_post_thumbnail_url(get_the_ID(), 'large');
-                                    $logo_url = $logo ? $logo['url'] : '';
-                                ?>
-                                    <li class="splide__slide c-product-card text-center p-3">
-                                        
-                                        <?php if ($logo_url) : ?>
-                                            <div class="c-product-card__bg-logo" style="background-image: url('<?php echo esc_url($logo_url); ?>');"></div>
+        <div class="c-product-slider__fullwidth position-relative" style="z-index: 2;">
+            <div class="c-product-slider__carousel splide js-product-slider" id="homepage-product-slider">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <?php while ($panini_query->have_posts()) : $panini_query->the_post();
+                            $img_senza_sfondo = get_field('immagine_panino_senza_sfondo');
+                            $logo = get_field('logo_panino');
+                            $descrizione = get_field('descrizione') ? get_field('descrizione') : get_the_content();
+                            $label_pos = get_field('posizione_label_nome');
+                            $label_class = isset($label_positions_map[$label_pos]) ? $label_positions_map[$label_pos] : 'c-product-label--bottom-left';
+
+                            // Fallback to post thumbnail if no isolated image
+                            $img_url = $img_senza_sfondo ? $img_senza_sfondo['url'] : get_the_post_thumbnail_url(get_the_ID(), 'large');
+                            $logo_url = $logo ? $logo['url'] : '';
+                        ?>
+                            <li class="splide__slide text-center p-3">
+                                <div class="c-product-card">
+                                    <?php if ($logo_url) : ?>
+                                        <div class="c-product-card__bg-logo"></div>
+                                    <?php endif; ?>
+
+                                    <figure class="c-product-card__figure position-relative d-inline-block">
+                                        <?php if ($img_url) : ?>
+                                            <img src="<?php echo esc_url($img_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="c-product-card__image img-fluid">
                                         <?php endif; ?>
 
-                                        <figure class="c-product-card__figure position-relative d-inline-block">
-                                            
-                                            <?php if ($img_url) : ?>
-                                                <img src="<?php echo esc_url($img_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="c-product-card__image img-fluid">
-                                            <?php endif; ?>
-                                            
-                                            <div class="c-product-label <?php echo esc_attr($label_class); ?> position-absolute z-3">
-                                                <span class="c-product-label__text d-inline-block px-3 py-1 fw-bold text-white rounded">
-                                                    <?php the_title(); ?>
-                                                </span>
-                                            </div>
-                                        </figure>
+                                        <div class="c-product-label <?php echo esc_attr($label_class); ?> position-absolute z-3">
+                                            <span class="c-product-label__text d-inline-block px-3 py-1 fw-bold text-white rounded">
+                                                <?php the_title(); ?>
+                                            </span>
+                                        </div>
+                                    </figure>
 
-                                        <?php if ($descrizione) : ?>
-                                            <div class="c-product-card__description mt-4 mx-auto" style="max-width: 600px;">
-                                                <p><?php echo wp_kses_post($descrizione); ?></p>
-                                            </div>
-                                        <?php endif; ?>
-                                    </li>
-                                <?php endwhile; ?>
-                            </ul>
-                        </div>
-                    </div>
+                                    <?php if ($descrizione) : ?>
+                                        <div class="c-product-card__description mt-4 mx-auto" style="max-width: 600px;">
+                                            <p><?php echo wp_kses_post($descrizione); ?></p>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </li>
+                        <?php endwhile; ?>
+                    </ul>
                 </div>
             </div>
         </div>

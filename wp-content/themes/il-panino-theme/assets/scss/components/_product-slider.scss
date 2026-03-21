@@ -66,63 +66,61 @@
     }
 }
 
-// Product Card inside Slider
+// Product Card inside Slider (wrapper inside .splide__slide)
+// Splide classes (is-active, is-prev, is-next) are on the <li>, effects on the inner wrapper
 .c-product-card {
-    position: relative; // Required for absolute logo positioning
-    // Slower, smoother easing for the base card
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, visibility 0.6s ease !important;
-    
-    // Default state: Completely hidden, very small (solves the 4th element issue)
-    opacity: 0 !important; 
-    visibility: hidden !important; 
-    transform: scale(0.6) !important; 
+    position: relative;
+    transition: scale 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, visibility 0.6s ease;
+
+    // Default state: hidden and small
+    opacity: 0;
+    visibility: hidden;
+    scale: 0.5;
     z-index: 1;
-    will-change: transform, opacity, visibility;
-    
-    // Flexbox for perfect centering
-    display: flex !important; // Override splide default block
+    will-change: scale, opacity, visibility;
+
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    &.is-active {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: scale(1.15) !important; // Make center slide pop out more
-        filter: blur(0px) !important; // Clear focus
-        z-index: 4; // Bring to front
+    // Active slide
+    .is-active & {
+        opacity: 1;
+        visibility: visible;
+        scale: 1.15;
+        filter: blur(0px);
+        z-index: 4;
 
         @media (max-width: 768px) {
-            transform: scale(1) !important; // Standard size on mobile to prevent overflow
+            scale: 1;
         }
     }
 
-    // Effetto profondità per le slide immediatamente prima e dopo l'attiva
-    &.is-prev {
-        visibility: visible !important;
-        transform: scale(0.8) translateX(15%) !important; // Spinge verso il centro 
-        opacity: 0.4 !important;
-        filter: blur(3px) brightness(0.8);
+    // Depth effect for adjacent slides
+    .is-prev & {
+        visibility: visible;
+        scale: 0.85;
+        opacity: 0.8;
+        filter: blur(0px) brightness(0.9);
         z-index: 3;
 
         @media (max-width: 768px) {
-            opacity: 0 !important; // Hide siblings on mobile to avoid layout breaking
-            visibility: hidden !important;
-            transform: scale(0.8) translateX(0) !important;
+            opacity: 0;
+            visibility: hidden;
         }
     }
 
-    &.is-next {
-        visibility: visible !important;
-        transform: scale(0.8) translateX(-15%) !important; // Spinge verso il centro
-        opacity: 0.4 !important;
-        filter: blur(3px) brightness(0.8);
+    .is-next & {
+        visibility: visible;
+        scale: 0.85;
+        opacity: 0.8;
+        filter: blur(0px) brightness(0.9);
         z-index: 3;
 
         @media (max-width: 768px) {
-            opacity: 0 !important; // Hide siblings on mobile
-            visibility: hidden !important;
-            transform: scale(0.8) translateX(0) !important;
+            opacity: 0;
+            visibility: hidden;
         }
     }
 
@@ -130,30 +128,27 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        // Starts very small and rotated down
-        transform: translate(-50%, -50%) scale(0.4) rotate(-30deg); 
-        width: 150%; 
+        transform: translate(-50%, -50%) scale(0.4) rotate(-30deg);
+        width: 150%;
         height: 150%;
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
-        z-index: 1; 
+        z-index: 1;
         pointer-events: none;
-        // Super bouncy transition for the logo
         transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.6s ease;
-        opacity: 0; // completely hidden when inactive
+        opacity: 0;
         will-change: transform, opacity;
     }
 
-    &.is-active &__bg-logo {
-        opacity: 0.8; 
-        // Springs into place, scales up prominently
-        transform: translate(-50%, -50%) scale(1.2) rotate(0deg); 
+    .is-active &__bg-logo {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.2) rotate(0deg);
     }
 
     &__figure {
         margin: 0;
-        position: relative; 
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -164,16 +159,15 @@
         height: auto;
         position: relative;
         z-index: 2;
-        // Float in transition
         transform: translateY(20px);
         transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s, filter 0.4s ease;
         filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
         will-change: transform;
     }
 
-    &.is-active &__image {
+    .is-active &__image {
         transform: translateY(0);
-        filter: drop-shadow(0 25px 20px rgba(0,0,0,0.3)); // Deeper shadow when active
+        filter: drop-shadow(0 25px 20px rgba(0,0,0,0.3));
     }
 
     &__description {
@@ -183,15 +177,13 @@
         line-height: 1.6;
         opacity: 0;
         transform: translateY(30px);
-        // Staggered delay for description entrance
         transition: opacity 0.5s ease 0.3s, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
         text-align: center;
         margin-top: 2rem;
         will-change: transform, opacity;
     }
 
-    // Show description when active
-    &.is-active &__description {
+    .is-active &__description {
         opacity: 1;
         transform: translateY(0);
     }
@@ -229,24 +221,20 @@
 
     // Position Modifiers (Adjusted to overlap image nicely)
     &--top-left {
-        top: 10%;
-        left: 0;
-        transform: translateX(-15%);
+        top: 5%;
+        left: 15%;
     }
     &--top-right {
-        top: 10%;
-        right: 0;
-        transform: translateX(15%);
+        top: 5%;
+        right: 15%;
     }
     &--bottom-left {
-        bottom: 10%;
-        left: 0;
-        transform: translateX(-15%);
+        bottom: 5%;
+        left: 15%;
     }
     &--bottom-right {
-        bottom: 10%;
-        right: 0;
-        transform: translateX(15%);
+        bottom: 5%;
+        right: 15%;
     }
 }
 
@@ -254,32 +242,38 @@
 .c-product-slider__carousel {
     padding: 3rem 0; // Add breathing room for scaling
 
+    // Hide slider until Splide is fully initialized, then fade in
+    opacity: 0;
+    transition: opacity 0.6s ease;
+
+    &.is-initialized {
+        opacity: 1;
+    }
+
     .splide__arrow {
         background: var(--color-primary);
         opacity: 1;
-        width: 3rem;
-        height: 3rem;
-        
-        // Shift arrows upwards so they center on the image, 
-        // counter-acting the height of the description div below.
-        transform: translateY(-100%); 
-        
+        width: 3.5rem;
+        height: 3.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+
         svg {
             fill: #fff;
             width: 1.25em;
             height: 1.25em;
         }
-        
+
         &:hover {
             background: var(--color-secondary);
         }
 
         &--prev {
-            left: 20%;
+            left: 22%;
         }
 
         &--next {
-            right: 20%;
+            right: 22%;
         }
     }
 }

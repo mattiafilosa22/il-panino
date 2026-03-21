@@ -14,22 +14,21 @@ export default class ProductSliderCarousel {
         // Default options uniti alle customOptions (DIP/OCP)
         this.options = Object.assign({
             type       : 'loop',
-            perPage    : 3,
+            perPage    : 1,
             perMove    : 1,
             focus      : 'center',
-            gap        : '2rem', // Reduced gap
+            start      : 0,
+            gap        : '0rem',
+            padding    : '20%',
             pagination : false,
             arrows     : true,
+            trimSpace  : false,
             breakpoints: {
                 992: {
-                    perPage: 2,
-                    focus  : 'center',
-                    gap    : '1rem',
+                    padding: '15%',
                 },
                 768: {
-                    perPage: 1,
-                    focus  : 'center',
-                    gap    : '0',
+                    padding: '0',
                     arrows : false,
                 }
             }

@@ -40,7 +40,8 @@ function il_panino_theme_scripts() {
     wp_enqueue_script( 'splide-js', get_template_directory_uri() . '/node_modules/@splidejs/splide/dist/js/splide.min.js', array(), '4.1.4', true );
 
     // Caricamento JS Custom (Modulare)
-    wp_enqueue_script( 'il-panino-main', get_template_directory_uri() . '/js/main.js', array('splide-js'), '1.0.0', true );
+    $main_js_version = file_exists( get_template_directory() . '/js/main.js' ) ? filemtime( get_template_directory() . '/js/main.js' ) : '1.0.0';
+    wp_enqueue_script( 'il-panino-main', get_template_directory_uri() . '/js/main.js', array('splide-js'), $main_js_version, true );
 }
 add_action( 'wp_enqueue_scripts', 'il_panino_theme_scripts' );
 
