@@ -90,6 +90,8 @@ $acf_components = array(
     'panino',
     'categoria_panino',
     'slider-prodotti',
+    'cross-slider',
+    'footer',
 );
 
 foreach ( $acf_components as $component ) {

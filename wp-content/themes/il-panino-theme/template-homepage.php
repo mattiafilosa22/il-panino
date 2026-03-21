@@ -15,6 +15,8 @@ get_header(); ?>
 
         <?php get_template_part('components/product-slider'); ?>
 
+        <?php get_template_part('components/cross-slider'); ?>
+
     </div>
 
 </main><!-- #main -->

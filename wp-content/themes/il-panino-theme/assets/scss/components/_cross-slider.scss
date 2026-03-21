@@ -1,0 +1,135 @@
+// ==========================================================================
+// Cross Slider Component - Fasce Marquee Diagonali (BEM)
+// Replica dell'effetto Space Patty adattato ai colori de Il Panino Bologna
+// ==========================================================================
+
+// Marquee animation
+@keyframes marquee-scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-33.333%); }
+}
+
+@keyframes marquee-scroll-right {
+    0% { transform: translateX(-33.333%); }
+    100% { transform: translateX(0); }
+}
+
+.c-cross-slider {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    z-index: 5;
+    pointer-events: none;
+    padding: 20rem 0 14rem;
+    background-color: var(--color-bg-header);
+
+    @media (max-width: 768px) {
+        height: 120px;
+        padding: 8rem 0;
+    }
+
+    &__band {
+        position: absolute;
+        left: -10%;
+        width: 120%;
+        height: 140px;
+        background-color: #000;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+
+        @media (max-width: 768px) {
+            height: 80px;
+        }
+
+        // Band 1: rotated clockwise, scrolls left
+        &--1 {
+            top: 0;
+            transform: rotate(7deg);
+            z-index: 2;
+
+            @media (max-width: 768px) {
+                top: 0;
+            }
+        }
+
+        // Band 2: rotated counter-clockwise, scrolls right
+        &--2 {
+            top: 40px;
+            transform: rotate(-8deg);
+            z-index: 3;
+
+            @media (max-width: 768px) {
+                top: 25px;
+            }
+        }
+    }
+
+    &__marquee {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+
+    &__marquee-scroll {
+        display: flex;
+        width: max-content;
+        will-change: transform;
+    }
+
+    // Apply animations based on parent band
+    &__band--1 &__marquee-scroll {
+        animation: marquee-scroll-left 30s linear infinite;
+    }
+
+    &__band--2 &__marquee-scroll {
+        animation: marquee-scroll-right 30s linear infinite;
+    }
+
+    &__marquee-group {
+        flex-shrink: 0;
+    }
+
+    &__text {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        margin: 0;
+        padding: 0;
+    }
+
+    &__phrase {
+        font-family: var(--font-heading);
+        font-size: 5.5rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        line-height: 1;
+        padding: 0 1.5rem;
+
+        // Alternating colors: orange, cream, white
+        &:nth-child(6n+1) { color: var(--color-secondary); }  // orange
+        &:nth-child(6n+3) { color: var(--color-bg-header); }  // cream
+        &:nth-child(6n+5) { color: #fff; }                    // white
+
+        @media (max-width: 768px) {
+            font-size: 2.5rem;
+            padding: 0 0.75rem;
+        }
+    }
+
+    &__icon {
+        height: 5rem;
+        width: auto;
+        object-fit: contain;
+        flex-shrink: 0;
+        padding: 0 1rem;
+
+        @media (max-width: 768px) {
+            height: 2.2rem;
+            padding: 0 0.5rem;
+        }
+    }
+}

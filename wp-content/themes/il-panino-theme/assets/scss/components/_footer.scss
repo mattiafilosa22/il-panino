@@ -1,0 +1,182 @@
+// ==========================================================================
+// Footer Component
+// ==========================================================================
+
+.c-footer {
+    width: 100%;
+
+    // ------------------------------------------------------------------
+    // Main area (cream background)
+    // ------------------------------------------------------------------
+    &__main {
+        background-color: var(--color-bg-header);
+        padding: 60px 20px 50px;
+    }
+
+    &__content {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 60px;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: 40px;
+            text-align: center;
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // Columns
+    // ------------------------------------------------------------------
+    &__col {
+        flex: 1;
+    }
+
+    &__heading {
+        font-family: var(--font-heading);
+        font-size: 2rem;
+        text-transform: uppercase;
+        color: var(--color-text-dark);
+        margin-bottom: 20px;
+        letter-spacing: 0.05em;
+    }
+
+    // ------------------------------------------------------------------
+    // Navigation (Sitemap)
+    // ------------------------------------------------------------------
+    &__nav-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    &__nav-item {
+        margin-bottom: 12px;
+    }
+
+    &__nav-link {
+        font-family: var(--font-menu);
+        font-size: 1rem;
+        color: var(--color-text-dark);
+        text-decoration: none;
+        transition: color var(--transition-speed);
+
+        &:hover,
+        &:focus {
+            color: var(--color-primary);
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // Contatti
+    // ------------------------------------------------------------------
+    &__address {
+        font-style: normal;
+        margin-bottom: 12px;
+    }
+
+    &__address-line {
+        font-family: var(--font-menu);
+        font-size: 1rem;
+        color: var(--color-text-dark);
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    &__email {
+        display: inline-block;
+        font-family: var(--font-menu);
+        font-size: 1rem;
+        color: var(--color-text-dark);
+        text-decoration: none;
+        margin-bottom: 20px;
+        transition: color var(--transition-speed);
+
+        &:hover,
+        &:focus {
+            color: var(--color-primary);
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        gap: 12px;
+
+        @media (max-width: 768px) {
+            justify-content: center;
+        }
+    }
+
+    &__btn {
+        display: inline-block;
+        font-family: var(--font-menu);
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 10px 24px;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background-color var(--transition-speed), color var(--transition-speed);
+
+        &--seguici {
+            background-color: var(--color-primary);
+            color: #fff;
+
+            &:hover,
+            &:focus {
+                background-color: #8a3420;
+            }
+        }
+
+        &--trovaci {
+            background-color: var(--color-secondary);
+            color: #fff;
+
+            &:hover,
+            &:focus {
+                background-color: #a94d1e;
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // Bottom bar (dark background)
+    // ------------------------------------------------------------------
+    &__bottom {
+        background-color: #413831;
+        padding: 18px 20px;
+    }
+
+    &__bottom-content {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: 8px;
+            text-align: center;
+        }
+    }
+
+    &__copyright,
+    &__credits {
+        font-family: var(--font-menu);
+        font-size: 0.8rem;
+        color: #fff;
+    }
+
+    &__credits-link {
+        color: #fff;
+        text-decoration: underline;
+        transition: color var(--transition-speed);
+
+        &:hover,
+        &:focus {
+            color: var(--color-secondary);
+        }
+    }
+}
