@@ -22,6 +22,8 @@
     pointer-events: none;
     padding: 20rem 0 14rem;
     background-color: var(--color-bg-header);
+    overflow-x: clip;
+    overflow-y: visible;
 
     @media (max-width: 768px) {
         height: 120px;
@@ -44,23 +46,23 @@
 
         // Band 1: rotated clockwise, scrolls left
         &--1 {
-            top: 0;
+            top: 120px;
             transform: rotate(7deg);
             z-index: 2;
 
             @media (max-width: 768px) {
-                top: 0;
+                top: 40px;
             }
         }
 
         // Band 2: rotated counter-clockwise, scrolls right
         &--2 {
-            top: 40px;
+            top: 160px;
             transform: rotate(-8deg);
             z-index: 3;
 
             @media (max-width: 768px) {
-                top: 25px;
+                top: 65px;
             }
         }
     }

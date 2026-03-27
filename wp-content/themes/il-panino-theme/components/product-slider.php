@@ -27,7 +27,7 @@ $label_positions_map = array(
 );
 
 if ($panini_query->have_posts()) : ?>
-    <section class="c-product-slider position-relative overflow-hidden py-5">
+    <section class="c-product-slider js-reveal position-relative py-5">
 
         <?php if ($sfondo_sinistra) : ?>
             <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--left position-absolute bottom-0 start-0 h-100 d-none d-lg-block" style="z-index: 1;">

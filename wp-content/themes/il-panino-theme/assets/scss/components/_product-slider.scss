@@ -6,6 +6,7 @@
 .c-product-slider {
     background-color: var(--color-bg-header); // Sfondo crema chiaro
     padding: 6rem 0 10rem;
+    overflow: hidden;
 
     &__bg-fixed {
         max-height: 100%; // Ensure images don't overflow vertically
@@ -241,6 +242,35 @@
     &--bottom-right {
         bottom: 5%;
         right: 15%;
+    }
+}
+
+// Fullwidth wrapper: contain scaled slides
+.c-product-slider__fullwidth {
+    overflow: hidden;
+}
+
+// Scroll reveal animation
+.c-product-slider {
+    &.js-reveal {
+        .c-product-slider__header,
+        .c-product-slider__fullwidth {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .c-product-slider__fullwidth {
+            transition-delay: 0.25s;
+        }
+
+        &.is-visible {
+            .c-product-slider__header,
+            .c-product-slider__fullwidth {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     }
 }
 

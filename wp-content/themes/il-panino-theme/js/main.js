@@ -41,4 +41,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const carousel = new ProductSliderCarousel(productSliderElement);
         carousel.mount();
     }
+
+    // Scroll reveal for sections with .js-reveal
+    const revealSections = document.querySelectorAll('.js-reveal');
+    if (revealSections.length > 0) {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        revealSections.forEach(section => revealObserver.observe(section));
+    }
 });
