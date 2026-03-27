@@ -33,11 +33,17 @@ jobs:
           npm run build:scss
 
       - name: Setup SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_SSH_KEY }}
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.PANTHEON_SSH_KEY }}" > ~/.ssh/id_rsa
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -p "$PANTHEON_PORT" "$PANTHEON_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Test SSH connection
+        run: |
+          ssh -p "$PANTHEON_PORT" -o StrictHostKeyChecking=no -v "$PANTHEON_USER@$PANTHEON_HOST" "echo connected" 2>&1 | head -50
 
       - name: Deploy theme to Pantheon
         run: |
