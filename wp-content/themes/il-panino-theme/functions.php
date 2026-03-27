@@ -35,9 +35,9 @@ function il_panino_theme_scripts() {
     $theme_version = file_exists( get_stylesheet_directory() . '/style.css' ) ? filemtime( get_stylesheet_directory() . '/style.css' ) : '1.0.0';
     wp_enqueue_style( 'il-panino-style', get_stylesheet_uri(), array(), $theme_version );
     
-    // Splide.js CSS & JS (Local Import)
-    wp_enqueue_style( 'splide-css', get_template_directory_uri() . '/node_modules/@splidejs/splide/dist/css/splide.min.css', array(), '4.1.4' );
-    wp_enqueue_script( 'splide-js', get_template_directory_uri() . '/node_modules/@splidejs/splide/dist/js/splide.min.js', array(), '4.1.4', true );
+    // Splide.js CSS & JS
+    wp_enqueue_style( 'splide-css', get_template_directory_uri() . '/assets/vendor/splide/splide.min.css', array(), '4.1.4' );
+    wp_enqueue_script( 'splide-js', get_template_directory_uri() . '/assets/vendor/splide/splide.min.js', array(), '4.1.4', true );
 
     // Caricamento JS Custom (Modulare)
     $main_js_version = file_exists( get_template_directory() . '/js/main.js' ) ? filemtime( get_template_directory() . '/js/main.js' ) : '1.0.0';
