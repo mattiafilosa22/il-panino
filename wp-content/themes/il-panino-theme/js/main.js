@@ -1,4 +1,5 @@
 import ProductSliderCarousel from './modules/ProductSliderCarousel.js';
+import MenuCoreFilter from './modules/MenuCoreFilter.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.menu-toggle');
@@ -40,6 +41,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (productSliderElement && typeof Splide !== 'undefined') {
         const carousel = new ProductSliderCarousel(productSliderElement);
         carousel.mount();
+    }
+
+    // Initialize Menu Core Filter
+    const menuCoreElement = document.querySelector('.c-menu-core');
+    if (menuCoreElement) {
+        const menuFilter = new MenuCoreFilter(menuCoreElement);
+        menuFilter.init();
     }
 
     // Scroll reveal for sections with .js-reveal

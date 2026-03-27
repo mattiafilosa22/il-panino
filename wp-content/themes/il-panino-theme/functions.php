@@ -92,6 +92,8 @@ $acf_components = array(
     'slider-prodotti',
     'cross-slider',
     'footer',
+    'panino-menu',
+    'heading-menu',
 );
 
 foreach ( $acf_components as $component ) {
