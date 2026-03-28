@@ -25,14 +25,14 @@ if ($panini_query->have_posts()) : ?>
     <section class="c-product-slider js-reveal position-relative py-5">
 
         <?php if ($sfondo_sinistra) : ?>
-            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--left position-absolute bottom-0 start-0 h-100 d-none d-lg-block" style="z-index: 1;">
-                <img src="<?php echo esc_url($sfondo_sinistra); ?>" alt="" class="h-100 w-auto object-fit-contain object-position-bottom">
+            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--left position-absolute bottom-0 start-0" style="z-index: 1;">
+                <img src="<?php echo esc_url($sfondo_sinistra); ?>" alt="">
             </div>
         <?php endif; ?>
 
         <?php if ($sfondo_destra) : ?>
-            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--right position-absolute bottom-0 end-0 h-100 d-none d-lg-block" style="z-index: 1;">
-                <img src="<?php echo esc_url($sfondo_destra); ?>" alt="" class="h-100 w-auto object-fit-contain object-position-bottom">
+            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--right position-absolute bottom-0 end-0" style="z-index: 1;">
+                <img src="<?php echo esc_url($sfondo_destra); ?>" alt="">
             </div>
         <?php endif; ?>
 

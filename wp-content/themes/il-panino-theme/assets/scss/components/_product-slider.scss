@@ -9,9 +9,26 @@
     overflow: hidden;
 
     &__bg-fixed {
-        max-height: 100%; // Ensure images don't overflow vertically
         pointer-events: none;
-        opacity: 0.9;
+        opacity: 0.15;
+        max-height: 45%;
+        width: auto;
+
+        img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            object-position: bottom;
+        }
+
+        @media (max-width: 992px) {
+            max-height: 35%;
+            opacity: 0.1;
+        }
+
+        @media (max-width: 768px) {
+            display: none !important;
+        }
     }
 
     &__title {
