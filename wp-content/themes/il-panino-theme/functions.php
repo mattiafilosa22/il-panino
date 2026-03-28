@@ -94,6 +94,7 @@ $acf_components = array(
     'footer',
     'panino-menu',
     'heading-menu',
+    'social-reels',
     'section-spacing',
 );
 

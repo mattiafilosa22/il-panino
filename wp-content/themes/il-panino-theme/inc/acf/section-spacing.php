@@ -41,6 +41,7 @@ $sections = array(
     'product_slider' => 'Slider Prodotti',
     'cross_slider'   => 'Cross Slider',
     'heading'        => 'Heading',
+    'social_reels'   => 'Social Reels',
     'menu_core'      => 'Menu Core',
 );
 

@@ -33,7 +33,7 @@ if ($panini_query->have_posts()) :
     <section class="c-product-slider js-reveal position-relative py-5 <?php echo esc_attr($spacing); ?>">
 
         <?php if ($sfondo_sinistra) : ?>
-            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--left position-absolute top-25 start-0" style="z-index: 1;">
+            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--left position-absolute top-50 start-0" style="z-index: 1;">
                 <img src="<?php echo esc_url($sfondo_sinistra); ?>" alt="">
             </div>
         <?php endif; ?>
@@ -45,7 +45,7 @@ if ($panini_query->have_posts()) :
         <?php endif; ?>
 
         <div class="container position-relative" style="z-index: 2;">
-            <header class="c-product-slider__header row mb-1 text-center">
+            <header class="c-product-slider__header row mb-5 text-center">
                 <div class="col-12">
                     <?php if ($titolo) : ?>
                         <h2 class="c-product-slider__title display-4 fw-bold mb-3"><?php echo esc_html($titolo); ?></h2>

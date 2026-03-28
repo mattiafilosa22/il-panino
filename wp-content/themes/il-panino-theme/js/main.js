@@ -1,4 +1,5 @@
 import ProductSliderCarousel from './modules/ProductSliderCarousel.js';
+import SocialReelsCarousel from './modules/SocialReelsCarousel.js';
 import MenuCoreFilter from './modules/MenuCoreFilter.js';
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -41,6 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (productSliderElement && typeof Splide !== 'undefined') {
         const carousel = new ProductSliderCarousel(productSliderElement);
         carousel.mount();
+    }
+
+    // Initialize Social Reels Slider
+    const socialReelsElement = document.querySelector('.js-social-reels-slider');
+    if (socialReelsElement && typeof Splide !== 'undefined') {
+        const socialCarousel = new SocialReelsCarousel(socialReelsElement);
+        socialCarousel.mount();
     }
 
     // Initialize Menu Core Filter
