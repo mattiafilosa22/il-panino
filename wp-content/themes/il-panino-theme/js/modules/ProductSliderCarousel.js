@@ -45,6 +45,23 @@ export default class ProductSliderCarousel {
 
     mount() {
         if (this.instance) {
+            // Re-trigger scale/opacity animation on every slide change (including loop)
+            this.instance.on('active', (slideComponent) => {
+                const card = slideComponent.slide.querySelector('.c-product-card');
+                if (!card) return;
+
+                // Reset to inactive state without transition
+                card.style.transition = 'none';
+                card.style.transform = 'scale(0.7)';
+                card.style.opacity = '0.4';
+
+                // Force reflow, then let CSS transition animate to active state
+                void card.offsetHeight;
+                card.style.transition = '';
+                card.style.transform = '';
+                card.style.opacity = '';
+            });
+
             this.instance.mount();
         }
     }
