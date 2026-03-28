@@ -163,7 +163,7 @@
         z-index: 2;
         transform: translateY(20px);
         transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s, filter 0.4s ease;
-        filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
+        filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.1));
         will-change: transform;
 
         @media (max-width: 768px) {
@@ -174,20 +174,24 @@
 
     .is-active &__image {
         transform: translateY(0);
-        filter: drop-shadow(0 25px 20px rgba(0,0,0,0.3));
+        filter: drop-shadow(0 25px 20px rgba(0, 0, 0, 0.3));
     }
 
     &__description {
-        font-family: var(--font-body);
-        font-size: 1.1rem;
-        color: var(--color-text-dark);
-        line-height: 1.6;
+
         opacity: 0;
         transform: translateY(30px);
         transition: opacity 0.5s ease 0.3s, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
         text-align: center;
         margin-top: 2rem;
         will-change: transform, opacity;
+
+        p {
+            font-family: var(--font-menu);
+            font-size: 1.1rem;
+            color: var(--color-text-dark);
+            line-height: 1.6;
+        }
     }
 
     .is-active &__description {
@@ -226,19 +230,7 @@
         }
     }
 
-    // Position Modifiers (Adjusted to overlap image nicely)
-    &--top-left {
-        top: 5%;
-        left: 15%;
-    }
-    &--top-right {
-        top: 5%;
-        right: 15%;
-    }
-    &--bottom-left {
-        bottom: 5%;
-        left: 15%;
-    }
+    // Position: sempre in basso a destra
     &--bottom-right {
         bottom: 5%;
         right: 15%;
@@ -253,6 +245,7 @@
 // Scroll reveal animation
 .c-product-slider {
     &.js-reveal {
+
         .c-product-slider__header,
         .c-product-slider__fullwidth {
             opacity: 0;
@@ -265,6 +258,7 @@
         }
 
         &.is-visible {
+
             .c-product-slider__header,
             .c-product-slider__fullwidth {
                 opacity: 1;
@@ -277,6 +271,11 @@
 // Customizing Splide Global Elements within the Component Context
 .c-product-slider__carousel {
     padding: 0 0 3rem 0; // Add breathing room for scaling
+
+    .splide__track {
+        padding-bottom: 2rem !important; // Extra space so scaled active slide description is not clipped
+    }
+
 
     // Hide slider until Splide is fully initialized, then fade in
     opacity: 0;

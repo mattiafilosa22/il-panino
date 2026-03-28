@@ -70,9 +70,6 @@ acf_add_local_field_group(array(
                 'id' => '',
             ),
             'choices' => array(
-                'top-left' => 'In alto a sinistra',
-                'top-right' => 'In alto a destra',
-                'bottom-left' => 'In basso a sinistra',
                 'bottom-right' => 'In basso a destra',
             ),
             'default_value' => 'bottom-left',

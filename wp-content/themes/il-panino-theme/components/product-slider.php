@@ -18,13 +18,8 @@ $args = array(
 );
 $panini_query = new WP_Query($args);
 
-// Array di classi per le posizioni della label
-$label_positions_map = array(
-    'top-left' => 'c-product-label--top-left',
-    'top-right' => 'c-product-label--top-right',
-    'bottom-left' => 'c-product-label--bottom-left',
-    'bottom-right' => 'c-product-label--bottom-right',
-);
+// Classe per la posizione della label (sempre in basso a destra)
+$label_class = 'c-product-label--bottom-right';
 
 if ($panini_query->have_posts()) : ?>
     <section class="c-product-slider js-reveal position-relative py-5">
@@ -69,8 +64,6 @@ if ($panini_query->have_posts()) : ?>
                             $img_senza_sfondo = get_field('immagine_panino_senza_sfondo');
                             $logo = get_field('logo_panino');
                             $descrizione = get_field('descrizione') ? get_field('descrizione') : get_the_content();
-                            $label_pos = get_field('posizione_label_nome');
-                            $label_class = isset($label_positions_map[$label_pos]) ? $label_positions_map[$label_pos] : 'c-product-label--bottom-left';
 
                             // Fallback to post thumbnail if no isolated image
                             $img_url = $img_senza_sfondo ? $img_senza_sfondo['url'] : get_the_post_thumbnail_url(get_the_ID(), 'large');
