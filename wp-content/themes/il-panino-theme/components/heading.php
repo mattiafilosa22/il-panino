@@ -33,7 +33,8 @@ $delivery_buttons = array(
 );
 ?>
 
-<section class="c-heading">
+<?php $spacing = il_panino_get_spacing_classes('heading'); ?>
+<section class="c-heading <?php echo esc_attr($spacing); ?>">
     <div class="container">
 
         <?php if ($titolo) : ?>

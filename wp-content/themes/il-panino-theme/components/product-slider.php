@@ -11,27 +11,35 @@ $cta = get_field('slider_prodotti_cta');
 $sfondo_sinistra = get_field('slider_sfondo_sinistra');
 $sfondo_destra = get_field('slider_sfondo_destra');
 
-// Set up WP Query for panini
+// Set up WP Query for panini featured only
 $args = array(
-    'post_type' => 'panino',
-    'posts_per_page' => -1, // Get all
+    'post_type'      => 'panino',
+    'posts_per_page' => -1,
+    'meta_query'     => array(
+        array(
+            'key'   => 'panino_featured',
+            'value' => '1',
+        ),
+    ),
 );
 $panini_query = new WP_Query($args);
 
 // Classe per la posizione della label (sempre in basso a destra)
 $label_class = 'c-product-label--bottom-right';
 
-if ($panini_query->have_posts()) : ?>
-    <section class="c-product-slider js-reveal position-relative py-5">
+if ($panini_query->have_posts()) :
+    $spacing = il_panino_get_spacing_classes('product_slider');
+?>
+    <section class="c-product-slider js-reveal position-relative py-5 <?php echo esc_attr($spacing); ?>">
 
         <?php if ($sfondo_sinistra) : ?>
-            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--left position-absolute bottom-0 start-0" style="z-index: 1;">
+            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--left position-absolute top-25 start-0" style="z-index: 1;">
                 <img src="<?php echo esc_url($sfondo_sinistra); ?>" alt="">
             </div>
         <?php endif; ?>
 
         <?php if ($sfondo_destra) : ?>
-            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--right position-absolute bottom-0 end-0" style="z-index: 1;">
+            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--right position-absolute top-25 end-0" style="z-index: 1;">
                 <img src="<?php echo esc_url($sfondo_destra); ?>" alt="">
             </div>
         <?php endif; ?>

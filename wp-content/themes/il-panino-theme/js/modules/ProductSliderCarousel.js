@@ -19,17 +19,22 @@ export default class ProductSliderCarousel {
             focus      : 'center',
             start      : 0,
             gap        : '0rem',
-            padding    : '20%',
+            padding    : '25%',
             pagination : false,
             arrows     : true,
             trimSpace  : false,
+            autoplay   : true,
+            interval   : 5000,
+            pauseOnHover: true,
+            pauseOnFocus: true,
+            resetProgress: false,
             breakpoints: {
                 992: {
-                    padding: '15%',
+                    padding: '20%',
                 },
                 768: {
-                    padding: { left: '5%', right: '35%' },
-                    arrows : false,
+                    padding: '10%',
+                    arrows : true,
                 }
             }
         }, customOptions);

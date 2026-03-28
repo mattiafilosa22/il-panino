@@ -30,9 +30,10 @@ $fasce = array(
     array('class' => 'c-cross-slider__band--1', 'direction' => 'left'),
     array('class' => 'c-cross-slider__band--2', 'direction' => 'right'),
 );
+$spacing = il_panino_get_spacing_classes('cross_slider');
 ?>
 
-<section class="c-cross-slider" aria-hidden="true">
+<section class="c-cross-slider <?php echo esc_attr($spacing); ?>" aria-hidden="true">
     <?php foreach ($fasce as $fascia) : ?>
         <div class="c-cross-slider__band <?php echo esc_attr($fascia['class']); ?>">
             <div class="c-cross-slider__marquee js-marquee" data-direction="<?php echo esc_attr($fascia['direction']); ?>">

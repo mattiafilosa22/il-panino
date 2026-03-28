@@ -94,6 +94,7 @@ $acf_components = array(
     'footer',
     'panino-menu',
     'heading-menu',
+    'section-spacing',
 );
 
 foreach ( $acf_components as $component ) {
@@ -101,6 +102,29 @@ foreach ( $acf_components as $component ) {
     if ( file_exists( $file ) ) {
         require_once $file;
     }
+}
+
+/**
+ * Helper: Get Bootstrap spacing classes for a section component.
+ *
+ * @param string $section_key The ACF field prefix (e.g. 'hero_banner', 'product_slider').
+ * @return string CSS classes string (e.g. 'mt-3 mb-5').
+ */
+function il_panino_get_spacing_classes( $section_key ) {
+    $prefixes = array(
+        'margin_top'     => 'mt-',
+        'margin_bottom'  => 'mb-',
+        'padding_top'    => 'pt-',
+        'padding_bottom' => 'pb-',
+    );
+    $classes = array();
+    foreach ( $prefixes as $suffix => $css_prefix ) {
+        $val = get_field( $section_key . '_' . $suffix );
+        if ( $val !== '' && $val !== null && $val !== false ) {
+            $classes[] = $css_prefix . intval($val);
+        }
+    }
+    return implode(' ', $classes);
 }
 
 /**

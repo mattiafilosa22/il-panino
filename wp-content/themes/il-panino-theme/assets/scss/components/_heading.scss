@@ -3,8 +3,14 @@
 // ==========================================================================
 
 .c-heading {
-    padding: 6rem 0 3rem;
+    background-color: var(--color-bg-header);
+    // padding: 6rem 0 3rem;
     text-align: center;
+
+    // In homepage il titolo è rosso come gli altri titoli di sezione
+    .homepage-template & &__title {
+        color: var(--color-primary);
+    }
 
     &__title {
         font-family: var(--font-heading);
@@ -26,13 +32,13 @@
     }
 
     &__subtitle {
-        font-family: var(--font-body);
+        font-family: var(--font-menu);
         font-size: 1.15rem;
         color: var(--color-text-dark);
         max-width: 700px;
         margin: 0 auto 2.5rem;
         line-height: 1.6;
-        font-style: italic;
+        letter-spacing: 0.2px;
 
         @media (max-width: 576px) {
             font-size: 1rem;

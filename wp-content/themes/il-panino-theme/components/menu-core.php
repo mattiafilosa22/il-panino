@@ -23,7 +23,8 @@ $panini_query = new WP_Query(array(
 if ( ! $panini_query->have_posts() ) return;
 ?>
 
-<section class="c-menu-core">
+<?php $spacing = il_panino_get_spacing_classes('menu_core'); ?>
+<section class="c-menu-core <?php echo esc_attr($spacing); ?>">
     <div class="container">
 
         <?php if ( ! empty($categorie) && ! is_wp_error($categorie) ) : ?>
