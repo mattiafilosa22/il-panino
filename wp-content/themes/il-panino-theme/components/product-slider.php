@@ -68,6 +68,13 @@ $panini_query = new WP_Query(array(
 // Classe per la posizione della label (sempre in basso a destra)
 $label_class = 'c-product-label--bottom-right';
 
+// Immagini di fallback caricate dal back-office, usate a caso quando il panino
+// non ha nè un'immagine ACF nè un post thumbnail associati.
+$slider_fallback_images = array(
+    content_url('uploads/2026/03/Gemini_Generated_Image_632hib632hib632h-1-1-scaled.png'),
+    content_url('uploads/2026/03/Gemini_Generated_Image_fuez25fuez25fuez-1-1-scaled.png'),
+);
+
 if ($panini_query->have_posts()) :
     $spacing = il_panino_get_spacing_classes('product_slider');
 ?>
@@ -114,8 +121,10 @@ if ($panini_query->have_posts()) :
                             $logo = get_field('logo_panino');
                             $descrizione = get_field('descrizione') ? get_field('descrizione') : get_the_content();
 
-                            // Fallback to post thumbnail if no isolated image
-                            $img_url = $img_senza_sfondo ? $img_senza_sfondo['url'] : get_the_post_thumbnail_url(get_the_ID(), 'large');
+                            // Priorità: ACF custom → post thumbnail → fallback random dalle immagini caricate.
+                            $img_url = $img_senza_sfondo
+                                ? $img_senza_sfondo['url']
+                                : ( get_the_post_thumbnail_url(get_the_ID(), 'large') ?: $slider_fallback_images[array_rand($slider_fallback_images)] );
                             $logo_url = $logo ? $logo['url'] : '';
                         ?>
                             <li class="splide__slide text-center p-3">
