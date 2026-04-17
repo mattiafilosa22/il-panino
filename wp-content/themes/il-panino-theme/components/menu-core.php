@@ -11,7 +11,7 @@ $categorie = get_terms(array(
     'taxonomy'   => 'categoria_panino',
     'hide_empty' => true,
     'meta_key'   => 'menu_order',
-    'orderby'    => 'meta_value_num name',
+    'orderby'    => 'meta_value_num',
     'order'      => 'ASC',
 ));
 
