@@ -14,6 +14,11 @@ if ( ! defined('ABSPATH') ) {
 
 const IL_PANINO_SEED_LEGACY_CATEGORY_SLUGS = array('classici', 'speciali', 'aperitivi');
 
+// Delta prezzi derivati dal Medium per i formati Large e XXL.
+// Business rule: +3.00 € per Large, +10.00 € per XXL.
+const IL_PANINO_SEED_LARGE_DELTA_EUR = 3.00;
+const IL_PANINO_SEED_XXL_DELTA_EUR   = 10.00;
+
 const IL_PANINO_SEED_CATEGORIES = array(
     'classic'  => array('name' => 'Classic',  'menu_order' => 10),
     'premium'  => array('name' => 'Premium',  'menu_order' => 20),
@@ -175,8 +180,8 @@ function il_panino_seed_upsert(array $item, string $cat_slug): void {
         update_field('prezzo_large', '', $post_id);
         update_field('prezzo_xxl', '', $post_id);
     } else {
-        update_field('prezzo_large', round($medium + 3, 2), $post_id);
-        update_field('prezzo_xxl', round($medium + 10, 2), $post_id);
+        update_field('prezzo_large', round($medium + IL_PANINO_SEED_LARGE_DELTA_EUR, 2), $post_id);
+        update_field('prezzo_xxl', round($medium + IL_PANINO_SEED_XXL_DELTA_EUR, 2), $post_id);
     }
 
     if ( isset($item['ingredienti']) ) {
