@@ -188,8 +188,13 @@ function il_panino_seed_run(): void {
         il_panino_seed_error('ACF non disponibile — plugin non attivo.');
     }
 
-    il_panino_seed_ensure_categories();
+    // ORDINE CRITICO: wipe PRIMA di ensure_categories().
+    // ensure_categories() cancella le categorie legacy (classici/speciali/aperitivi)
+    // e la cancellazione del term distrugge via cascade i term_relationships.
+    // Se invertito, wipe_legacy_panini() non troverebbe più nulla tramite tax_query
+    // (i post rimarrebbero orfani e la funzione diventa non idempotente da stato sporco).
     il_panino_seed_wipe_legacy_panini();
+    il_panino_seed_ensure_categories();
 
     foreach ( il_panino_seed_data() as $cat_slug => $items ) {
         foreach ( $items as $item ) {
