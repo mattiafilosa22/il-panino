@@ -64,3 +64,13 @@ jobs:
             --exclude='.git/' \
             wp-content/plugins/ \
             "$PANTHEON_USER@$PANTHEON_HOST:code/wp-content/plugins/"
+
+      # Il seed è idempotente: crea/aggiorna i 31 panini previsti dal menu.
+      # Ogni deploy su stage sincronizza anche i dati nel DB Pantheon.
+      # ATTENZIONE: modifiche manuali via WP admin ai campi ACF di un panino esistente
+      # vengono sovrascritte dai valori nel seed. Il seed è la source-of-truth.
+      # Non usa input esterni: solo env vars statiche definite sopra.
+      - name: Run panino seed on Pantheon DB
+        run: |
+          ssh -p "$PANTHEON_PORT" -o StrictHostKeyChecking=no "$PANTHEON_USER@$PANTHEON_HOST" \
+            "wp eval-file /code/wp-content/themes/il-panino-theme/inc/seed/seed-panini.php"
