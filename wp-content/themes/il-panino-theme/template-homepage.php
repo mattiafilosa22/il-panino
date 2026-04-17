@@ -8,7 +8,7 @@
 get_header(); ?>
 
 <main id="primary" class="site-main homepage-template">
-    
+
     <div class="homepage-content">
 
         <?php get_template_part('components/hero-banner'); ?>
@@ -16,6 +16,10 @@ get_header(); ?>
         <?php get_template_part('components/product-slider'); ?>
 
         <?php get_template_part('components/cross-slider'); ?>
+
+        <?php get_template_part('components/heading'); ?>
+
+        <?php get_template_part('components/social-reels'); ?>
 
     </div>
 

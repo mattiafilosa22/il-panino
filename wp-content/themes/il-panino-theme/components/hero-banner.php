@@ -14,7 +14,8 @@ $recensiscici_text = get_theme_mod('recensiscici_text', 'RECENSISCICI');
 $recensiscici_link = get_theme_mod('recensiscici_link', '#');
 ?>
 
-<section class="hero-section">
+<?php $spacing = il_panino_get_spacing_classes('hero_banner'); ?>
+<section class="hero-section <?php echo esc_attr($spacing); ?>">
     <div class="container d-flex flex-column align-items-center" style="z-index: 2;">
         
         <?php if($hero_title): ?>

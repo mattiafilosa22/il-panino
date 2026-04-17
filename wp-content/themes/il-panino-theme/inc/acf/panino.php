@@ -9,6 +9,18 @@ acf_add_local_field_group(array(
     'title' => 'Dettagli Panino',
     'fields' => array(
         array(
+            'key' => 'field_panino_featured',
+            'label' => 'In evidenza',
+            'name' => 'panino_featured',
+            'type' => 'true_false',
+            'instructions' => 'Attiva per mostrare questo panino nello slider prodotti in homepage.',
+            'default_value' => 0,
+            'ui' => 1,
+            'ui_on_text' => 'Si',
+            'ui_off_text' => 'No',
+            'wrapper' => array('width' => '100'),
+        ),
+        array(
             'key' => 'field_panino_immagine_senza_sfondo',
             'label' => 'Immagine Panino Senza Sfondo',
             'name' => 'immagine_panino_senza_sfondo',
@@ -70,9 +82,6 @@ acf_add_local_field_group(array(
                 'id' => '',
             ),
             'choices' => array(
-                'top-left' => 'In alto a sinistra',
-                'top-right' => 'In alto a destra',
-                'bottom-left' => 'In basso a sinistra',
                 'bottom-right' => 'In basso a destra',
             ),
             'default_value' => 'bottom-left',

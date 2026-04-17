@@ -6,11 +6,34 @@
 .c-product-slider {
     background-color: var(--color-bg-header); // Sfondo crema chiaro
     padding: 6rem 0 10rem;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+        padding: 3rem 0 4rem;
+        padding-bottom: 0!important;
+    }
 
     &__bg-fixed {
-        max-height: 100%; // Ensure images don't overflow vertically
         pointer-events: none;
-        opacity: 0.9;
+        opacity: 0.15;
+        max-height: 45%;
+        width: auto;
+
+        img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            object-position: bottom;
+        }
+
+        @media (max-width: 992px) {
+            max-height: 35%;
+            opacity: 0.1;
+        }
+
+        @media (max-width: 768px) {
+            display: none !important;
+        }
     }
 
     &__title {
@@ -94,12 +117,12 @@
 
         @media (max-width: 768px) {
             scale: 1;
-            filter: none;
         }
     }
 
-    // Depth effect for adjacent slides
-    .is-prev & {
+    // Adjacent slides
+    .is-prev &,
+    .is-next & {
         visibility: visible;
         scale: 0.85;
         opacity: 0.8;
@@ -109,19 +132,6 @@
         @media (max-width: 768px) {
             opacity: 0;
             visibility: hidden;
-        }
-    }
-
-    .is-next & {
-        visibility: visible;
-        scale: 0.85;
-        opacity: 0.8;
-        filter: blur(0px) brightness(0.9);
-        z-index: 3;
-
-        @media (max-width: 768px) {
-            scale: 1;
-            opacity: 0.5;
         }
     }
 
@@ -156,37 +166,34 @@
     }
 
     &__image {
-        max-width: 100%;
+        max-width: 75%;
         height: auto;
         position: relative;
         z-index: 2;
-        transform: translateY(20px);
-        transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s, filter 0.4s ease;
-        filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
-        will-change: transform;
+        object-fit: contain;
+        pointer-events: none;
+        user-select: none;
 
         @media (max-width: 768px) {
-            max-width: 130%;
-            width: 130%;
+            max-width: 100%;
         }
     }
 
-    .is-active &__image {
-        transform: translateY(0);
-        filter: drop-shadow(0 25px 20px rgba(0,0,0,0.3));
-    }
-
     &__description {
-        font-family: var(--font-body);
-        font-size: 1.1rem;
-        color: var(--color-text-dark);
-        line-height: 1.6;
+
         opacity: 0;
         transform: translateY(30px);
         transition: opacity 0.5s ease 0.3s, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
         text-align: center;
         margin-top: 2rem;
         will-change: transform, opacity;
+
+        p {
+            font-family: var(--font-menu);
+            font-size: 1.1rem;
+            color: var(--color-text-dark);
+            line-height: 1.6;
+        }
     }
 
     .is-active &__description {
@@ -225,28 +232,61 @@
         }
     }
 
-    // Position Modifiers (Adjusted to overlap image nicely)
-    &--top-left {
-        top: 5%;
-        left: 15%;
-    }
-    &--top-right {
-        top: 5%;
-        right: 15%;
-    }
-    &--bottom-left {
-        bottom: 5%;
-        left: 15%;
-    }
+    // Position: sempre in basso a destra
     &--bottom-right {
         bottom: 5%;
         right: 15%;
     }
 }
 
+// Fullwidth wrapper: contain scaled slides
+.c-product-slider__fullwidth {
+    overflow: hidden;
+}
+
+// Scroll reveal animation
+.c-product-slider {
+    &.js-reveal {
+
+        .c-product-slider__header,
+        .c-product-slider__fullwidth {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .c-product-slider__fullwidth {
+            transition-delay: 0.25s;
+        }
+
+        &.is-visible {
+
+            .c-product-slider__header,
+            .c-product-slider__fullwidth {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    }
+}
+
 // Customizing Splide Global Elements within the Component Context
 .c-product-slider__carousel {
     padding: 0 0 3rem 0; // Add breathing room for scaling
+
+    @media (max-width: 768px) {
+        padding-top: 3rem;
+        padding-bottom: 0;
+    }
+
+    .splide__track {
+        padding-bottom: 2rem !important; // Extra space so scaled active slide description is not clipped
+
+        @media (max-width: 768px) {
+            padding-bottom: 0!important;
+        }
+    }
+
 
     // Hide slider until Splide is fully initialized, then fade in
     opacity: 0;
@@ -261,7 +301,7 @@
         opacity: 1;
         width: 3.5rem;
         height: 3.5rem;
-        top: 50%;
+        top: 40%;
         transform: translateY(-50%);
 
         svg {
@@ -275,11 +315,31 @@
         }
 
         &--prev {
-            left: 22%;
+            left: 25%;
         }
 
         &--next {
-            right: 22%;
+            right: 25%;
+        }
+
+        @media (max-width: 768px) {
+            display: flex !important;
+            width: 2.5rem;
+            height: 2.5rem;
+            top: 35%;
+
+            svg {
+                width: 1em;
+                height: 1em;
+            }
+
+            &--prev {
+                left: 5%;
+            }
+
+            &--next {
+                right: 5%;
+            }
         }
     }
 }

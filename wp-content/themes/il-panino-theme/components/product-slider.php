@@ -11,38 +11,41 @@ $cta = get_field('slider_prodotti_cta');
 $sfondo_sinistra = get_field('slider_sfondo_sinistra');
 $sfondo_destra = get_field('slider_sfondo_destra');
 
-// Set up WP Query for panini
+// Set up WP Query for panini featured only
 $args = array(
-    'post_type' => 'panino',
-    'posts_per_page' => -1, // Get all
+    'post_type'      => 'panino',
+    'posts_per_page' => -1,
+    'meta_query'     => array(
+        array(
+            'key'   => 'panino_featured',
+            'value' => '1',
+        ),
+    ),
 );
 $panini_query = new WP_Query($args);
 
-// Array di classi per le posizioni della label
-$label_positions_map = array(
-    'top-left' => 'c-product-label--top-left',
-    'top-right' => 'c-product-label--top-right',
-    'bottom-left' => 'c-product-label--bottom-left',
-    'bottom-right' => 'c-product-label--bottom-right',
-);
+// Classe per la posizione della label (sempre in basso a destra)
+$label_class = 'c-product-label--bottom-right';
 
-if ($panini_query->have_posts()) : ?>
-    <section class="c-product-slider position-relative overflow-hidden py-5">
+if ($panini_query->have_posts()) :
+    $spacing = il_panino_get_spacing_classes('product_slider');
+?>
+    <section class="c-product-slider js-reveal position-relative py-5 <?php echo esc_attr($spacing); ?>">
 
         <?php if ($sfondo_sinistra) : ?>
-            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--left position-absolute bottom-0 start-0 h-100 d-none d-lg-block" style="z-index: 1;">
-                <img src="<?php echo esc_url($sfondo_sinistra); ?>" alt="" class="h-100 w-auto object-fit-contain object-position-bottom">
+            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--left position-absolute top-50 start-0" style="z-index: 1;">
+                <img src="<?php echo esc_url($sfondo_sinistra); ?>" alt="">
             </div>
         <?php endif; ?>
 
         <?php if ($sfondo_destra) : ?>
-            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--right position-absolute bottom-0 end-0 h-100 d-none d-lg-block" style="z-index: 1;">
-                <img src="<?php echo esc_url($sfondo_destra); ?>" alt="" class="h-100 w-auto object-fit-contain object-position-bottom">
+            <div class="c-product-slider__bg-fixed c-product-slider__bg-fixed--right position-absolute top-25 end-0" style="z-index: 1;">
+                <img src="<?php echo esc_url($sfondo_destra); ?>" alt="">
             </div>
         <?php endif; ?>
 
         <div class="container position-relative" style="z-index: 2;">
-            <header class="c-product-slider__header row mb-1 text-center">
+            <header class="c-product-slider__header row mb-5 text-center">
                 <div class="col-12">
                     <?php if ($titolo) : ?>
                         <h2 class="c-product-slider__title display-4 fw-bold mb-3"><?php echo esc_html($titolo); ?></h2>
@@ -69,8 +72,6 @@ if ($panini_query->have_posts()) : ?>
                             $img_senza_sfondo = get_field('immagine_panino_senza_sfondo');
                             $logo = get_field('logo_panino');
                             $descrizione = get_field('descrizione') ? get_field('descrizione') : get_the_content();
-                            $label_pos = get_field('posizione_label_nome');
-                            $label_class = isset($label_positions_map[$label_pos]) ? $label_positions_map[$label_pos] : 'c-product-label--bottom-left';
 
                             // Fallback to post thumbnail if no isolated image
                             $img_url = $img_senza_sfondo ? $img_senza_sfondo['url'] : get_the_post_thumbnail_url(get_the_ID(), 'large');

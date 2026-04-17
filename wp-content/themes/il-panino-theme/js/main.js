@@ -1,4 +1,6 @@
 import ProductSliderCarousel from './modules/ProductSliderCarousel.js';
+import SocialReelsCarousel from './modules/SocialReelsCarousel.js';
+import MenuCoreFilter from './modules/MenuCoreFilter.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.menu-toggle');
@@ -40,5 +42,34 @@ document.addEventListener('DOMContentLoaded', function() {
     if (productSliderElement && typeof Splide !== 'undefined') {
         const carousel = new ProductSliderCarousel(productSliderElement);
         carousel.mount();
+    }
+
+    // Initialize Social Reels Slider
+    const socialReelsElement = document.querySelector('.js-social-reels-slider');
+    if (socialReelsElement && typeof Splide !== 'undefined') {
+        const socialCarousel = new SocialReelsCarousel(socialReelsElement);
+        socialCarousel.mount();
+    }
+
+    // Initialize Menu Core Filter
+    const menuCoreElement = document.querySelector('.c-menu-core');
+    if (menuCoreElement) {
+        const menuFilter = new MenuCoreFilter(menuCoreElement);
+        menuFilter.init();
+    }
+
+    // Scroll reveal for sections with .js-reveal
+    const revealSections = document.querySelectorAll('.js-reveal');
+    if (revealSections.length > 0) {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        revealSections.forEach(section => revealObserver.observe(section));
     }
 });

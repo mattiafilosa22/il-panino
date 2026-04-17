@@ -58,4 +58,10 @@
     background-color: var(--color-primary);
     color: #fff;
     border: 2px solid var(--color-primary);
+
+    &:hover {
+        background-color: var(--color-secondary);
+        border-color: var(--color-secondary);
+        color: #fff;
+    }
 }

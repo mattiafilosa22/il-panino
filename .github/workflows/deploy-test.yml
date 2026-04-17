@@ -1,0 +1,66 @@
+name: Deploy to Test (Pantheon)
+
+on:
+  push:
+    branches:
+      - stage
+
+jobs:
+  deploy:
+    name: Deploy to Pantheon Dev
+    runs-on: ubuntu-latest
+
+    env:
+      PANTHEON_HOST: appserver.dev.079a42e1-e717-4060-81cd-49e9b7f88c3e.drush.in
+      PANTHEON_USER: dev.079a42e1-e717-4060-81cd-49e9b7f88c3e
+      PANTHEON_PORT: "2222"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: wp-content/themes/il-panino-theme/package-lock.json
+
+      - name: Install dependencies & build SCSS
+        working-directory: wp-content/themes/il-panino-theme
+        run: |
+          npm ci
+          npm run build:scss
+
+      - name: Setup SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.PANTHEON_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p "$PANTHEON_PORT" "$PANTHEON_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Test SSH connection
+        run: |
+          ssh -p "$PANTHEON_PORT" -o StrictHostKeyChecking=no -v "$PANTHEON_USER@$PANTHEON_HOST" "echo connected" 2>&1 | head -50
+
+      - name: Deploy theme to Pantheon
+        run: |
+          rsync -avz --delete \
+            -e "ssh -p $PANTHEON_PORT -o StrictHostKeyChecking=no" \
+            --exclude='node_modules/' \
+            --exclude='package.json' \
+            --exclude='package-lock.json' \
+            --exclude='.git/' \
+            --exclude='assets/scss/' \
+            wp-content/themes/il-panino-theme/ \
+            "$PANTHEON_USER@$PANTHEON_HOST:code/wp-content/themes/il-panino-theme/"
+
+      - name: Deploy plugins to Pantheon
+        run: |
+          rsync -avz --delete \
+            -e "ssh -p $PANTHEON_PORT -o StrictHostKeyChecking=no" \
+            --exclude='.git/' \
+            wp-content/plugins/ \
+            "$PANTHEON_USER@$PANTHEON_HOST:code/wp-content/plugins/"
