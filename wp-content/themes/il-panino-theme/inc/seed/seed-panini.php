@@ -139,15 +139,25 @@ function il_panino_seed_upsert(array $item, string $cat_slug): void {
     $medium = (float) $item['medium'];
     $is_flat = ! empty($item['flat']);
 
-    $existing = get_page_by_title($title, OBJECT, 'panino');
+    // get_page_by_title() è deprecata dalla 6.2; lookup via WP_Query con 'title'.
+    $existing_q = new WP_Query(array(
+        'post_type'      => 'panino',
+        'title'          => $title,
+        'post_status'    => 'any',
+        'posts_per_page' => 1,
+        'fields'         => 'ids',
+        'no_found_rows'  => true,
+    ));
+    $existing_id = $existing_q->posts[0] ?? 0;
+
     $post_data = array(
         'post_type'   => 'panino',
         'post_title'  => $title,
         'post_status' => 'publish',
     );
 
-    if ( $existing ) {
-        $post_data['ID'] = $existing->ID;
+    if ( $existing_id ) {
+        $post_data['ID'] = $existing_id;
         $post_id = wp_update_post($post_data, true);
         $action = 'updated';
     } else {
