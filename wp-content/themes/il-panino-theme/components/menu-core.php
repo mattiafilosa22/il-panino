@@ -7,6 +7,11 @@
  * fallback alfabetico se il meta non è valorizzato.
  */
 
+// NOTA orderby: usiamo solo 'meta_value_num' (non 'meta_value_num name').
+// get_terms() non supporta un secondo campo nello stesso orderby: WP ignora
+// il token successivo e produce un ORDER BY singolo. Per un tie-break
+// alfabetico servirebbe una seconda query o un usort PHP; non utile qui
+// perché i menu_order delle categorie sono tutti distinti (10/20/30/40/50).
 $categorie = get_terms(array(
     'taxonomy'   => 'categoria_panino',
     'hide_empty' => true,
