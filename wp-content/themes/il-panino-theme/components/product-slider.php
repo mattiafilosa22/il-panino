@@ -11,21 +11,69 @@ $cta = get_field('slider_prodotti_cta');
 $sfondo_sinistra = get_field('slider_sfondo_sinistra');
 $sfondo_destra = get_field('slider_sfondo_destra');
 
-// Set up WP Query for panini featured only
-$args = array(
-    'post_type'      => 'panino',
-    'posts_per_page' => -1,
-    'meta_query'     => array(
-        array(
-            'key'   => 'panino_featured',
-            'value' => '1',
-        ),
+// Filter: escludi frittini/dolci dallo slider.
+$slider_tax_query = array(
+    array(
+        'taxonomy' => 'categoria_panino',
+        'field'    => 'slug',
+        'terms'    => array('frittini', 'dolci'),
+        'operator' => 'NOT IN',
     ),
 );
-$panini_query = new WP_Query($args);
+
+// 1) Bestseller (il più vecchio per data di creazione, se più di uno marcato).
+$bestseller_q = new WP_Query(array(
+    'post_type'      => 'panino',
+    'posts_per_page' => 1,
+    'orderby'        => 'date',
+    'order'          => 'ASC',
+    'meta_query'     => array(
+        array('key' => 'panino_bestseller', 'value' => '1', 'compare' => '='),
+    ),
+    'tax_query'      => $slider_tax_query,
+    'fields'         => 'ids',
+    'no_found_rows'  => true,
+));
+$bestseller_id = $bestseller_q->posts[0] ?? 0;
+
+// 2) Random: riempi fino a 5 slide totali (4 se c'è bestseller, 5 altrimenti).
+$random_target = 5 - count(array_filter(array($bestseller_id)));
+$random_q = new WP_Query(array(
+    'post_type'      => 'panino',
+    'posts_per_page' => $random_target,
+    'orderby'        => 'rand',
+    'post__not_in'   => array_filter(array($bestseller_id)),
+    'tax_query'      => $slider_tax_query,
+    'fields'         => 'ids',
+    'no_found_rows'  => true,
+));
+$random_ids = $random_q->posts;
+
+// 3) Ordine finale: bestseller in testa, poi i random.
+$slider_ids = array_values(array_filter(array_merge(array($bestseller_id), $random_ids)));
+
+if ( empty($slider_ids) ) {
+    return;
+}
+
+// Query di render, con ordine preservato.
+$panini_query = new WP_Query(array(
+    'post_type'      => 'panino',
+    'post__in'       => $slider_ids,
+    'orderby'        => 'post__in',
+    'posts_per_page' => count($slider_ids),
+    'no_found_rows'  => true,
+));
 
 // Classe per la posizione della label (sempre in basso a destra)
 $label_class = 'c-product-label--bottom-right';
+
+// Immagini di fallback caricate dal back-office, usate a caso quando il panino
+// non ha nè un'immagine ACF nè un post thumbnail associati.
+$slider_fallback_images = array(
+    content_url('uploads/2026/03/Gemini_Generated_Image_632hib632hib632h-1-1-scaled.png'),
+    content_url('uploads/2026/03/Gemini_Generated_Image_fuez25fuez25fuez-1-1-scaled.png'),
+);
 
 if ($panini_query->have_posts()) :
     $spacing = il_panino_get_spacing_classes('product_slider');
@@ -73,8 +121,10 @@ if ($panini_query->have_posts()) :
                             $logo = get_field('logo_panino');
                             $descrizione = get_field('descrizione') ? get_field('descrizione') : get_the_content();
 
-                            // Fallback to post thumbnail if no isolated image
-                            $img_url = $img_senza_sfondo ? $img_senza_sfondo['url'] : get_the_post_thumbnail_url(get_the_ID(), 'large');
+                            // Priorità: ACF custom → post thumbnail → fallback random dalle immagini caricate.
+                            $img_url = $img_senza_sfondo
+                                ? $img_senza_sfondo['url']
+                                : ( get_the_post_thumbnail_url(get_the_ID(), 'large') ?: $slider_fallback_images[array_rand($slider_fallback_images)] );
                             $logo_url = $logo ? $logo['url'] : '';
                         ?>
                             <li class="splide__slide text-center p-3">

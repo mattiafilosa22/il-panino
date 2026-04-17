@@ -101,38 +101,53 @@
         padding: 1.25rem 1.25rem 1.5rem;
     }
 
-    &__header {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 0.75rem;
-    }
-
-    &__row {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-    }
-
     &__name {
         font-family: var(--font-heading);
         font-size: 1.8rem;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         color: var(--color-text-dark);
-        margin: 0;
+        margin: 0 0 0.75rem;
         line-height: 1.15;
+    }
 
-        &--menu {
-            font-size: 1.8rem;
+    &__sizes {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        margin: 0 0 0.75rem;
+    }
+
+    &__size-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+
+        &--flat {
+            justify-content: flex-end;
         }
     }
 
-    &__price {
+    &__size-label {
+        font-family: var(--font-menu);
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        color: var(--color-text-dark);
+    }
+
+    &__size-price {
         font-family: var(--font-heading);
-        font-size: 1.8rem;
+        font-size: 1.4rem;
         color: var(--color-text-dark);
         line-height: 1.15;
-        flex-shrink: 0;
+    }
+
+    &__divider {
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        margin: 0.75rem 0;
     }
 
     &__ingredienti {
@@ -149,39 +164,7 @@
         color: var(--color-text-dark);
         opacity: 0.65;
         line-height: 1.4;
-        margin: 0 0 0.75rem;
-        font-style: italic;
-    }
-
-    &__menu-info {
-        border-top: 1px solid rgba(0, 0, 0, 0.08);
-        padding-top: 0.75rem;
-        margin-top: 0.25rem;
-    }
-
-    &__menu-info-label {
-        font-family: var(--font-menu);
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--color-text-dark);
-        margin: 0 0 0.25rem;
-        display: flex;
-        align-items: center;
-        gap: 0.3rem;
-    }
-
-    &__menu-info-icon {
-        font-size: 1rem;
-        color: var(--color-secondary);
-    }
-
-    &__menu-info-list {
-        font-family: var(--font-body);
-        font-size: 0.85rem;
-        color: var(--color-text-dark);
-        opacity: 0.8;
         margin: 0;
-        padding-left: 1.25rem;
-        line-height: 1.5;
+        font-style: italic;
     }
 }
