@@ -18,6 +18,58 @@ Al termine dell'avvio:
 - Potrebbe volerci qualche istante in più la prima volta per scaricare le immagini e inizializzare il DB.
 - È incluso un container (`wp_scss_watcher`) che si occupa di compilare gli stili in tempo reale.
 
+## Setup post-bootstrap
+
+### wp-cli
+L'immagine `wordpress:latest` include già `wp-cli` (binario `/usr/local/bin/wp`). Per eseguirlo, usa `docker exec` con `--allow-root` perché il container gira come root:
+
+```bash
+docker exec wp_app wp --info --allow-root
+```
+
+Se nei prossimi pin di immagine WordPress viene rimosso wp-cli, installalo manualmente una sola volta:
+
+```bash
+docker exec wp_app bash -c "curl -sO https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp"
+```
+
+### Permalink pretty
+Alla prima installazione la struttura permalink è "plain" (`/?page_id=N`) e le URL come `/menu/` rispondono 404. Configura i permalink e rigenera `.htaccess`:
+
+```bash
+docker exec wp_app wp rewrite structure '/%postname%/' --hard --allow-root
+docker exec wp_app wp rewrite flush --hard --allow-root
+```
+
+Se Apache non riesce a scrivere `.htaccess` (warning "Regenerating a .htaccess file requires special configuration") crealo una volta a mano con le regole WordPress standard:
+
+```bash
+docker exec wp_app bash -c 'cat > /var/www/html/.htaccess <<EOF
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+EOF
+chown www-data:www-data /var/www/html/.htaccess'
+```
+
+Verifica: `curl -sI http://localhost:8080/menu/` → `HTTP/1.1 200 OK`.
+
+### Seed dei panini
+Popola/aggiorna in modo idempotente le categorie e i prodotti del CPT `panino`:
+
+```bash
+docker exec wp_app wp eval-file /var/www/html/wp-content/themes/il-panino-theme/inc/seed/seed-panini.php --allow-root
+```
+
+Lo script cancella i panini legacy (categorie `classici`/`speciali`/`aperitivi`), rigenera le 5 categorie correnti (Classic/Premium/Fit/Frittini/Dolci) e fa upsert dei 31 panini definiti nel file `inc/seed/seed-panini.php`.
+
 ## Struttura del Tema
 
 Il tema (`wp-content/themes/il-panino-theme`) è stato strutturato per essere modulare e facile da mantenere.
