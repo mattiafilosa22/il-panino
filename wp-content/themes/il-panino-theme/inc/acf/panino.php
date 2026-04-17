@@ -9,11 +9,11 @@ acf_add_local_field_group(array(
     'title' => 'Dettagli Panino',
     'fields' => array(
         array(
-            'key' => 'field_panino_featured',
-            'label' => 'In evidenza',
-            'name' => 'panino_featured',
+            'key' => 'field_panino_bestseller',
+            'label' => 'Best Seller',
+            'name' => 'panino_bestseller',
             'type' => 'true_false',
-            'instructions' => 'Attiva per mostrare questo panino nello slider prodotti in homepage.',
+            'instructions' => 'Attiva questa opzione per indicare il panino best seller. Marca UN SOLO panino: se ne trovi più di uno marcato, lo slider homepage mostra in prima posizione quello creato per primo. I panini in categoria Frittini/Dolci vengono ignorati dallo slider anche se marcati.',
             'default_value' => 0,
             'ui' => 1,
             'ui_on_text' => 'Si',
