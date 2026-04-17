@@ -11,18 +11,58 @@ $cta = get_field('slider_prodotti_cta');
 $sfondo_sinistra = get_field('slider_sfondo_sinistra');
 $sfondo_destra = get_field('slider_sfondo_destra');
 
-// Set up WP Query for panini featured only
-$args = array(
-    'post_type'      => 'panino',
-    'posts_per_page' => -1,
-    'meta_query'     => array(
-        array(
-            'key'   => 'panino_featured',
-            'value' => '1',
-        ),
+// Filter: escludi frittini/dolci dallo slider.
+$slider_category_filter = array(
+    array(
+        'taxonomy' => 'categoria_panino',
+        'field'    => 'slug',
+        'terms'    => array('frittini', 'dolci'),
+        'operator' => 'NOT IN',
     ),
 );
-$panini_query = new WP_Query($args);
+
+// 1) Bestseller (il più vecchio per data di creazione, se più di uno marcato).
+$bestseller_q = new WP_Query(array(
+    'post_type'      => 'panino',
+    'posts_per_page' => 1,
+    'orderby'        => 'date',
+    'order'          => 'ASC',
+    'meta_query'     => array(
+        array('key' => 'panino_bestseller', 'value' => '1'),
+    ),
+    'tax_query'      => $slider_category_filter,
+    'fields'         => 'ids',
+    'no_found_rows'  => true,
+));
+$bestseller_id = $bestseller_q->posts[0] ?? 0;
+
+// 2) Quattro random, escludendo il bestseller già pescato.
+$random_q = new WP_Query(array(
+    'post_type'      => 'panino',
+    'posts_per_page' => 4,
+    'orderby'        => 'rand',
+    'post__not_in'   => array_filter(array($bestseller_id)),
+    'tax_query'      => $slider_category_filter,
+    'fields'         => 'ids',
+    'no_found_rows'  => true,
+));
+$random_ids = $random_q->posts;
+
+// 3) Ordine finale: bestseller in testa, poi i random.
+$slider_ids = array_values(array_filter(array_merge(array($bestseller_id), $random_ids)));
+
+if ( empty($slider_ids) ) {
+    return;
+}
+
+// Query di render, con ordine preservato.
+$panini_query = new WP_Query(array(
+    'post_type'      => 'panino',
+    'post__in'       => $slider_ids,
+    'orderby'        => 'post__in',
+    'posts_per_page' => count($slider_ids),
+    'no_found_rows'  => true,
+));
 
 // Classe per la posizione della label (sempre in basso a destra)
 $label_class = 'c-product-label--bottom-right';
