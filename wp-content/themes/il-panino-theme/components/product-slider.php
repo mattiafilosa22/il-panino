@@ -36,10 +36,11 @@ $bestseller_q = new WP_Query(array(
 ));
 $bestseller_id = $bestseller_q->posts[0] ?? 0;
 
-// 2) Quattro random, escludendo il bestseller già pescato.
+// 2) Random: riempi fino a 5 slide totali (4 se c'è bestseller, 5 altrimenti).
+$random_target = 5 - count(array_filter(array($bestseller_id)));
 $random_q = new WP_Query(array(
     'post_type'      => 'panino',
-    'posts_per_page' => 4,
+    'posts_per_page' => $random_target,
     'orderby'        => 'rand',
     'post__not_in'   => array_filter(array($bestseller_id)),
     'tax_query'      => $slider_category_filter,
