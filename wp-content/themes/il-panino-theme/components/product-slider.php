@@ -12,7 +12,7 @@ $sfondo_sinistra = get_field('slider_sfondo_sinistra');
 $sfondo_destra = get_field('slider_sfondo_destra');
 
 // Filter: escludi frittini/dolci dallo slider.
-$slider_category_filter = array(
+$slider_tax_query = array(
     array(
         'taxonomy' => 'categoria_panino',
         'field'    => 'slug',
@@ -28,9 +28,9 @@ $bestseller_q = new WP_Query(array(
     'orderby'        => 'date',
     'order'          => 'ASC',
     'meta_query'     => array(
-        array('key' => 'panino_bestseller', 'value' => '1'),
+        array('key' => 'panino_bestseller', 'value' => '1', 'compare' => '='),
     ),
-    'tax_query'      => $slider_category_filter,
+    'tax_query'      => $slider_tax_query,
     'fields'         => 'ids',
     'no_found_rows'  => true,
 ));
@@ -43,7 +43,7 @@ $random_q = new WP_Query(array(
     'posts_per_page' => $random_target,
     'orderby'        => 'rand',
     'post__not_in'   => array_filter(array($bestseller_id)),
-    'tax_query'      => $slider_category_filter,
+    'tax_query'      => $slider_tax_query,
     'fields'         => 'ids',
     'no_found_rows'  => true,
 ));
