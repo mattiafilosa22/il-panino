@@ -35,9 +35,9 @@ function il_panino_theme_scripts() {
     $theme_version = file_exists( get_stylesheet_directory() . '/style.css' ) ? filemtime( get_stylesheet_directory() . '/style.css' ) : '1.0.0';
     wp_enqueue_style( 'il-panino-style', get_stylesheet_uri(), array(), $theme_version );
     
-    // Splide.js CSS & JS (Local Import)
-    wp_enqueue_style( 'splide-css', get_template_directory_uri() . '/node_modules/@splidejs/splide/dist/css/splide.min.css', array(), '4.1.4' );
-    wp_enqueue_script( 'splide-js', get_template_directory_uri() . '/node_modules/@splidejs/splide/dist/js/splide.min.js', array(), '4.1.4', true );
+    // Splide.js CSS & JS
+    wp_enqueue_style( 'splide-css', get_template_directory_uri() . '/assets/vendor/splide/splide.min.css', array(), '4.1.4' );
+    wp_enqueue_script( 'splide-js', get_template_directory_uri() . '/assets/vendor/splide/splide.min.js', array(), '4.1.4', true );
 
     // Caricamento JS Custom (Modulare)
     $main_js_version = file_exists( get_template_directory() . '/js/main.js' ) ? filemtime( get_template_directory() . '/js/main.js' ) : '1.0.0';
@@ -92,6 +92,10 @@ $acf_components = array(
     'slider-prodotti',
     'cross-slider',
     'footer',
+    'panino-menu',
+    'heading-menu',
+    'social-reels',
+    'section-spacing',
 );
 
 foreach ( $acf_components as $component ) {
@@ -99,6 +103,29 @@ foreach ( $acf_components as $component ) {
     if ( file_exists( $file ) ) {
         require_once $file;
     }
+}
+
+/**
+ * Helper: Get Bootstrap spacing classes for a section component.
+ *
+ * @param string $section_key The ACF field prefix (e.g. 'hero_banner', 'product_slider').
+ * @return string CSS classes string (e.g. 'mt-3 mb-5').
+ */
+function il_panino_get_spacing_classes( $section_key ) {
+    $prefixes = array(
+        'margin_top'     => 'mt-',
+        'margin_bottom'  => 'mb-',
+        'padding_top'    => 'pt-',
+        'padding_bottom' => 'pb-',
+    );
+    $classes = array();
+    foreach ( $prefixes as $suffix => $css_prefix ) {
+        $val = get_field( $section_key . '_' . $suffix );
+        if ( $val !== '' && $val !== null && $val !== false ) {
+            $classes[] = $css_prefix . intval($val);
+        }
+    }
+    return implode(' ', $classes);
 }
 
 /**

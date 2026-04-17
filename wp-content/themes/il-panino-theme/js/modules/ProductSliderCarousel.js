@@ -19,17 +19,22 @@ export default class ProductSliderCarousel {
             focus      : 'center',
             start      : 0,
             gap        : '0rem',
-            padding    : '20%',
+            padding    : '25%',
             pagination : false,
             arrows     : true,
             trimSpace  : false,
+            autoplay   : true,
+            interval   : 5000,
+            pauseOnHover: true,
+            pauseOnFocus: true,
+            resetProgress: false,
             breakpoints: {
                 992: {
-                    padding: '15%',
+                    padding: '20%',
                 },
                 768: {
-                    padding: { left: '5%', right: '35%' },
-                    arrows : false,
+                    padding: '10%',
+                    arrows : true,
                 }
             }
         }, customOptions);
@@ -45,6 +50,23 @@ export default class ProductSliderCarousel {
 
     mount() {
         if (this.instance) {
+            // Re-trigger scale/opacity animation on every slide change (including loop)
+            this.instance.on('active', (slideComponent) => {
+                const card = slideComponent.slide.querySelector('.c-product-card');
+                if (!card) return;
+
+                // Reset to inactive state without transition
+                card.style.transition = 'none';
+                card.style.transform = 'scale(0.7)';
+                card.style.opacity = '0.4';
+
+                // Force reflow, then let CSS transition animate to active state
+                void card.offsetHeight;
+                card.style.transition = '';
+                card.style.transform = '';
+                card.style.opacity = '';
+            });
+
             this.instance.mount();
         }
     }

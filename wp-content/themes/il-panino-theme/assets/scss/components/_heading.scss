@@ -1,0 +1,107 @@
+// ==========================================================================
+// Heading Component - Pagina Menù (BEM & SOLID)
+// ==========================================================================
+
+.c-heading {
+    background-color: var(--color-bg-header);
+    // padding: 6rem 0 3rem;
+    text-align: center;
+
+    // In homepage il titolo è rosso come gli altri titoli di sezione
+    .homepage-template & &__title {
+        color: var(--color-primary);
+    }
+
+    &__title {
+        font-family: var(--font-heading);
+        font-size: 7rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        color: var(--color-text-dark);
+        line-height: 0.95;
+        letter-spacing: -1px;
+        margin: 0 0 1.5rem;
+
+        @media (max-width: 992px) {
+            font-size: 4.5rem;
+        }
+
+        @media (max-width: 576px) {
+            font-size: 3rem;
+        }
+    }
+
+    &__subtitle {
+        font-family: var(--font-menu);
+        font-size: 1.15rem;
+        color: var(--color-text-dark);
+        max-width: 700px;
+        margin: 0 auto 2.5rem;
+        line-height: 1.6;
+        letter-spacing: 0.2px;
+
+        @media (max-width: 576px) {
+            font-size: 1rem;
+        }
+    }
+
+    &__cta-group {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    &__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-family: var(--font-heading);
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: all var(--transition-speed) ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+            color: #fff;
+        }
+
+        &.is-disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        // Colori brand
+        &--glovo {
+            background-color: #FFC244;
+            color: var(--color-text-dark);
+
+            &:hover {
+                color: var(--color-text-dark);
+            }
+        }
+
+        &--deliveroo {
+            background-color: #00CCBC;
+        }
+
+        &--justeat {
+            background-color: #F27C3A;
+        }
+    }
+
+    &__cta-icon {
+        height: 1.2rem;
+        width: auto;
+        vertical-align: middle;
+    }
+}
