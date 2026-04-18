@@ -21,7 +21,7 @@
     font-weight: 600;
     color: #933320;
     /* Darker brick red as seen in image */
-    line-height: 0.5;
+    line-height: 1;
     margin-bottom: 20px;
     letter-spacing: 0.02em;
     text-shadow: 2px 2px 0px #fff;
@@ -29,11 +29,11 @@
 
     @media screen and (max-width: 1420px) {
         font-size: clamp(5rem, 15vw, 9rem);
-        line-height: 0.8;
+        line-height: 1;
     }
 
     @media screen and (max-width: 768px) {
-        line-height: 0.9;
+        line-height: 1;
     }
 }
 
