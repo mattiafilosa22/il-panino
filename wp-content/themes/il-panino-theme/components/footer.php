@@ -74,13 +74,7 @@ $credits_url     = get_field('footer_credits_url');
     <div class="c-footer__bottom">
         <div class="c-footer__bottom-content">
             <span class="c-footer__copyright">&copy; <?php echo date('Y'); ?> <?php echo esc_html($copyright); ?></span>
-            <span class="c-footer__credits">Credits &ndash;
-                <?php if ($credits_url) : ?>
-                    <a href="<?php echo esc_url($credits_url); ?>" target="_blank" rel="noopener noreferrer" class="c-footer__credits-link"><?php echo esc_html($credits_nome); ?></a>
-                <?php else : ?>
-                    <?php echo esc_html($credits_nome); ?>
-                <?php endif; ?>
-            </span>
+            
         </div>
     </div>
 </footer>
