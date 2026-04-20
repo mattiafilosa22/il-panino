@@ -1,6 +1,7 @@
 import ProductSliderCarousel from './modules/ProductSliderCarousel.js';
 import SocialReelsCarousel from './modules/SocialReelsCarousel.js';
 import MenuCoreFilter from './modules/MenuCoreFilter.js';
+import InstagramFeedSlider from './modules/InstagramFeedSlider.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.menu-toggle');
@@ -50,6 +51,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const socialCarousel = new SocialReelsCarousel(socialReelsElement);
         socialCarousel.mount();
     }
+
+    // Initialize Instagram Feed Slider (Spotlight grid -> horizontal slider)
+    document.querySelectorAll('.c-instagram-feed').forEach(el => {
+        new InstagramFeedSlider(el).init();
+    });
 
     // Initialize Menu Core Filter
     const menuCoreElement = document.querySelector('.c-menu-core');

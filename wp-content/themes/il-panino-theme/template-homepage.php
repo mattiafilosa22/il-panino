@@ -19,7 +19,7 @@ get_header(); ?>
 
         <?php get_template_part('components/heading'); ?>
 
-        <?php get_template_part('components/social-reels'); ?>
+        <?php get_template_part('components/instagram-feed'); ?>
 
     </div>
 

@@ -42,6 +42,7 @@ $sections = array(
     'cross_slider'   => 'Cross Slider',
     'heading'        => 'Heading',
     'social_reels'   => 'Social Reels',
+    'instagram_feed' => 'Instagram Feed',
     'menu_core'      => 'Menu Core',
 );
 
