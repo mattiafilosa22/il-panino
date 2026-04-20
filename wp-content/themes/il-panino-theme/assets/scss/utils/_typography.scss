@@ -1,0 +1,37 @@
+// ==========================================================================
+// Shared Typography Mixins
+// Used by section components (.c-heading, .c-instagram-feed, ...) so that
+// the title/subtitle visual identity stays consistent across the homepage.
+// ==========================================================================
+
+@mixin section-title {
+    font-family: var(--font-heading);
+    font-size: 7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.95;
+    letter-spacing: -1px;
+    margin: 0 0 1.5rem;
+
+    @media (max-width: 992px) {
+        font-size: 4.5rem;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 3rem;
+    }
+}
+
+@mixin section-subtitle {
+    font-family: var(--font-menu);
+    font-size: 1.15rem;
+    color: var(--color-text-dark);
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.6;
+    letter-spacing: 0.2px;
+
+    @media (max-width: 576px) {
+        font-size: 1rem;
+    }
+}

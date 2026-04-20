@@ -1,0 +1,362 @@
+// ==========================================================================
+// Instagram Feed Component
+// Wraps Spotlight Social Photo Feeds output (rendered via shortcode) and
+// re-skins it to match the site's visual language. The slider wrapper and
+// prev/next arrows (.c-instagram-feed__slider-wrapper, .c-instagram-feed__arrow)
+// are NOT in the PHP template — they are injected at runtime by
+// js/modules/InstagramFeedSlider.js.
+// ==========================================================================
+@use "../utils/typography" as *;
+
+.c-instagram-feed {
+    background-color: var(--color-bg-header);
+    text-align: center;
+
+    &__title {
+        @include section-title;
+        color: var(--color-primary);
+    }
+
+    &__subtitle {
+        @include section-subtitle;
+    }
+
+    // ==========================================================================
+    // Spotlight plugin overrides (scoped to .c-instagram-feed)
+    // !important is used only where Spotlight ships a higher-specificity rule
+    // or an inline style. Anything without it has been verified to win the cascade.
+    // ==========================================================================
+
+    .FeedHeader__root {
+        background-color: transparent !important;
+        max-width: 1100px;
+        margin: 0 auto 1.5rem;
+        padding: 0 1rem !important;
+        display: flex !important;
+        flex-wrap: wrap;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 1rem;
+        text-align: left;
+    }
+
+    // Hide the IG logo + @username block — the section title already says
+    // "Seguici su Instagram", so the duplicated profile info adds noise.
+    .FeedHeader__left-container {
+        display: none !important;
+    }
+
+    .FeedHeader__container {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        flex: 0 0 auto;
+    }
+
+    .FeedHeader__right-container {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+    }
+
+    .FeedHeader__info,
+    .FeedHeader__info-row {
+        display: flex;
+        align-items: center;
+        margin: 0;
+    }
+
+    .FeedHeader__username,
+    .FeedHeader__info-row {
+        font-family: var(--font-heading) !important;
+        font-size: 1.6rem !important;
+        font-weight: 700 !important;
+        line-height: 1 !important;
+        letter-spacing: 1px;
+        color: var(--color-text-dark) !important;
+    }
+
+    .FeedProfilePic__root {
+        border: 2px solid var(--color-primary);
+        border-radius: 50%;
+        padding: 4px !important;
+        background: #fff;
+
+        img {
+            border-radius: 50%;
+        }
+    }
+
+    // The follow button is rendered as <a class="DesignedButton__link"><button class="DesignedButton__button">…
+    // Spotlight applies bg/padding/border to BOTH, which without scoping creates a visible
+    // nested-box look. We make the <a> a transparent wrapper and put all the visual
+    // styling on the inner <button>. Then forward the link's :hover state to the button.
+    //
+    // Covers both placements: header (desktop) and bottom-of-feed (mobile, controlled
+    // by Spotlight's followBtnLocation.phone). Other DesignedButtons (load-more,
+    // lightbox CTAs) keep plugin defaults so a class rename can't silently de-brand
+    // the follow button while leaving secondary buttons styled.
+    .FeedHeader__follow-button .DesignedButton__link,
+    .FeedLayout__follow-btn .DesignedButton__link {
+        display: inline-block;
+        background: transparent !important;
+        padding: 0 !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        text-decoration: none;
+    }
+
+    .FeedHeader__follow-button .DesignedButton__button,
+    .FeedLayout__follow-btn .DesignedButton__button {
+        background-color: var(--color-primary) !important;
+        color: #fff !important;
+        font-family: var(--font-heading) !important;
+        font-size: 1.05rem !important;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.6rem 1.4rem !important;
+        border-radius: 4px !important;
+        border: 2px solid var(--color-primary) !important;
+        box-shadow: none !important;
+        cursor: pointer;
+        transition: background-color var(--transition-speed) ease,
+                    border-color var(--transition-speed) ease,
+                    transform var(--transition-speed) ease;
+    }
+
+    // Hover applies whether the user hovers the inner <button> or the wrapping <a>.
+    .FeedHeader__follow-button .DesignedButton__button:hover,
+    .FeedHeader__follow-button .DesignedButton__link:hover .DesignedButton__button,
+    .FeedLayout__follow-btn .DesignedButton__button:hover,
+    .FeedLayout__follow-btn .DesignedButton__link:hover .DesignedButton__button {
+        background-color: var(--color-secondary) !important;
+        border-color: var(--color-secondary) !important;
+        transform: translateY(-2px);
+    }
+
+    // Convert the grid into a horizontal slider that matches the site feel.
+    // Horizontal padding doubles as the gutter where the slider arrows sit, so
+    // it grows on viewports where the arrows tuck inside instead of outside.
+    .FeedGridLayout__root {
+        max-width: 100%;
+        padding: 0 1rem;
+
+        @media (max-width: 1200px) {
+            padding: 0 64px;
+        }
+
+        @media (max-width: 768px) {
+            padding: 0 56px;
+        }
+    }
+
+    .FeedGridLayout__grid {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        gap: 1rem;
+        padding: 0.5rem 0 1.25rem;
+        scroll-padding-left: 1rem;
+
+        // tabindex=0 (set by JS) makes the grid keyboard-focusable so users
+        // can scroll with arrow keys; surface that focus visually.
+        &:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+
+        // Pretty scrollbar, brand-colored
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-primary) rgba(0, 0, 0, 0.06);
+
+        &::-webkit-scrollbar {
+            height: 6px;
+        }
+        &::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.06);
+            border-radius: 3px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: var(--color-primary);
+            border-radius: 3px;
+        }
+    }
+
+    // Square 1:1 cells: intentional design choice so the slider stays visually
+    // tidy regardless of media orientation (portrait/landscape/reels). Cropping
+    // is acceptable here — the card links to the full Instagram post.
+    .FeedGridLayout__cell {
+        flex: 0 0 280px !important;
+        max-width: 280px !important;
+        width: 280px !important;
+        height: 280px !important;
+        scroll-snap-align: start;
+        position: relative;
+        // Reset CSS-grid placement and Spotlight's inline padding-bottom
+        // (the plugin uses padding-bottom: 100% for its own aspect-ratio trick).
+        grid-column: auto !important;
+        grid-row: auto !important;
+        padding-bottom: 0 !important;
+
+        @media (max-width: 768px) {
+            flex: 0 0 220px !important;
+            max-width: 220px !important;
+            width: 220px !important;
+            height: 220px !important;
+        }
+
+        @media (max-width: 480px) {
+            flex: 0 0 180px !important;
+            max-width: 180px !important;
+            width: 180px !important;
+            height: 180px !important;
+        }
+    }
+
+    .FeedGridLayout__cell-content,
+    .FeedGridLayout__media-container {
+        position: absolute !important;
+        inset: 0 !important;
+        height: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .MediaTile__root {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: transform var(--transition-speed) ease,
+                    box-shadow var(--transition-speed) ease;
+        height: 100%;
+        width: 100%;
+
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+    }
+
+    .MediaThumbnail__root,
+    .MediaThumbnail__image {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+
+    // Spacing for the follow button when it lands below the feed
+    // (controlled by Spotlight's `followBtnLocation` setting).
+    // !important: Spotlight ships an inline `margin-top: 10px` here that we need to beat.
+    .FeedLayout__col-footer {
+        display: flex;
+        justify-content: center;
+        margin-top: 2.5rem !important;
+    }
+
+    // ==========================================================================
+    // Slider wrapper + arrows (injected by InstagramFeedSlider.js)
+    // ==========================================================================
+
+    &__slider-wrapper {
+        position: relative;
+    }
+
+    &__arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        border: 2px solid var(--color-primary);
+        background-color: #fff;
+        color: var(--color-primary);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+        // Layered shadow: subtle depth + a tighter inner shadow for lift on light bg
+        box-shadow: 0 6px 18px rgba(64, 32, 16, 0.18),
+                    0 2px 4px rgba(64, 32, 16, 0.12);
+        transition: background-color var(--transition-speed) ease,
+                    border-color var(--transition-speed) ease,
+                    color var(--transition-speed) ease,
+                    transform var(--transition-speed) ease,
+                    box-shadow var(--transition-speed) ease,
+                    opacity var(--transition-speed) ease;
+        padding: 0;
+
+        svg {
+            width: 22px;
+            height: 22px;
+            display: block;
+        }
+
+        &:hover:not(:disabled) {
+            background-color: var(--color-primary);
+            color: #fff;
+            border-color: var(--color-primary);
+            transform: translateY(-50%) scale(1.08);
+            // Brand-tinted glow derived from --color-primary so a re-skin stays in sync
+            box-shadow: 0 8px 22px color-mix(in srgb, var(--color-primary) 35%, transparent);
+        }
+
+        &:active:not(:disabled) {
+            transform: translateY(-50%) scale(0.96);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 3px;
+        }
+
+        &:disabled {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        // Position arrows clearly outside the card edge so they read as controls,
+        // not part of the imagery. On narrower viewports we tuck them inside the
+        // gutter that .FeedGridLayout__root pads out for this purpose.
+        &--prev {
+            left: -22px;
+        }
+
+        &--next {
+            right: -22px;
+        }
+
+        @media (max-width: 1200px) {
+            &--prev { left: 6px; }
+            &--next { right: 6px; }
+        }
+
+        @media (max-width: 768px) {
+            width: 44px;
+            height: 44px;
+            // Push arrows toward the lower third of the card on touch devices
+            // (closer to thumb-reach zone, less in the way of the imagery).
+            top: 42%;
+
+            svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            &--prev { left: 4px; }
+            &--next { right: 4px; }
+
+            &:hover:not(:disabled) {
+                transform: translateY(-50%) scale(1.08);
+            }
+
+            &:active:not(:disabled) {
+                transform: translateY(-50%) scale(0.96);
+            }
+        }
+    }
+}
