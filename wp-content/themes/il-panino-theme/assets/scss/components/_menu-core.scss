@@ -256,31 +256,14 @@
     }
 
     // ------------------------------------------------------------------
-    // Vegan modifier — dark green card with light, high-contrast text
+    // Vegan modifier — same card chrome as the default, but the image
+    // backdrop is recolored in dark green to signal the variant. All
+    // textual children keep their default colors for consistency with
+    // the rest of the grid.
     // ------------------------------------------------------------------
     &--vegan {
-        background-color: #3B6035;
-
-        .c-menu-card__name,
-        .c-menu-card__ingredienti,
-        .c-menu-card__size-label,
-        .c-menu-card__size-price {
-            color: var(--color-bg-header);
-        }
-
-        .c-menu-card__allergeni {
-            color: var(--color-bg-header);
-            opacity: 0.8;
-        }
-
-        .c-menu-card__divider {
-            border-top-color: rgba(255, 248, 231, 0.25);
-        }
-
-        // Delivery note on the dark green card: use the cream text color
-        // with a slight opacity to keep it as a secondary caption.
-        .c-menu-card__delivery-note {
-            color: rgba(255, 248, 231, 0.8);
+        .c-menu-card__image-wrap {
+            background-color: #3B6035;
         }
     }
 }
