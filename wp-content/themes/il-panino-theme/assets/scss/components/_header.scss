@@ -19,9 +19,8 @@
 // ==========================================================================
 .site-header.is-scrolled {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    margin: 1.2rem;
+    border-radius: 30px;
     z-index: 1000;
     background-color: var(--color-bg-header);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
