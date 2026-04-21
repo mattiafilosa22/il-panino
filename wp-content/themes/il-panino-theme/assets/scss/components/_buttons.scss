@@ -46,6 +46,14 @@
     &:hover::after {
         transform: translateY(-100%);
     }
+
+    /* Disabled state: applied when CTA has no valid link/target */
+    &.is-disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        pointer-events: none;
+        filter: grayscale(50%);
+    }
 }
 
 .btn-primary {
