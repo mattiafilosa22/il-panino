@@ -12,6 +12,10 @@
     /* Colore testo default per menu */
     --color-menu-active: #9A6553;
     /* Colore menu attivo/hover */
+    --color-pill-bg: #2A1F1A;
+    /* Dark pill background for sticky header */
+    --color-pill-text: #FFF8E7;
+    /* Light text inside the dark pill */
 
     --font-heading: 'Bebas Neue', sans-serif;
     --font-body: sans-serif;
@@ -20,4 +24,15 @@
     /* Font per il menu */
 
     --transition-speed: 0.3s;
+
+    /* Breakpoints mirrored in SCSS Sass variables (see utils/_variables.scss) */
+    --breakpoint-md: 768px;
 }
+
+// ==========================================================================
+// Sass-level variables (usable in @media, math, etc.)
+// ==========================================================================
+$breakpoint-sm: 480px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
