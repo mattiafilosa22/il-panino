@@ -167,4 +167,54 @@
         margin: 0;
         font-style: italic;
     }
+
+    // ------------------------------------------------------------------
+    // Badge (base) — used for labels on top of the card body (e.g. vegan)
+    // ------------------------------------------------------------------
+    &__badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-menu);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.2rem 0.6rem;
+        border-radius: 50px;
+        line-height: 1;
+        margin: 0 0 0.6rem;
+        background-color: var(--color-text-dark);
+        color: var(--color-bg-header);
+
+        // Vegan variant: light pill inverted against the dark green card bg
+        &--vegan {
+            background-color: var(--color-bg-header);
+            color: #3B6035;
+            border: 1px solid rgba(#3B6035, 0.25);
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // Vegan modifier — dark green card with light, high-contrast text
+    // ------------------------------------------------------------------
+    &--vegan {
+        background-color: #3B6035;
+
+        .c-menu-card__name,
+        .c-menu-card__ingredienti,
+        .c-menu-card__size-label,
+        .c-menu-card__size-price {
+            color: var(--color-bg-header);
+        }
+
+        .c-menu-card__allergeni {
+            color: var(--color-bg-header);
+            opacity: 0.8;
+        }
+
+        .c-menu-card__divider {
+            border-top-color: rgba(255, 248, 231, 0.25);
+        }
+    }
 }

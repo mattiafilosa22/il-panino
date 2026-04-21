@@ -60,6 +60,7 @@ $fmt_price = static function ($value) {
                 $prezzo_xxl       = get_field('prezzo_xxl');
                 $ingredienti      = get_field('ingredienti');
                 $allergeni        = get_field('allergeni');
+                $is_vegan         = (bool) get_field('panino_vegan');
 
                 $img_url = $img_senza_sfondo ? $img_senza_sfondo['url'] : get_the_post_thumbnail_url(get_the_ID(), 'large');
                 $img_alt = $img_senza_sfondo ? $img_senza_sfondo['alt'] : get_the_title();
@@ -71,8 +72,13 @@ $fmt_price = static function ($value) {
                 if ($terms && ! is_wp_error($terms)) {
                     $cat_slugs = implode(' ', wp_list_pluck($terms, 'slug'));
                 }
+
+                $card_classes = array('c-menu-card', 'js-menu-card');
+                if ($is_vegan) {
+                    $card_classes[] = 'c-menu-card--vegan';
+                }
             ?>
-                <article class="c-menu-card js-menu-card" data-categories="<?php echo esc_attr($cat_slugs); ?>">
+                <article class="<?php echo esc_attr(implode(' ', $card_classes)); ?>" data-categories="<?php echo esc_attr($cat_slugs); ?>">
 
                     <?php if ($img_url) : ?>
                         <div class="c-menu-card__image-wrap">
@@ -84,6 +90,10 @@ $fmt_price = static function ($value) {
                     <?php endif; ?>
 
                     <div class="c-menu-card__body">
+                        <?php if ($is_vegan) : ?>
+                            <span class="c-menu-card__badge c-menu-card__badge--vegan" aria-label="<?php echo esc_attr__('Alternativa vegana', 'il-panino-theme'); ?>">VEG</span>
+                        <?php endif; ?>
+
                         <h3 class="c-menu-card__name"><?php the_title(); ?></h3>
 
                         <?php if ($prezzo_medium !== '' && $prezzo_medium !== null) : ?>

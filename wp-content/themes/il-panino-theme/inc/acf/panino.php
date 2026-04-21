@@ -21,6 +21,18 @@ acf_add_local_field_group(array(
             'wrapper' => array('width' => '100'),
         ),
         array(
+            'key' => 'field_panino_vegan',
+            'label' => 'Alternativa Vegana',
+            'name' => 'panino_vegan',
+            'type' => 'true_false',
+            'instructions' => 'Attiva per marcare il panino come alternativa vegana. La card avrà uno sfondo verde distintivo nel menu.',
+            'default_value' => 0,
+            'ui' => 1,
+            'ui_on_text' => 'Si',
+            'ui_off_text' => 'No',
+            'wrapper' => array('width' => '100'),
+        ),
+        array(
             'key' => 'field_panino_immagine_senza_sfondo',
             'label' => 'Immagine Panino Senza Sfondo',
             'name' => 'immagine_panino_senza_sfondo',
