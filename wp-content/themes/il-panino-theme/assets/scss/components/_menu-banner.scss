@@ -101,12 +101,12 @@
         // Override mixin defaults: white title on brick-red ground and a
         // tighter rhythm so the compact banner reads as a single block.
         color: #ffffff;
-        font-size: 2.5rem!important;
+        font-size: 4rem!important;
         line-height: 1.1;
         margin: 0;
 
         @media (max-width: $breakpoint-md - 1px) {
-            font-size: 1.75rem;
+            font-size: 1.75rem!important;
         }
     }
 
