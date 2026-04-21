@@ -8,8 +8,12 @@
 @use "../utils/variables" as *;
 
 .c-menu-banner {
-    background-color: var(--color-bg-header);
-    color: var(--color-text-dark);
+    // Inverted palette: brick-red ground with light text, so the banner
+    // visually punches through the surrounding cream/light sections of the
+    // menu page. The CTA is re-skinned locally (see &__cta) to preserve
+    // contrast against this darker background.
+    background-color: var(--color-primary);
+    color: #ffffff;
     overflow: hidden;
 
     &__inner {
@@ -75,7 +79,8 @@
 
     &__title {
         @include section-title;
-        color: var(--color-primary);
+        // Override mixin defaults: white title on brick-red ground.
+        color: #ffffff;
         margin: 0 0 1rem;
     }
 
@@ -85,16 +90,33 @@
         // column; drop the mixin's auto horizontal margin so it tracks the
         // column and reduce bottom spacing before the CTA.
         margin: 0 auto 1.75rem;
+        // Override the `section-subtitle` mixin's dark color — on the
+        // brick-red background we need a light, high-contrast foreground.
+        color: var(--color-bg-header);
     }
 
-    // Inherits the visual treatment from .btn.btn-primary; only tune spacing
-    // so the CTA sits comfortably below the subtitle and keeps a sane tap
-    // target on touch devices.
+    // Inherits spacing/animation from `.btn.btn-primary` but re-skins the
+    // colors locally: the global `.btn-primary` uses orange on white which
+    // would wash out on this brick-red ground. Inverse treatment (white
+    // button, brick-red label) is scoped here so other CTAs are untouched.
     &__cta {
         margin-top: 0.5rem;
 
         @media (max-width: $breakpoint-md - 1px) {
             margin-top: 0.25rem;
+        }
+
+        &.btn.btn-primary {
+            background-color: #ffffff;
+            color: var(--color-primary);
+            border-color: #ffffff;
+
+            &:hover,
+            &:focus-visible {
+                background-color: var(--color-bg-header);
+                border-color: var(--color-bg-header);
+                color: var(--color-primary);
+            }
         }
     }
 }
