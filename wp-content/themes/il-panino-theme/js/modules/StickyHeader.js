@@ -1,24 +1,25 @@
 /**
  * StickyHeader
  *
- * Toggles the visibility of the floating sticky header on scroll.
- * Adds `.is-visible` and sets `aria-hidden="false"` when the vertical
- * scroll offset passes the threshold declared on the root element via
- * `data-sticky-threshold` (fallback: 300px). Hides it otherwise.
+ * Toggles the scrolled state of the main site header. Adds the
+ * `.is-scrolled` modifier on the root element when the vertical
+ * scroll offset passes the threshold declared via
+ * `data-sticky-threshold` (fallback: 300px). Removes it otherwise.
  *
  * Performance: the scroll listener is throttled using
  * `requestAnimationFrame` so state is updated at most once per frame.
  *
- * Accessibility: the CSS transition is disabled via
+ * Accessibility: the CSS animation is disabled via
  * `@media (prefers-reduced-motion: reduce)`; this module only toggles
- * a class and an ARIA attribute — no JS-driven animation.
+ * a class — no JS-driven animation, no ARIA state changes (the header
+ * is always visible in the DOM; only its positioning changes).
  *
  * SRP: this class owns the single responsibility of syncing the
- * sticky header's visibility state with the scroll position.
+ * header's scrolled state with the scroll position.
  */
 export default class StickyHeader {
     /**
-     * @param {HTMLElement} element - The `.sticky-header` root element.
+     * @param {HTMLElement} element - The `header.site-header` root element.
      */
     constructor(element) {
         this.element = element;
@@ -27,7 +28,7 @@ export default class StickyHeader {
         const parsed = attr !== null && attr !== undefined ? parseInt(attr, 10) : NaN;
         this.threshold = Number.isFinite(parsed) && parsed >= 0 ? parsed : 300;
 
-        this.isVisible = false;
+        this.isScrolled = false;
         this.ticking = false;
 
         // Bind once so we can remove the listener if ever needed.
@@ -61,15 +62,14 @@ export default class StickyHeader {
     }
 
     /**
-     * Apply the visibility state based on the current scroll offset.
+     * Apply the scrolled state based on the current scroll offset.
      */
     update() {
-        const shouldBeVisible = window.scrollY >= this.threshold;
+        const shouldBeScrolled = window.scrollY >= this.threshold;
 
-        if (shouldBeVisible !== this.isVisible) {
-            this.isVisible = shouldBeVisible;
-            this.element.classList.toggle('is-visible', shouldBeVisible);
-            this.element.setAttribute('aria-hidden', shouldBeVisible ? 'false' : 'true');
+        if (shouldBeScrolled !== this.isScrolled) {
+            this.isScrolled = shouldBeScrolled;
+            this.element.classList.toggle('is-scrolled', shouldBeScrolled);
         }
 
         this.ticking = false;
