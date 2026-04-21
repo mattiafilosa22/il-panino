@@ -51,6 +51,8 @@ $fmt_price = static function ($value) {
             </div>
         <?php endif; ?>
 
+        <?php get_template_part('components/menu-banner'); ?>
+
         <div class="c-menu-core__grid js-menu-grid">
             <?php while ($panini_query->have_posts()) : $panini_query->the_post();
 
