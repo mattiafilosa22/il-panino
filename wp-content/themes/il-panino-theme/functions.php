@@ -131,6 +131,32 @@ function il_panino_get_spacing_classes( $section_key ) {
 }
 
 /**
+ * Build a pre-filled WhatsApp order URL for a menu item (panino, frittino, dolce).
+ *
+ * The URL is derived from the item's category: items in 'frittini' or 'dolci'
+ * use a "side" message template, everything else uses the full panino template
+ * (with size "medium"). The phone number is currently hardcoded; if a per-item
+ * override is ever required, it can be layered on top via an ACF field without
+ * changing this signature.
+ *
+ * @param int    $post_id        Post ID (reserved for future per-item overrides).
+ * @param string $item_title     Post title (raw, already decoded; will be URL-encoded here).
+ * @param array  $category_slugs List of category term slugs for this post.
+ * @return string Fully-qualified https://wa.me/ URL. Still pass through esc_url() at render time.
+ */
+function il_panino_get_whatsapp_order_url( $post_id, $item_title, $category_slugs = array() ) {
+    unset( $post_id ); // Reserved for future per-item overrides.
+    $phone   = '393409677143';
+    $is_side = ! empty( array_intersect( array( 'frittini', 'dolci' ), (array) $category_slugs ) );
+    if ( $is_side ) {
+        $message = sprintf( 'Ciao vorrei ordinare %s, potete consegnarmelo qua:', $item_title );
+    } else {
+        $message = sprintf( 'Ciao, vorrei ordinare 1 %s medium, potete consegnarmelo qua:', $item_title );
+    }
+    return 'https://wa.me/' . $phone . '?text=' . rawurlencode( $message );
+}
+
+/**
  * Customizer: Bottoni Header (Seguici e Recensiscici)
  */
 function il_panino_customize_register( $wp_customize ) {

@@ -169,6 +169,66 @@
     }
 
     // ------------------------------------------------------------------
+    // CTA button inside the card (e.g. "Order on WhatsApp")
+    // Mirrors the pattern of .c-heading__cta, scaled to fit the card.
+    // ------------------------------------------------------------------
+    &__cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+        margin-top: 0.75rem;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-family: var(--font-menu);
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        line-height: 1.2;
+        color: #fff;
+        transition: background-color var(--transition-speed) ease,
+            transform var(--transition-speed) ease,
+            filter var(--transition-speed) ease;
+
+        &:hover,
+        &:focus-visible {
+            color: #fff;
+            filter: brightness(1.05);
+        }
+
+        // Brand variant — WhatsApp green
+        &--whatsapp {
+            background-color: #25D366;
+
+            &:hover,
+            &:focus-visible {
+                background-color: #1DA851;
+                filter: none;
+            }
+        }
+    }
+
+    &__cta-icon {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+    }
+
+    // ------------------------------------------------------------------
+    // Delivery note — small italic caption shown below the CTA
+    // ------------------------------------------------------------------
+    &__delivery-note {
+        margin: 0.5rem 0 0;
+        font-family: var(--font-body);
+        font-size: 0.75rem;
+        font-style: italic;
+        line-height: 1.4;
+        color: rgba(0, 0, 0, 0.6);
+        text-align: center;
+    }
+
+    // ------------------------------------------------------------------
     // Badge (base) — used for labels on top of the card body (e.g. vegan)
     // ------------------------------------------------------------------
     &__badge {
@@ -215,6 +275,12 @@
 
         .c-menu-card__divider {
             border-top-color: rgba(255, 248, 231, 0.25);
+        }
+
+        // Delivery note on the dark green card: use the cream text color
+        // with a slight opacity to keep it as a secondary caption.
+        .c-menu-card__delivery-note {
+            color: rgba(255, 248, 231, 0.8);
         }
     }
 }

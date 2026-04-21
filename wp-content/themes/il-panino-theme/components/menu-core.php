@@ -61,6 +61,7 @@ $fmt_price = static function ($value) {
                 $ingredienti      = get_field('ingredienti');
                 $allergeni        = get_field('allergeni');
                 $is_vegan         = (bool) get_field('panino_vegan');
+                $whatsapp_enabled = (bool) get_field('panino_whatsapp_enabled');
 
                 $img_url = $img_senza_sfondo ? $img_senza_sfondo['url'] : get_the_post_thumbnail_url(get_the_ID(), 'large');
                 $img_alt = $img_senza_sfondo ? $img_senza_sfondo['alt'] : get_the_title();
@@ -68,9 +69,16 @@ $fmt_price = static function ($value) {
                 $has_sizes = ! empty($prezzo_large) && ! empty($prezzo_xxl);
 
                 $terms = get_the_terms(get_the_ID(), 'categoria_panino');
-                $cat_slugs = '';
-                if ($terms && ! is_wp_error($terms)) {
-                    $cat_slugs = implode(' ', wp_list_pluck($terms, 'slug'));
+                $term_slugs = ($terms && ! is_wp_error($terms)) ? wp_list_pluck($terms, 'slug') : array();
+                $cat_slugs = ! empty($term_slugs) ? implode(' ', $term_slugs) : '';
+
+                $whatsapp_url = '';
+                if ($whatsapp_enabled) {
+                    $whatsapp_url = il_panino_get_whatsapp_order_url(
+                        get_the_ID(),
+                        get_the_title(),
+                        $term_slugs
+                    );
                 }
 
                 $card_classes = array('c-menu-card', 'js-menu-card');
@@ -127,6 +135,20 @@ $fmt_price = static function ($value) {
 
                         <?php if ($allergeni) : ?>
                             <p class="c-menu-card__allergeni">Allergeni: <?php echo esc_html($allergeni); ?></p>
+                        <?php endif; ?>
+
+                        <?php if ($whatsapp_enabled && $whatsapp_url) : ?>
+                            <a class="c-menu-card__cta c-menu-card__cta--whatsapp"
+                               href="<?php echo esc_url($whatsapp_url); ?>"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               aria-label="<?php echo esc_attr__('Ordina su WhatsApp', 'il-panino-theme'); ?>">
+                                <span><?php echo esc_html__('Ordina su', 'il-panino-theme'); ?></span>
+                                <img src="https://cdn.simpleicons.org/whatsapp/white"
+                                     alt="WhatsApp"
+                                     class="c-menu-card__cta-icon">
+                            </a>
+                            <p class="c-menu-card__delivery-note"><em><?php echo esc_html__('La consegna costa 1€ in più rispetto al prezzo mostrato.', 'il-panino-theme'); ?></em></p>
                         <?php endif; ?>
                     </div>
 
