@@ -14,6 +14,8 @@
     // contrast against this darker background.
     background-color: var(--color-primary);
     color: #ffffff;
+    border-radius: 30px;
+    margin-bottom: 3rem;
     // No hard height cap and no overflow clipping: the compact look is
     // achieved naturally via reduced `__inner` padding and slimmer `__art`
     // heights below, which keeps the banner around 200-260px without ever
@@ -99,7 +101,7 @@
         // Override mixin defaults: white title on brick-red ground and a
         // tighter rhythm so the compact banner reads as a single block.
         color: #ffffff;
-        font-size: 2.5rem;
+        font-size: 2.5rem!important;
         line-height: 1.1;
         margin: 0;
 
@@ -115,7 +117,7 @@
         // column and reduce bottom spacing before the CTA. Tight type keeps
         // the banner compact (~200-260px tall).
         margin: 0.25rem auto 0;
-        font-size: 0.95rem;
+        font-size: 0.95rem!important;
         line-height: 1.4;
         // Override the `section-subtitle` mixin's dark color — on the
         // brick-red background we need a light, high-contrast foreground.
