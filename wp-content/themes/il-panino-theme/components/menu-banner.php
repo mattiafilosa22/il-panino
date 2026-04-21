@@ -11,10 +11,12 @@ if ( ! function_exists( 'get_field' ) || ! get_field( 'menu_banner_visible' ) ) 
     return;
 }
 
-$title    = get_field( 'menu_banner_title' );
-$subtitle = get_field( 'menu_banner_subtitle' );
-$cta_text = get_field( 'menu_banner_cta_text' );
-$cta_link = get_field( 'menu_banner_cta_link' );
+$title       = get_field( 'menu_banner_title' );
+$subtitle    = get_field( 'menu_banner_subtitle' );
+$cta_text    = get_field( 'menu_banner_cta_text' );
+$cta_link    = get_field( 'menu_banner_cta_link' );
+$image_left  = get_field( 'menu_banner_image_left' );
+$image_right = get_field( 'menu_banner_image_right' );
 
 // Nothing meaningful to render? Bail out gracefully.
 if ( empty( $title ) && empty( $subtitle ) && empty( $cta_text ) ) {
@@ -22,9 +24,12 @@ if ( empty( $title ) && empty( $subtitle ) && empty( $cta_text ) ) {
 }
 
 $spacing       = il_panino_get_spacing_classes( 'menu_banner' );
-$images_base   = trailingslashit( get_template_directory_uri() ) . 'assets/images/menu-banner/';
-$fries_src     = $images_base . 'fries-basket.png';
-$soda_src      = $images_base . 'soda-can.png';
+$theme_uri     = trailingslashit( get_template_directory_uri() );
+$images_base   = $theme_uri . 'assets/images/menu-banner/';
+$left_url      = ! empty( $image_left['url'] ) ? $image_left['url'] : $images_base . 'fries-basket.png';
+$left_alt      = ! empty( $image_left['alt'] ) ? $image_left['alt'] : __( 'Cestino di frittini croccanti', 'il-panino-theme' );
+$right_url     = ! empty( $image_right['url'] ) ? $image_right['url'] : $images_base . 'soda-can.png';
+$right_alt     = ! empty( $image_right['alt'] ) ? $image_right['alt'] : __( 'Lattina di bevanda ghiacciata', 'il-panino-theme' );
 $has_cta_link  = ! empty( $cta_link );
 $has_cta_label = ! empty( $cta_text );
 ?>
@@ -34,8 +39,8 @@ $has_cta_label = ! empty( $cta_text );
         <div class="c-menu-banner__inner">
 
             <img
-                src="<?php echo esc_url( $fries_src ); ?>"
-                alt="<?php echo esc_attr__( 'Cestino di frittini croccanti', 'il-panino-theme' ); ?>"
+                src="<?php echo esc_url( $left_url ); ?>"
+                alt="<?php echo esc_attr( $left_alt ); ?>"
                 class="c-menu-banner__art c-menu-banner__art--left"
                 loading="lazy"
                 decoding="async"
@@ -70,8 +75,8 @@ $has_cta_label = ! empty( $cta_text );
             </div>
 
             <img
-                src="<?php echo esc_url( $soda_src ); ?>"
-                alt="<?php echo esc_attr__( 'Lattina di bevanda ghiacciata', 'il-panino-theme' ); ?>"
+                src="<?php echo esc_url( $right_url ); ?>"
+                alt="<?php echo esc_attr( $right_alt ); ?>"
                 class="c-menu-banner__art c-menu-banner__art--right"
                 loading="lazy"
                 decoding="async"

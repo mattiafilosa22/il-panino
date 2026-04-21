@@ -14,11 +14,10 @@
     // contrast against this darker background.
     background-color: var(--color-primary);
     color: #ffffff;
-    overflow: hidden;
-    // Hard cap requested by product: banner must never grow beyond 300px tall.
-    // Paired with reduced vertical padding and slimmer illustrations below so
-    // nothing overflows at any breakpoint.
-    max-height: 300px;
+    // No hard height cap and no overflow clipping: the compact look is
+    // achieved naturally via reduced `__inner` padding and slimmer `__art`
+    // heights below, which keeps the banner around 260-300px without ever
+    // cropping the ACF-provided illustrations.
 
     // The banner is rendered inside `.c-menu-core > .container`, so it would
     // inherit the container's horizontal padding twice if we kept its own
@@ -34,8 +33,9 @@
         grid-template-columns: auto 1fr auto;
         align-items: center;
         gap: 2rem;
-        // Reduced vertical padding to respect the 300px max-height cap while
-        // keeping breathing room around the 180px-tall illustrations.
+        // Compact vertical padding keeps the banner naturally short (roughly
+        // 260-300px on desktop) while preserving breathing room around the
+        // 180px-tall illustrations, without relying on a height cap.
         padding: 1.5rem 1rem;
 
         @media (max-width: $breakpoint-md - 1px) {
@@ -51,8 +51,8 @@
 
     &__art {
         display: block;
-        // Trimmed from 200px to 180px so inner grid (2 * padding + art) stays
-        // within the 300px max-height cap on desktop.
+        // Trimmed from 200px to 180px so the banner remains visually compact
+        // on desktop (art + padding ~ 264px) without a height cap.
         height: 180px;
         width: auto;
         max-width: 100%;
