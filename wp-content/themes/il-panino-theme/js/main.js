@@ -2,6 +2,7 @@ import ProductSliderCarousel from './modules/ProductSliderCarousel.js';
 import SocialReelsCarousel from './modules/SocialReelsCarousel.js';
 import MenuCoreFilter from './modules/MenuCoreFilter.js';
 import InstagramFeedSlider from './modules/InstagramFeedSlider.js';
+import StickyHeader from './modules/StickyHeader.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.menu-toggle');
@@ -62,6 +63,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (menuCoreElement) {
         const menuFilter = new MenuCoreFilter(menuCoreElement);
         menuFilter.init();
+    }
+
+    // Initialize Sticky Header (toggles `.is-scrolled` on the main header).
+    const stickyHeaderElement = document.querySelector('header.site-header[data-sticky-threshold]');
+    if (stickyHeaderElement) {
+        const stickyHeader = new StickyHeader(stickyHeaderElement);
+        stickyHeader.init();
     }
 
     // Scroll reveal for sections with .js-reveal

@@ -13,7 +13,7 @@ $recensiscici_text = get_theme_mod( 'recensiscici_text', 'RECENSISCICI' );
 $recensiscici_link = get_theme_mod( 'recensiscici_link', '#' );
 ?>
 
-<header class="site-header">
+<header class="site-header" data-sticky-threshold="300">
     <div class="header-container">
         
         <!-- Sinistra: Navigazione -->
@@ -56,28 +56,28 @@ $recensiscici_link = get_theme_mod( 'recensiscici_link', '#' );
         </div>
 
     </div>
+</header>
 
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-nav-overlay">
-        <div class="mobile-nav-inner">
-            <button class="mobile-nav-close" aria-label="Chiudi menu">
-                <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-            <?php
-            wp_nav_menu( array(
-                'theme_location' => 'menu-1',
-                'container'      => 'nav',
-                'container_class'=> 'mobile-menu-wrapper',
-                'fallback_cb'    => false,
-            ) );
-            ?>
-            <div class="mobile-actions">
-                <a href="<?php echo esc_url($seguici_link); ?>" class="btn btn-outline" data-text="<?php echo esc_attr($seguici_text); ?>" target="_blank" rel="noopener"><span><?php echo esc_html($seguici_text); ?></span></a>
-                <a href="<?php echo esc_url($recensiscici_link); ?>" class="btn btn-primary" data-text="<?php echo esc_attr($recensiscici_text); ?>" target="_blank" rel="noopener"><span><?php echo esc_html($recensiscici_text); ?></span></a>
-            </div>
+<!-- Mobile Menu Overlay -->
+<div class="mobile-nav-overlay">
+    <div class="mobile-nav-inner">
+        <button class="mobile-nav-close" aria-label="Chiudi menu">
+            <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <?php
+        wp_nav_menu( array(
+            'theme_location' => 'menu-1',
+            'container'      => 'nav',
+            'container_class'=> 'mobile-menu-wrapper',
+            'fallback_cb'    => false,
+        ) );
+        ?>
+        <div class="mobile-actions">
+            <a href="<?php echo esc_url($seguici_link); ?>" class="btn btn-outline" data-text="<?php echo esc_attr($seguici_text); ?>" target="_blank" rel="noopener"><span><?php echo esc_html($seguici_text); ?></span></a>
+            <a href="<?php echo esc_url($recensiscici_link); ?>" class="btn btn-primary" data-text="<?php echo esc_attr($recensiscici_text); ?>" target="_blank" rel="noopener"><span><?php echo esc_html($recensiscici_text); ?></span></a>
         </div>
     </div>
-</header>
+</div>

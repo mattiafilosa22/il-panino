@@ -44,6 +44,7 @@ $sections = array(
     'social_reels'   => 'Social Reels',
     'instagram_feed' => 'Instagram Feed',
     'menu_core'      => 'Menu Core',
+    'menu_banner'    => 'Menu Banner',
 );
 
 foreach ( $sections as $key => $label ) {

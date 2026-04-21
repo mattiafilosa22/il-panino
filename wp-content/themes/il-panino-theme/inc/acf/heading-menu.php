@@ -112,6 +112,35 @@ acf_add_local_field_group(array(
             ),
             'wrapper' => array('width' => '67'),
         ),
+        // WhatsApp
+        array(
+            'key' => 'field_heading_whatsapp_visibile',
+            'label' => 'Mostra pulsante WhatsApp',
+            'name' => 'heading_whatsapp_visibile',
+            'type' => 'true_false',
+            'default_value' => 1,
+            'ui' => 1,
+            'wrapper' => array('width' => '33'),
+        ),
+        array(
+            'key' => 'field_heading_whatsapp_link',
+            'label' => 'Link WhatsApp',
+            'name' => 'heading_whatsapp_link',
+            'type' => 'url',
+            'instructions' => 'URL WhatsApp (es. https://wa.me/393409677143). Se vuoto il pulsante sarà disabilitato.',
+            'required' => 0,
+            'default_value' => 'https://wa.me/393409677143',
+            'conditional_logic' => array(
+                array(
+                    array(
+                        'field' => 'field_heading_whatsapp_visibile',
+                        'operator' => '==',
+                        'value' => '1',
+                    ),
+                ),
+            ),
+            'wrapper' => array('width' => '67'),
+        ),
     ),
     'location' => array(
         array(
