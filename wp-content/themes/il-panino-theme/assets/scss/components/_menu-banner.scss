@@ -16,7 +16,7 @@
     color: #ffffff;
     // No hard height cap and no overflow clipping: the compact look is
     // achieved naturally via reduced `__inner` padding and slimmer `__art`
-    // heights below, which keeps the banner around 260-300px without ever
+    // heights below, which keeps the banner around 200-260px without ever
     // cropping the ACF-provided illustrations.
 
     // The banner is rendered inside `.c-menu-core > .container`, so it would
@@ -32,28 +32,28 @@
         display: grid;
         grid-template-columns: auto 1fr auto;
         align-items: center;
-        gap: 2rem;
-        // Compact vertical padding keeps the banner naturally short (roughly
-        // 260-300px on desktop) while preserving breathing room around the
-        // 180px-tall illustrations, without relying on a height cap.
-        padding: 1.5rem 1rem;
+        gap: 1.25rem;
+        // Compact vertical padding keeps the banner naturally short (~200-
+        // 260px on desktop) while preserving breathing room around the
+        // 140px-tall illustrations, without relying on a height cap.
+        padding: 0.75rem 1rem;
 
         @media (max-width: $breakpoint-md - 1px) {
             grid-template-columns: 1fr 1fr;
             grid-template-areas:
                 "art-left art-right"
                 "content  content";
-            gap: 0.75rem 1rem;
-            padding: 1rem 0.5rem;
+            gap: 0.5rem 1rem;
+            padding: 0.75rem 0.5rem;
             text-align: center;
         }
     }
 
     &__art {
         display: block;
-        // Trimmed from 200px to 180px so the banner remains visually compact
-        // on desktop (art + padding ~ 264px) without a height cap.
-        height: 180px;
+        // Trimmed to 140px so the banner remains visually compact on desktop
+        // (art + padding ~ 200-220px) without a height cap.
+        height: 140px;
         width: auto;
         max-width: 100%;
         object-fit: contain;
@@ -61,11 +61,11 @@
         pointer-events: none;
 
         @media (max-width: $breakpoint-lg - 1px) {
-            height: 140px;
+            height: 110px;
         }
 
         @media (max-width: $breakpoint-md - 1px) {
-            height: 90px;
+            height: 80px;
             justify-self: center;
         }
 
@@ -96,17 +96,27 @@
 
     &__title {
         @include section-title;
-        // Override mixin defaults: white title on brick-red ground.
+        // Override mixin defaults: white title on brick-red ground and a
+        // tighter rhythm so the compact banner reads as a single block.
         color: #ffffff;
-        margin: 0 0 1rem;
+        font-size: 2.5rem;
+        line-height: 1.1;
+        margin: 0;
+
+        @media (max-width: $breakpoint-md - 1px) {
+            font-size: 1.75rem;
+        }
     }
 
     &__subtitle {
         @include section-subtitle;
         // The subtitle lives inside a centered, width-constrained content
         // column; drop the mixin's auto horizontal margin so it tracks the
-        // column and reduce bottom spacing before the CTA.
-        margin: 0 auto 1.75rem;
+        // column and reduce bottom spacing before the CTA. Tight type keeps
+        // the banner compact (~200-260px tall).
+        margin: 0.25rem auto 0;
+        font-size: 0.95rem;
+        line-height: 1.4;
         // Override the `section-subtitle` mixin's dark color — on the
         // brick-red background we need a light, high-contrast foreground.
         color: var(--color-bg-header);
