@@ -27,17 +27,18 @@
     // or an inline style. Anything without it has been verified to win the cascade.
     // ==========================================================================
 
+    // FeedHeader now hosts ONLY the follow button (profile/bio block is hidden
+    // below), so we drop the original split-left/right layout and center the
+    // single remaining child. Bottom margin opens space to the slider.
     .FeedHeader__root {
         background-color: transparent !important;
         max-width: 1100px;
-        margin: 0 auto 1.5rem;
+        margin: 0 auto 2rem;
         padding: 0 1rem !important;
         display: flex !important;
-        flex-wrap: wrap;
         align-items: center !important;
-        justify-content: flex-start !important;
-        gap: 1rem;
-        text-align: left;
+        justify-content: center !important;
+        text-align: center;
     }
 
     // Hide the IG logo + @username block — the section title already says
@@ -46,15 +47,8 @@
         display: none !important;
     }
 
-    .FeedHeader__container {
-        display: flex;
-        align-items: center;
-        gap: 0.85rem;
-        flex: 0 0 auto;
-    }
-
+    .FeedHeader__container,
     .FeedHeader__right-container {
-        margin-left: auto;
         display: flex;
         align-items: center;
     }
@@ -92,10 +86,9 @@
     // nested-box look. We make the <a> a transparent wrapper and put all the visual
     // styling on the inner <button>. Then forward the link's :hover state to the button.
     //
-    // Covers both placements: header (desktop) and bottom-of-feed (mobile, controlled
-    // by Spotlight's followBtnLocation.phone). Other DesignedButtons (load-more,
-    // lightbox CTAs) keep plugin defaults so a class rename can't silently de-brand
-    // the follow button while leaving secondary buttons styled.
+    // Covers both placements: header (above the slider) and bottom-of-feed. The Load
+    // More button renders without an <a> wrapper so it only needs the inner-button rules.
+    // Lightbox CTAs stay on plugin defaults.
     .FeedHeader__follow-button .DesignedButton__link,
     .FeedLayout__follow-btn .DesignedButton__link {
         display: inline-block;
@@ -107,7 +100,8 @@
     }
 
     .FeedHeader__follow-button .DesignedButton__button,
-    .FeedLayout__follow-btn .DesignedButton__button {
+    .FeedLayout__follow-btn .DesignedButton__button,
+    .LoadMoreButton {
         background-color: var(--color-primary) !important;
         color: #fff !important;
         font-family: var(--font-heading) !important;
@@ -122,13 +116,19 @@
         transition: background-color var(--transition-speed) ease,
                     border-color var(--transition-speed) ease,
                     transform var(--transition-speed) ease;
+
+        @media (max-width: 576px) {
+            font-size: 0.95rem !important;
+            padding: 0.55rem 1.1rem !important;
+        }
     }
 
     // Hover applies whether the user hovers the inner <button> or the wrapping <a>.
     .FeedHeader__follow-button .DesignedButton__button:hover,
     .FeedHeader__follow-button .DesignedButton__link:hover .DesignedButton__button,
     .FeedLayout__follow-btn .DesignedButton__button:hover,
-    .FeedLayout__follow-btn .DesignedButton__link:hover .DesignedButton__button {
+    .FeedLayout__follow-btn .DesignedButton__link:hover .DesignedButton__button,
+    .LoadMoreButton:hover {
         background-color: var(--color-secondary) !important;
         border-color: var(--color-secondary) !important;
         transform: translateY(-2px);
