@@ -28,6 +28,7 @@
     opacity: 1;
     animation: site-header-slide-in var(--transition-speed) cubic-bezier(0.65, 0.05, 0, 1);
     will-change: transform, opacity;
+    width: 100%;
 }
 
 @keyframes site-header-slide-in {
