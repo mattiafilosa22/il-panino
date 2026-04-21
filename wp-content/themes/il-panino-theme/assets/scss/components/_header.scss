@@ -19,7 +19,10 @@
 // ==========================================================================
 .site-header.is-scrolled {
     position: fixed;
-    margin: 1.2rem;
+    top: 1.2rem;
+    left: 1.2rem;
+    right: 1.2rem;
+    width: auto;
     border-radius: 30px;
     z-index: 1000;
     background-color: var(--color-bg-header);
@@ -28,7 +31,6 @@
     opacity: 1;
     animation: site-header-slide-in var(--transition-speed) cubic-bezier(0.65, 0.05, 0, 1);
     will-change: transform, opacity;
-    width: 100%;
 }
 
 @keyframes site-header-slide-in {
