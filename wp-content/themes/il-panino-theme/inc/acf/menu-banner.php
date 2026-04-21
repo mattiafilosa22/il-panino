@@ -100,6 +100,50 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+        array(
+            'key'               => 'field_menu_banner_image_left',
+            'label'             => 'Immagine Sinistra',
+            'name'              => 'menu_banner_image_left',
+            'type'              => 'image',
+            'instructions'      => 'Illustrazione decorativa a sinistra. Se vuoto, usa l\'asset di default (fries-basket.png).',
+            'required'          => 0,
+            'return_format'     => 'array',
+            'preview_size'      => 'medium',
+            'library'           => 'all',
+            'mime_types'        => 'png,webp,svg,jpg,jpeg',
+            'wrapper'           => array( 'width' => '50' ),
+            'conditional_logic' => array(
+                array(
+                    array(
+                        'field'    => 'field_menu_banner_visible',
+                        'operator' => '==',
+                        'value'    => '1',
+                    ),
+                ),
+            ),
+        ),
+        array(
+            'key'               => 'field_menu_banner_image_right',
+            'label'             => 'Immagine Destra',
+            'name'              => 'menu_banner_image_right',
+            'type'              => 'image',
+            'instructions'      => 'Illustrazione decorativa a destra. Se vuoto, usa l\'asset di default (soda-can.png).',
+            'required'          => 0,
+            'return_format'     => 'array',
+            'preview_size'      => 'medium',
+            'library'           => 'all',
+            'mime_types'        => 'png,webp,svg,jpg,jpeg',
+            'wrapper'           => array( 'width' => '50' ),
+            'conditional_logic' => array(
+                array(
+                    array(
+                        'field'    => 'field_menu_banner_visible',
+                        'operator' => '==',
+                        'value'    => '1',
+                    ),
+                ),
+            ),
+        ),
     ),
     'location' => array(
         array(
