@@ -13,7 +13,7 @@ $recensiscici_text = get_theme_mod( 'recensiscici_text', 'RECENSISCICI' );
 $recensiscici_link = get_theme_mod( 'recensiscici_link', '#' );
 ?>
 
-<header class="site-header">
+<header class="site-header" data-sticky-threshold="300">
     <div class="header-container">
         
         <!-- Sinistra: Navigazione -->

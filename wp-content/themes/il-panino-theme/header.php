@@ -25,6 +25,5 @@
     <a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'il-panino-theme' ); ?></a>
 
     <?php get_template_part( 'components/header' ); ?>
-    <?php get_template_part( 'components/sticky-header' ); ?>
 
     <div id="content" class="site-content">

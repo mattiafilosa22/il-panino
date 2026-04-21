@@ -65,8 +65,8 @@ document.addEventListener('DOMContentLoaded', function() {
         menuFilter.init();
     }
 
-    // Initialize Sticky Header (floating header on scroll)
-    const stickyHeaderElement = document.querySelector('.sticky-header');
+    // Initialize Sticky Header (toggles `.is-scrolled` on the main header).
+    const stickyHeaderElement = document.querySelector('header.site-header[data-sticky-threshold]');
     if (stickyHeaderElement) {
         const stickyHeader = new StickyHeader(stickyHeaderElement);
         stickyHeader.init();
