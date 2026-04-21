@@ -96,6 +96,7 @@ $acf_components = array(
     'heading-menu',
     'social-reels',
     'instagram-feed',
+    'menu-banner',
     'section-spacing',
 );
 

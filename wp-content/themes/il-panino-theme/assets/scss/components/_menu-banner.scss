@@ -1,0 +1,100 @@
+// ==========================================================================
+// Menu Banner Component — "Completa il tuo menu" (BEM & SOLID)
+// Promotional banner rendered on the menu page (components/menu-banner.php).
+// Three-column layout on desktop (art — content — art), stacks on mobile
+// with the two illustrations side-by-side above the centered content.
+// ==========================================================================
+@use "../utils/typography" as *;
+@use "../utils/variables" as *;
+
+.c-menu-banner {
+    background-color: var(--color-bg-header);
+    color: var(--color-text-dark);
+    overflow: hidden;
+
+    &__inner {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 2rem;
+        padding: 3rem 1rem;
+
+        @media (max-width: $breakpoint-md - 1px) {
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas:
+                "art-left art-right"
+                "content  content";
+            gap: 1rem 1rem;
+            padding: 2rem 0.5rem;
+            text-align: center;
+        }
+    }
+
+    &__art {
+        display: block;
+        height: 200px;
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
+        user-select: none;
+        pointer-events: none;
+
+        @media (max-width: $breakpoint-lg - 1px) {
+            height: 160px;
+        }
+
+        @media (max-width: $breakpoint-md - 1px) {
+            height: 110px;
+            justify-self: center;
+        }
+
+        &--left {
+            @media (max-width: $breakpoint-md - 1px) {
+                grid-area: art-left;
+                justify-self: end;
+            }
+        }
+
+        &--right {
+            @media (max-width: $breakpoint-md - 1px) {
+                grid-area: art-right;
+                justify-self: start;
+            }
+        }
+    }
+
+    &__content {
+        text-align: center;
+        max-width: 640px;
+        margin: 0 auto;
+
+        @media (max-width: $breakpoint-md - 1px) {
+            grid-area: content;
+        }
+    }
+
+    &__title {
+        @include section-title;
+        color: var(--color-primary);
+        margin: 0 0 1rem;
+    }
+
+    &__subtitle {
+        @include section-subtitle;
+        // The subtitle lives inside a centered, width-constrained content
+        // column; drop the mixin's auto horizontal margin so it tracks the
+        // column and reduce bottom spacing before the CTA.
+        margin: 0 auto 1.75rem;
+    }
+
+    // Inherits the visual treatment from .btn.btn-primary; only tune spacing
+    // so the CTA sits comfortably below the subtitle and keeps a sane tap
+    // target on touch devices.
+    &__cta {
+        margin-top: 0.5rem;
+
+        @media (max-width: $breakpoint-md - 1px) {
+            margin-top: 0.25rem;
+        }
+    }
+}
