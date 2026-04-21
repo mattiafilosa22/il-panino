@@ -30,6 +30,13 @@ $delivery_buttons = array(
         'class'   => 'c-heading__cta--justeat',
         'icon'    => 'https://cdn.simpleicons.org/justeat/white',
     ),
+    array(
+        'name'    => 'WhatsApp',
+        'visible' => get_field('heading_whatsapp_visibile'),
+        'link'    => get_field('heading_whatsapp_link'),
+        'class'   => 'c-heading__cta--whatsapp',
+        'icon'    => 'https://cdn.simpleicons.org/whatsapp/white',
+    ),
 );
 ?>
 
