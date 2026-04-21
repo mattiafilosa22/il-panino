@@ -15,28 +15,45 @@
     background-color: var(--color-primary);
     color: #ffffff;
     overflow: hidden;
+    // Hard cap requested by product: banner must never grow beyond 300px tall.
+    // Paired with reduced vertical padding and slimmer illustrations below so
+    // nothing overflows at any breakpoint.
+    max-height: 300px;
+
+    // The banner is rendered inside `.c-menu-core > .container`, so it would
+    // inherit the container's horizontal padding twice if we kept its own
+    // nested `.container` at full width. Neutralize the inner container's
+    // horizontal padding: the outer container already constrains width, we
+    // only need the inner wrapper for semantic grouping + full-bleed bg.
+    > .container {
+        padding-inline: 0;
+    }
 
     &__inner {
         display: grid;
         grid-template-columns: auto 1fr auto;
         align-items: center;
         gap: 2rem;
-        padding: 3rem 1rem;
+        // Reduced vertical padding to respect the 300px max-height cap while
+        // keeping breathing room around the 180px-tall illustrations.
+        padding: 1.5rem 1rem;
 
         @media (max-width: $breakpoint-md - 1px) {
             grid-template-columns: 1fr 1fr;
             grid-template-areas:
                 "art-left art-right"
                 "content  content";
-            gap: 1rem 1rem;
-            padding: 2rem 0.5rem;
+            gap: 0.75rem 1rem;
+            padding: 1rem 0.5rem;
             text-align: center;
         }
     }
 
     &__art {
         display: block;
-        height: 200px;
+        // Trimmed from 200px to 180px so inner grid (2 * padding + art) stays
+        // within the 300px max-height cap on desktop.
+        height: 180px;
         width: auto;
         max-width: 100%;
         object-fit: contain;
@@ -44,11 +61,11 @@
         pointer-events: none;
 
         @media (max-width: $breakpoint-lg - 1px) {
-            height: 160px;
+            height: 140px;
         }
 
         @media (max-width: $breakpoint-md - 1px) {
-            height: 110px;
+            height: 90px;
             justify-self: center;
         }
 
