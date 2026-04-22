@@ -2,19 +2,29 @@
 /**
  * Footer component - Tutti i campi gestiti via ACF
  *
+ * Fields are read from the shared options page so the footer renders
+ * consistently across every template (the field group's page_template
+ * location alone would hide values outside the homepage).
+ *
  * @package il-panino-theme
  */
 
-$sitemap_titolo  = get_field('footer_sitemap_titolo') ?: 'Sitemap';
-$contatti_titolo = get_field('footer_contatti_titolo') ?: 'Contatti';
-$indirizzo_1     = get_field('footer_indirizzo_1');
-$indirizzo_2     = get_field('footer_indirizzo_2');
-$email           = get_field('footer_email');
-$btn_seguici     = get_field('footer_btn_seguici');
-$btn_trovaci     = get_field('footer_btn_trovaci');
-$copyright       = get_field('footer_copyright') ?: 'Il Panino Bologna. Tutti i Diritti Riservati.';
-$credits_nome    = get_field('footer_credits_nome') ?: 'Mattia Filosa';
-$credits_url     = get_field('footer_credits_url');
+$sitemap_titolo      = get_field('footer_sitemap_titolo', 'option') ?: 'Sitemap';
+$contatti_titolo     = get_field('footer_contatti_titolo', 'option') ?: 'Contatti';
+$indirizzo_1         = get_field('footer_indirizzo_1', 'option');
+$indirizzo_2         = get_field('footer_indirizzo_2', 'option');
+$indirizzo_maps_url  = get_field('footer_indirizzo_maps_url', 'option');
+$telefono_numero     = get_field('footer_telefono_numero', 'option');
+$telefono_url        = get_field('footer_telefono_url', 'option');
+$orari_titolo        = get_field('footer_orari_titolo', 'option');
+$orari_fascia_1      = get_field('footer_orari_fascia_1', 'option');
+$orari_fascia_2      = get_field('footer_orari_fascia_2', 'option');
+$email               = get_field('footer_email', 'option');
+$btn_seguici         = get_field('footer_btn_seguici', 'option');
+$btn_trovaci         = get_field('footer_btn_trovaci', 'option');
+$copyright           = get_field('footer_copyright', 'option') ?: 'Il Panino Bologna. Tutti i Diritti Riservati.';
+$credits_nome        = get_field('footer_credits_nome', 'option') ?: 'Mattia Filosa';
+$credits_url         = get_field('footer_credits_url', 'option');
 ?>
 
 <footer class="c-footer">
@@ -45,13 +55,42 @@ $credits_url     = get_field('footer_credits_url');
 
                 <?php if ($indirizzo_1 || $indirizzo_2) : ?>
                     <address class="c-footer__address">
-                        <?php if ($indirizzo_1) : ?>
-                            <p class="c-footer__address-line"><?php echo esc_html($indirizzo_1); ?></p>
-                        <?php endif; ?>
-                        <?php if ($indirizzo_2) : ?>
-                            <p class="c-footer__address-line"><?php echo esc_html($indirizzo_2); ?></p>
+                        <?php if ($indirizzo_maps_url) : ?>
+                            <a href="<?php echo esc_url($indirizzo_maps_url); ?>" class="c-footer__address-link" target="_blank" rel="noopener noreferrer">
+                                <?php if ($indirizzo_1) : ?>
+                                    <span class="c-footer__address-line"><?php echo esc_html($indirizzo_1); ?></span>
+                                <?php endif; ?>
+                                <?php if ($indirizzo_2) : ?>
+                                    <span class="c-footer__address-line"><?php echo esc_html($indirizzo_2); ?></span>
+                                <?php endif; ?>
+                            </a>
+                        <?php else : ?>
+                            <?php if ($indirizzo_1) : ?><p class="c-footer__address-line"><?php echo esc_html($indirizzo_1); ?></p><?php endif; ?>
+                            <?php if ($indirizzo_2) : ?><p class="c-footer__address-line"><?php echo esc_html($indirizzo_2); ?></p><?php endif; ?>
                         <?php endif; ?>
                     </address>
+                <?php endif; ?>
+
+                <?php if ($telefono_numero) : ?>
+                    <?php if ($telefono_url) : ?>
+                        <a href="<?php echo esc_url($telefono_url); ?>" class="c-footer__phone" target="_blank" rel="noopener noreferrer"><?php echo esc_html($telefono_numero); ?></a>
+                    <?php else : ?>
+                        <span class="c-footer__phone"><?php echo esc_html($telefono_numero); ?></span>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+                <?php if ($orari_titolo || $orari_fascia_1 || $orari_fascia_2) : ?>
+                    <div class="c-footer__hours">
+                        <?php if ($orari_titolo) : ?>
+                            <p class="c-footer__hours-title"><?php echo esc_html($orari_titolo); ?></p>
+                        <?php endif; ?>
+                        <?php if ($orari_fascia_1) : ?>
+                            <p class="c-footer__hours-slot"><?php echo esc_html($orari_fascia_1); ?></p>
+                        <?php endif; ?>
+                        <?php if ($orari_fascia_2) : ?>
+                            <p class="c-footer__hours-slot"><?php echo esc_html($orari_fascia_2); ?></p>
+                        <?php endif; ?>
+                    </div>
                 <?php endif; ?>
 
                 <?php if ($email) : ?>
@@ -73,8 +112,8 @@ $credits_url     = get_field('footer_credits_url');
 
     <div class="c-footer__bottom">
         <div class="c-footer__bottom-content">
-            <span class="c-footer__copyright">&copy; <?php echo date('Y'); ?> <?php echo esc_html($copyright); ?></span>
-            
+            <span class="c-footer__copyright">&copy; <?php echo esc_html( date('Y') ); ?> <?php echo esc_html($copyright); ?></span>
+
         </div>
     </div>
 </footer>
