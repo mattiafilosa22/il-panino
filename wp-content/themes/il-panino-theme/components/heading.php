@@ -2,6 +2,9 @@
 /**
  * Component: Heading (Pagina Menù)
  * Titolo grande, sottotitolo e CTA delivery.
+ *
+ * The title renders as an <a class="c-heading__title-link"> to the menu page
+ * when the page exists, we are not already on it, and it is published.
  */
 
 $titolo      = get_field('heading_titolo');
