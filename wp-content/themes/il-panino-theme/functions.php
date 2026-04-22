@@ -91,7 +91,6 @@ $acf_components = array(
     'categoria_panino',
     'slider-prodotti',
     'cross-slider',
-    'footer',
     'panino-menu',
     'heading-menu',
     'instagram-feed',
@@ -105,32 +104,6 @@ foreach ( $acf_components as $component ) {
         require_once $file;
     }
 }
-
-/**
- * Register a global ACF options page for site-wide settings (footer, etc.).
- *
- * The footer renders on every template, but the existing field group is also
- * scoped to `template-homepage.php`; without an options page the fields would
- * be unreachable from other templates. The options page is registered only
- * when ACF Pro is available (the function exists). When ACF free is active,
- * the footer still reads the values via `get_field($name, 'option')`, which
- * resolves against rows written in wp_options with the `options_` prefix
- * (seeded via inc/seed/seed-footer.php). Editing UI is available through the
- * field group's `template-homepage.php` location fallback or via WP-CLI.
- */
-function il_panino_register_options_page() {
-    if ( ! function_exists( 'acf_add_options_page' ) ) {
-        return;
-    }
-    acf_add_options_page( array(
-        'page_title' => __( 'Impostazioni Tema', 'il-panino-theme' ),
-        'menu_title' => __( 'Impostazioni Tema', 'il-panino-theme' ),
-        'menu_slug'  => 'acf-options',
-        'capability' => 'edit_theme_options',
-        'redirect'   => false,
-    ) );
-}
-add_action( 'acf/init', 'il_panino_register_options_page' );
 
 /**
  * Helper: Get Bootstrap spacing classes for a section component.
@@ -237,3 +210,148 @@ function il_panino_customize_register( $wp_customize ) {
     ) );
 }
 add_action( 'customize_register', 'il_panino_customize_register' );
+
+/**
+ * Customizer: Contatti Footer
+ *
+ * Exposes the shared footer fields (sitemap/contact titles, address, phone,
+ * opening hours, email, buttons, copyright, credits) as theme_mods, so the
+ * footer can be edited from a single location in the admin regardless of the
+ * template being viewed. Replaces the previous ACF options-page approach,
+ * which required ACF Pro (unavailable in this project).
+ *
+ * @param WP_Customize_Manager $wp_customize Customizer manager instance.
+ */
+function il_panino_customize_register_footer( $wp_customize ) {
+    $wp_customize->add_section( 'il_panino_footer_contacts', array(
+        'title'    => 'Contatti Footer',
+        'priority' => 35,
+    ) );
+
+    $fields = array(
+        'footer_sitemap_titolo' => array(
+            'default'  => 'Sitemap',
+            'label'    => 'Titolo colonna Sitemap',
+            'type'     => 'text',
+            'sanitize' => 'sanitize_text_field',
+        ),
+        'footer_contatti_titolo' => array(
+            'default'  => 'Contatti',
+            'label'    => 'Titolo colonna Contatti',
+            'type'     => 'text',
+            'sanitize' => 'sanitize_text_field',
+        ),
+        'footer_indirizzo_1' => array(
+            'default'  => '',
+            'label'    => 'Indirizzo - Riga 1',
+            'type'     => 'text',
+            'sanitize' => 'sanitize_text_field',
+            'description' => 'Es. "Via Galliera, 91/A"',
+        ),
+        'footer_indirizzo_2' => array(
+            'default'  => '',
+            'label'    => 'Indirizzo - Riga 2',
+            'type'     => 'text',
+            'sanitize' => 'sanitize_text_field',
+            'description' => 'Es. "40121 Bologna BO"',
+        ),
+        'footer_indirizzo_maps_url' => array(
+            'default'  => '',
+            'label'    => 'Indirizzo - URL Google Maps',
+            'type'     => 'url',
+            'sanitize' => 'esc_url_raw',
+            'description' => 'Link cliccabile sull\'indirizzo, apre Google Maps in una nuova tab.',
+        ),
+        'footer_telefono_numero' => array(
+            'default'  => '',
+            'label'    => 'Telefono - Numero (testo)',
+            'type'     => 'text',
+            'sanitize' => 'sanitize_text_field',
+            'description' => 'Testo visibile del numero, es. 393409677143.',
+        ),
+        'footer_telefono_url' => array(
+            'default'  => '',
+            'label'    => 'Telefono - Link (URL)',
+            'type'     => 'url',
+            'sanitize' => 'esc_url_raw',
+            'description' => 'URL di destinazione, es. https://wa.me/393409677143.',
+        ),
+        'footer_orari_titolo' => array(
+            'default'  => 'Aperto tutti i giorni:',
+            'label'    => 'Orari - Titolo',
+            'type'     => 'text',
+            'sanitize' => 'sanitize_text_field',
+        ),
+        'footer_orari_fascia_1' => array(
+            'default'  => '',
+            'label'    => 'Orari - Fascia 1',
+            'type'     => 'text',
+            'sanitize' => 'sanitize_text_field',
+            'description' => 'Es. 11:30 - 15:30',
+        ),
+        'footer_orari_fascia_2' => array(
+            'default'  => '',
+            'label'    => 'Orari - Fascia 2',
+            'type'     => 'text',
+            'sanitize' => 'sanitize_text_field',
+            'description' => 'Es. 18:30 - 21:00',
+        ),
+        'footer_email' => array(
+            'default'  => '',
+            'label'    => 'Email',
+            'type'     => 'email',
+            'sanitize' => 'sanitize_email',
+        ),
+        'footer_btn_seguici' => array(
+            'default'  => '',
+            'label'    => 'Bottone Seguici - URL',
+            'type'     => 'url',
+            'sanitize' => 'esc_url_raw',
+        ),
+        'footer_btn_trovaci' => array(
+            'default'  => '',
+            'label'    => 'Bottone Trovaci - URL',
+            'type'     => 'url',
+            'sanitize' => 'esc_url_raw',
+        ),
+        'footer_copyright' => array(
+            'default'  => 'Il Panino Bologna. Tutti i Diritti Riservati.',
+            'label'    => 'Testo Copyright',
+            'type'     => 'text',
+            'sanitize' => 'sanitize_text_field',
+        ),
+        'footer_credits_nome' => array(
+            'default'  => 'Mattia Filosa',
+            'label'    => 'Credits - Nome',
+            'type'     => 'text',
+            'sanitize' => 'sanitize_text_field',
+        ),
+        'footer_credits_url' => array(
+            'default'  => '',
+            'label'    => 'Credits - URL',
+            'type'     => 'url',
+            'sanitize' => 'esc_url_raw',
+        ),
+    );
+
+    foreach ( $fields as $field_id => $field ) {
+        $wp_customize->add_setting( $field_id, array(
+            'default'           => $field['default'],
+            'type'              => 'theme_mod',
+            'capability'        => 'edit_theme_options',
+            'sanitize_callback' => $field['sanitize'],
+        ) );
+
+        $control_args = array(
+            'label'   => $field['label'],
+            'section' => 'il_panino_footer_contacts',
+            'type'    => $field['type'],
+        );
+        if ( ! empty( $field['description'] ) ) {
+            $control_args['description'] = $field['description'];
+        }
+
+        $wp_customize->add_control( $field_id, $control_args );
+    }
+}
+add_action( 'customize_register', 'il_panino_customize_register_footer' );

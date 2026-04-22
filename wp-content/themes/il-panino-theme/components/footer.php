@@ -1,30 +1,30 @@
 <?php
 /**
- * Footer component - Tutti i campi gestiti via ACF
+ * Footer component - Tutti i campi gestiti via Customizer (theme_mods)
  *
- * Fields are read from the shared options page so the footer renders
- * consistently across every template (the field group's page_template
- * location alone would hide values outside the homepage).
+ * Fields are read from the Customizer ("Aspetto > Personalizza > Contatti
+ * Footer") so the footer renders consistently across every template and is
+ * editable in a single place without requiring ACF Pro.
  *
  * @package il-panino-theme
  */
 
-$sitemap_titolo      = get_field('footer_sitemap_titolo', 'option') ?: 'Sitemap';
-$contatti_titolo     = get_field('footer_contatti_titolo', 'option') ?: 'Contatti';
-$indirizzo_1         = get_field('footer_indirizzo_1', 'option');
-$indirizzo_2         = get_field('footer_indirizzo_2', 'option');
-$indirizzo_maps_url  = get_field('footer_indirizzo_maps_url', 'option');
-$telefono_numero     = get_field('footer_telefono_numero', 'option');
-$telefono_url        = get_field('footer_telefono_url', 'option');
-$orari_titolo        = get_field('footer_orari_titolo', 'option');
-$orari_fascia_1      = get_field('footer_orari_fascia_1', 'option');
-$orari_fascia_2      = get_field('footer_orari_fascia_2', 'option');
-$email               = get_field('footer_email', 'option');
-$btn_seguici         = get_field('footer_btn_seguici', 'option');
-$btn_trovaci         = get_field('footer_btn_trovaci', 'option');
-$copyright           = get_field('footer_copyright', 'option') ?: 'Il Panino Bologna. Tutti i Diritti Riservati.';
-$credits_nome        = get_field('footer_credits_nome', 'option') ?: 'Mattia Filosa';
-$credits_url         = get_field('footer_credits_url', 'option');
+$sitemap_titolo      = get_theme_mod( 'footer_sitemap_titolo', 'Sitemap' );
+$contatti_titolo     = get_theme_mod( 'footer_contatti_titolo', 'Contatti' );
+$indirizzo_1         = get_theme_mod( 'footer_indirizzo_1', '' );
+$indirizzo_2         = get_theme_mod( 'footer_indirizzo_2', '' );
+$indirizzo_maps_url  = get_theme_mod( 'footer_indirizzo_maps_url', '' );
+$telefono_numero     = get_theme_mod( 'footer_telefono_numero', '' );
+$telefono_url        = get_theme_mod( 'footer_telefono_url', '' );
+$orari_titolo        = get_theme_mod( 'footer_orari_titolo', 'Aperto tutti i giorni:' );
+$orari_fascia_1      = get_theme_mod( 'footer_orari_fascia_1', '' );
+$orari_fascia_2      = get_theme_mod( 'footer_orari_fascia_2', '' );
+$email               = get_theme_mod( 'footer_email', '' );
+$btn_seguici         = get_theme_mod( 'footer_btn_seguici', '' );
+$btn_trovaci         = get_theme_mod( 'footer_btn_trovaci', '' );
+$copyright           = get_theme_mod( 'footer_copyright', 'Il Panino Bologna. Tutti i Diritti Riservati.' );
+$credits_nome        = get_theme_mod( 'footer_credits_nome', 'Mattia Filosa' );
+$credits_url         = get_theme_mod( 'footer_credits_url', '' );
 ?>
 
 <footer class="c-footer">
