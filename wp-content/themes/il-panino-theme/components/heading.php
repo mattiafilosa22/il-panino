@@ -49,12 +49,22 @@ $delivery_buttons = array(
 
         <?php if ($titolo) : ?>
             <?php
-            // Link the title to the menu page only when it adds value:
-            // the page exists, is published, and we are not already on it (avoid self-linking).
-            $menu_page     = get_page_by_path('menu', OBJECT, 'page');
+            // Resolve the menu page by its assigned page template instead of by slug:
+            // the slug differs per environment (local uses "menu", stage uses "il-menu"),
+            // while the page template "template-menu.php" is stable across environments.
+            // We also skip the link when we are already on the menu page (avoid self-linking).
             $menu_link_url = '';
-            if ($menu_page && $menu_page->post_status === 'publish' && ! is_page($menu_page->ID)) {
-                $menu_link_url = get_permalink($menu_page->ID);
+            $menu_pages    = get_pages(array(
+                'meta_key'    => '_wp_page_template',
+                'meta_value'  => 'template-menu.php',
+                'number'      => 1,
+                'post_status' => 'publish',
+            ));
+            if ( ! empty($menu_pages) ) {
+                $menu_page = $menu_pages[0];
+                if ( ! is_page($menu_page->ID) ) {
+                    $menu_link_url = get_permalink($menu_page->ID);
+                }
             }
             ?>
             <h1 class="c-heading__title">
