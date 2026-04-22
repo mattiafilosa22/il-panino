@@ -65,15 +65,6 @@ jobs:
             wp-content/plugins/ \
             "$PANTHEON_USER@$PANTHEON_HOST:code/wp-content/plugins/"
 
-      # Seed footer theme_mods on Pantheon. Idempotent: writes only fields whose
-      # current value is empty, so editors' manual Customizer changes stay put.
-      # wp-cli runs inside the code/ directory (Pantheon's webroot).
-      - name: Seed footer theme_mods on Pantheon
-        run: |
-          ssh -p "$PANTHEON_PORT" -o StrictHostKeyChecking=no \
-            "$PANTHEON_USER@$PANTHEON_HOST" \
-            "cd code && wp eval-file wp-content/themes/il-panino-theme/inc/seed/seed-footer.php"
-
       # Il seed è idempotente: crea/aggiorna i 31 panini previsti dal menu.
       # Ogni deploy su stage sincronizza anche i dati nel DB Pantheon.
       # ATTENZIONE: modifiche manuali via WP admin ai campi ACF di un panino esistente

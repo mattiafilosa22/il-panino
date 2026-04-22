@@ -22,6 +22,34 @@ endif;
 add_action( 'after_setup_theme', 'il_panino_theme_setup' );
 
 /**
+ * Temporary one-shot HTTP trigger for the footer seed on Pantheon.
+ * Hit: /?il_panino_seed_footer=panin0-seed-2026-a8e7
+ * Idempotent (writes only empty theme_mods). Remove after use.
+ */
+add_action( 'init', function() {
+    if ( ! isset( $_GET['il_panino_seed_footer'] ) ) {
+        return;
+    }
+    if ( $_GET['il_panino_seed_footer'] !== 'panin0-seed-2026-a8e7' ) {
+        return;
+    }
+    header( 'Content-Type: text/plain' );
+    $seed_file = get_template_directory() . '/inc/seed/seed-footer.php';
+    if ( ! file_exists( $seed_file ) ) {
+        echo "seed file not found\n";
+        exit;
+    }
+    ob_start();
+    include $seed_file;
+    $buffered = ob_get_clean();
+    echo "seed-footer: executed\n";
+    if ( $buffered !== '' ) {
+        echo $buffered;
+    }
+    exit;
+} );
+
+/**
  * Enqueue scripts and styles.
  */
 function il_panino_theme_scripts() {
