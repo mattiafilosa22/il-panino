@@ -32,6 +32,11 @@ if ( ! $panini_query->have_posts() ) return;
 $fmt_price = static function ($value) {
     return number_format((float) $value, 2, ',', '.');
 };
+
+// Avoid ! empty(): it would discard a legitimate 0 (free item).
+$has_value = static function ($value) {
+    return $value !== '' && $value !== null && $value !== false;
+};
 ?>
 
 <?php $spacing = il_panino_get_spacing_classes('menu_core'); ?>
@@ -68,7 +73,10 @@ $fmt_price = static function ($value) {
                 $img_url = $img_senza_sfondo ? $img_senza_sfondo['url'] : get_the_post_thumbnail_url(get_the_ID(), 'large');
                 $img_alt = $img_senza_sfondo ? $img_senza_sfondo['alt'] : get_the_title();
 
-                $has_sizes = ! empty($prezzo_large) && ! empty($prezzo_xxl);
+                $has_medium = $has_value($prezzo_medium);
+                $has_large  = $has_value($prezzo_large);
+                $has_xxl    = $has_value($prezzo_xxl);
+                $has_sizes  = $has_large || $has_xxl;
 
                 $terms = get_the_terms(get_the_ID(), 'categoria_panino');
                 $term_slugs = ($terms && ! is_wp_error($terms)) ? wp_list_pluck($terms, 'slug') : array();
@@ -106,21 +114,25 @@ $fmt_price = static function ($value) {
 
                         <h3 class="c-menu-card__name"><?php the_title(); ?></h3>
 
-                        <?php if ($prezzo_medium !== '' && $prezzo_medium !== null) : ?>
+                        <?php if ($has_medium) : ?>
                             <div class="c-menu-card__sizes">
                                 <?php if ($has_sizes) : ?>
                                     <div class="c-menu-card__size-row">
                                         <span class="c-menu-card__size-label">Medium</span>
                                         <span class="c-menu-card__size-price">&euro;&nbsp;<?php echo esc_html($fmt_price($prezzo_medium)); ?></span>
                                     </div>
-                                    <div class="c-menu-card__size-row">
-                                        <span class="c-menu-card__size-label">Large</span>
-                                        <span class="c-menu-card__size-price">&euro;&nbsp;<?php echo esc_html($fmt_price($prezzo_large)); ?></span>
-                                    </div>
-                                    <div class="c-menu-card__size-row">
-                                        <span class="c-menu-card__size-label">XXL</span>
-                                        <span class="c-menu-card__size-price">&euro;&nbsp;<?php echo esc_html($fmt_price($prezzo_xxl)); ?></span>
-                                    </div>
+                                    <?php if ($has_large) : ?>
+                                        <div class="c-menu-card__size-row">
+                                            <span class="c-menu-card__size-label">Large</span>
+                                            <span class="c-menu-card__size-price">&euro;&nbsp;<?php echo esc_html($fmt_price($prezzo_large)); ?></span>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if ($has_xxl) : ?>
+                                        <div class="c-menu-card__size-row">
+                                            <span class="c-menu-card__size-label">XXL</span>
+                                            <span class="c-menu-card__size-price">&euro;&nbsp;<?php echo esc_html($fmt_price($prezzo_xxl)); ?></span>
+                                        </div>
+                                    <?php endif; ?>
                                 <?php else : ?>
                                     <div class="c-menu-card__size-row c-menu-card__size-row--flat">
                                         <span class="c-menu-card__size-price">&euro;&nbsp;<?php echo esc_html($fmt_price($prezzo_medium)); ?></span>
