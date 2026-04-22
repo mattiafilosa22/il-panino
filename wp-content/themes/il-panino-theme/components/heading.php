@@ -45,7 +45,22 @@ $delivery_buttons = array(
     <div class="container">
 
         <?php if ($titolo) : ?>
-            <h1 class="c-heading__title"><?php echo esc_html($titolo); ?></h1>
+            <?php
+            // Link the title to the menu page only when it adds value:
+            // the page exists, is published, and we are not already on it (avoid self-linking).
+            $menu_page     = get_page_by_path('menu', OBJECT, 'page');
+            $menu_link_url = '';
+            if ($menu_page && $menu_page->post_status === 'publish' && ! is_page($menu_page->ID)) {
+                $menu_link_url = get_permalink($menu_page->ID);
+            }
+            ?>
+            <h1 class="c-heading__title">
+                <?php if ($menu_link_url) : ?>
+                    <a href="<?php echo esc_url($menu_link_url); ?>" class="c-heading__title-link"><?php echo esc_html($titolo); ?></a>
+                <?php else : ?>
+                    <?php echo esc_html($titolo); ?>
+                <?php endif; ?>
+            </h1>
         <?php endif; ?>
 
         <?php if ($sottotitolo) : ?>

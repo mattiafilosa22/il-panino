@@ -20,9 +20,12 @@
 .site-header.is-scrolled {
     position: fixed;
     top: 1.2rem;
-    left: 1.2rem;
-    right: 1.2rem;
+    left: 0;
+    right: 0;
     width: auto;
+    max-width: 75rem; // 1200px: aligned with the inner .header-container max-width to span its full width
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 30px;
     z-index: 1000;
     background-color: var(--color-bg-header);
@@ -31,6 +34,14 @@
     opacity: 1;
     animation: site-header-slide-in var(--transition-speed) cubic-bezier(0.65, 0.05, 0, 1);
     will-change: transform, opacity;
+
+    // Tablet / mobile: drop the max-width so the pill keeps small side gutters
+    // instead of collapsing to a tiny centered strip.
+    @media screen and (max-width: 768px) {
+        max-width: none;
+        margin-left: 0.75rem;
+        margin-right: 0.75rem;
+    }
 }
 
 @keyframes site-header-slide-in {

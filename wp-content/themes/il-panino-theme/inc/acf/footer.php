@@ -43,6 +43,57 @@ if( function_exists('acf_add_local_field_group') ) {
                 'instructions' => 'Es. "40122 Bologna (BO)"',
                 'wrapper' => array( 'width' => '50' ),
             ),
+            // Maps URL wraps the address block so the whole address becomes a clickable deep link to Google Maps.
+            array(
+                'key' => 'field_footer_indirizzo_maps_url',
+                'label' => 'URL Google Maps',
+                'name' => 'footer_indirizzo_maps_url',
+                'type' => 'url',
+                'instructions' => 'Link cliccabile sull\'indirizzo, apre Google Maps in una nuova tab.',
+                'wrapper' => array( 'width' => '50' ),
+            ),
+            // Phone is split into display text + href so the number can point anywhere (wa.me, tel:, etc.) without touching the markup.
+            array(
+                'key' => 'field_footer_telefono_numero',
+                'label' => 'Telefono - Numero (testo)',
+                'name' => 'footer_telefono_numero',
+                'type' => 'text',
+                'instructions' => 'Testo mostrato del numero, es. 393409677143.',
+                'wrapper' => array( 'width' => '50' ),
+            ),
+            array(
+                'key' => 'field_footer_telefono_url',
+                'label' => 'Telefono - Link (URL)',
+                'name' => 'footer_telefono_url',
+                'type' => 'url',
+                'instructions' => 'URL di destinazione, es. https://wa.me/393409677143.',
+                'wrapper' => array( 'width' => '50' ),
+            ),
+            // Opening hours
+            array(
+                'key' => 'field_footer_orari_titolo',
+                'label' => 'Orari - Titolo',
+                'name' => 'footer_orari_titolo',
+                'type' => 'text',
+                'default_value' => 'Aperto tutti i giorni:',
+                'wrapper' => array( 'width' => '50' ),
+            ),
+            array(
+                'key' => 'field_footer_orari_fascia_1',
+                'label' => 'Orari - Fascia 1',
+                'name' => 'footer_orari_fascia_1',
+                'type' => 'text',
+                'instructions' => 'Es. 11:30 - 15:30',
+                'wrapper' => array( 'width' => '25' ),
+            ),
+            array(
+                'key' => 'field_footer_orari_fascia_2',
+                'label' => 'Orari - Fascia 2',
+                'name' => 'footer_orari_fascia_2',
+                'type' => 'text',
+                'instructions' => 'Es. 18:30 - 21:00',
+                'wrapper' => array( 'width' => '25' ),
+            ),
             // Email
             array(
                 'key' => 'field_footer_email',

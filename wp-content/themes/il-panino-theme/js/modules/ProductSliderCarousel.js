@@ -28,6 +28,14 @@ export default class ProductSliderCarousel {
             pauseOnHover: true,
             pauseOnFocus: true,
             resetProgress: false,
+            // Smoothness tuning (embla-like momentum & soft settle)
+            speed             : 1000,
+            easing            : 'cubic-bezier(0.25, 1, 0.35, 1)',
+            drag              : 'free',
+            snap              : true,
+            flickPower        : 600,
+            flickMaxPages     : 1,
+            waitForTransition : true,
             breakpoints: {
                 992: {
                     padding: '20%',

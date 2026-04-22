@@ -94,7 +94,6 @@ $acf_components = array(
     'footer',
     'panino-menu',
     'heading-menu',
-    'social-reels',
     'instagram-feed',
     'menu-banner',
     'section-spacing',
@@ -106,6 +105,32 @@ foreach ( $acf_components as $component ) {
         require_once $file;
     }
 }
+
+/**
+ * Register a global ACF options page for site-wide settings (footer, etc.).
+ *
+ * The footer renders on every template, but the existing field group is also
+ * scoped to `template-homepage.php`; without an options page the fields would
+ * be unreachable from other templates. The options page is registered only
+ * when ACF Pro is available (the function exists). When ACF free is active,
+ * the footer still reads the values via `get_field($name, 'option')`, which
+ * resolves against rows written in wp_options with the `options_` prefix
+ * (seeded via inc/seed/seed-footer.php). Editing UI is available through the
+ * field group's `template-homepage.php` location fallback or via WP-CLI.
+ */
+function il_panino_register_options_page() {
+    if ( ! function_exists( 'acf_add_options_page' ) ) {
+        return;
+    }
+    acf_add_options_page( array(
+        'page_title' => __( 'Impostazioni Tema', 'il-panino-theme' ),
+        'menu_title' => __( 'Impostazioni Tema', 'il-panino-theme' ),
+        'menu_slug'  => 'acf-options',
+        'capability' => 'edit_theme_options',
+        'redirect'   => false,
+    ) );
+}
+add_action( 'acf/init', 'il_panino_register_options_page' );
 
 /**
  * Helper: Get Bootstrap spacing classes for a section component.
