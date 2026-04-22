@@ -46,13 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
         carousel.mount();
     }
 
-    // Initialize Social Reels Slider
-    const socialReelsElement = document.querySelector('.js-social-reels-slider');
-    if (socialReelsElement && typeof Splide !== 'undefined') {
-        const socialCarousel = new SocialReelsCarousel(socialReelsElement);
-        socialCarousel.mount();
-    }
-
     // Initialize Instagram Feed Slider (Spotlight grid -> horizontal slider)
     document.querySelectorAll('.c-instagram-feed').forEach(el => {
         new InstagramFeedSlider(el).init();
