@@ -2,9 +2,11 @@
 // Header Component
 // ==========================================================================
 .site-header {
-    background-color: var(--color-bg-header);
-    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
-    /* Separatore leggero */
+    // Brick-red primary background (per design mockup): the docked header runs
+    // edge-to-edge at the very top of the viewport as a pure rectangle. The
+    // pill shape is exclusive to the scrolled state (see `.is-scrolled`).
+    background-color: var(--color-primary);
+    color: #fff;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -16,6 +18,13 @@
 // The header becomes fixed at the top of the viewport and slides in with a
 // short transition. The base `.site-header` layout is untouched; only the
 // modifier overrides position + adds animation.
+//
+// Visual treatment: the scrolled state becomes a fully-rounded pill
+// (all four corners rounded) centered at the top of the viewport.
+// Background and text colors are intentionally NOT re-declared here so
+// they inherit from `.site-header` base (--color-primary / #fff),
+// keeping the scrolled pill visually consistent with the docked header
+// per the design mockup.
 // ==========================================================================
 .site-header.is-scrolled {
     position: fixed;
@@ -26,10 +35,10 @@
     max-width: 75rem; // 1200px: aligned with the inner .header-container max-width to span its full width
     margin-left: auto;
     margin-right: auto;
+    // Full pill radius on all four corners: the pill shape is exclusive
+    // to the scrolled state (the base `.site-header` is a pure rectangle).
     border-radius: 30px;
     z-index: 1000;
-    background-color: var(--color-primary);
-    color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transform: translateY(0);
     opacity: 1;
@@ -87,7 +96,9 @@
             font-family: var(--font-menu);
             font-size: 1.15rem;
             font-weight: 600;
-            color: var(--color-text-dark);
+            // Desktop nav sits on the primary (brick-red) pill header
+            // background: pure white for maximum legibility.
+            color: #fff;
             letter-spacing: 0;
             position: relative;
             transition: color 0.3s ease;
@@ -99,14 +110,19 @@
                 left: 0;
                 width: 100%;
                 height: 2px;
-                background-color: var(--color-primary);
+                // Underline must stand out on the primary red header: white bar.
+                background-color: #fff;
                 transform: scaleX(0);
                 transform-origin: right center;
                 transition: transform 0.4s cubic-bezier(0.65, 0.05, 0, 1);
             }
 
             &:hover {
-                color: var(--color-primary);
+                // Keep color #fff on hover (already white at rest): the
+                // animated underline (::after scaleX) is the hover
+                // affordance, while the persistent active-item underline
+                // below still uniquely marks the current page.
+                color: #fff;
 
                 &::after {
                     transform: scaleX(1);
@@ -116,7 +132,9 @@
         }
 
         &.current-menu-item > a {
-            color: var(--color-primary);
+            // Active item stays white; the persistent underline
+            // (scaleX(1)) marks the current page on the primary red bg.
+            color: #fff;
 
             &::after {
                 transform: scaleX(1);
@@ -134,7 +152,7 @@
     a {
         font-family: var(--font-heading);
         font-size: 2.2rem;
-        color: var(--color-primary);
+        color: #fff;
         font-weight: bold;
         letter-spacing: 0.05em;
     }
@@ -160,7 +178,8 @@
     background: transparent;
     border: none;
     font-size: 2rem;
-    color: var(--color-primary);
+    // Hamburger icon sits on the primary-red .site-header: white for legibility.
+    color: #fff;
     cursor: pointer;
     padding: 0;
 }
@@ -278,5 +297,41 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+}
+
+// ==========================================================================
+// Header-scoped button shape override
+// --------------------------------------------------------------------------
+// Per design mockup, both CTA buttons in the header (and their mobile
+// counterparts inside the overlay's .mobile-actions) render as full pills.
+// We only adjust the border-radius here; colors are inherited from the
+// base button variants in _buttons.scss, except for .btn-outline below
+// which needs a scoped color override because its base background matches
+// the primary-red header (see note on that rule).
+// ==========================================================================
+.site-header .btn,
+.mobile-actions .btn {
+    border-radius: 9999px; // pill shape as per design mockup
+}
+
+// --------------------------------------------------------------------------
+// Scoped .btn-outline override for the primary-red header only.
+// Classic ghost/outline treatment: transparent surface with a white border
+// and white label, sitting directly on the brick-red .site-header. On hover
+// or keyboard focus the button inverts (white fill, primary-red label) to
+// signal interactivity. The mobile overlay is intentionally excluded: it
+// has a cream background where the base variant already reads correctly.
+// --------------------------------------------------------------------------
+.site-header .btn-outline {
+    background-color: transparent;
+    border-color: #fff;
+    color: #fff;
+
+    &:hover,
+    &:focus-visible {
+        background-color: #fff;
+        border-color: #fff;
+        color: var(--color-primary);
     }
 }
