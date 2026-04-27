@@ -255,4 +255,58 @@
             color: var(--color-secondary);
         }
     }
+
+    // ------------------------------------------------------------------
+    // Company block (bottom bar, right side on desktop)
+    // ------------------------------------------------------------------
+    // Mobile-first: items stack vertically and inherit the centered
+    // alignment from `.c-footer__bottom-content`. On >=769px the items
+    // sit on a single row separated by a bullet divider.
+    &__company {
+        font-family: var(--font-menu);
+        font-size: 0.8rem;
+        color: #fff;
+        display: block;
+
+        @media (min-width: 769px) {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    }
+
+    &__company-name,
+    &__company-phone,
+    &__company-address {
+        display: block;
+        font-family: var(--font-menu);
+        font-size: 0.8rem;
+        color: #fff;
+        line-height: 1.6;
+
+        @media (min-width: 769px) {
+            display: inline-flex;
+            align-items: center;
+            line-height: 1;
+        }
+    }
+
+    // Bullet divider between adjacent items, desktop only.
+    @media (min-width: 769px) {
+        &__company > * + *::before {
+            content: "\00B7";
+            margin-right: 8px;
+            color: #fff;
+        }
+    }
+
+    &__company-phone {
+        text-decoration: none;
+        transition: color var(--transition-speed);
+
+        &:hover,
+        &:focus-visible {
+            color: var(--color-secondary);
+        }
+    }
 }

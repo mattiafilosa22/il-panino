@@ -114,6 +114,12 @@ $credits_url         = get_theme_mod( 'footer_credits_url', '' );
         <div class="c-footer__bottom-content">
             <span class="c-footer__copyright">&copy; <?php echo esc_html( date('Y') ); ?> <?php echo esc_html($copyright); ?></span>
 
+            <div class="c-footer__company">
+                <span class="c-footer__company-name"><?php echo esc_html__( 'EIGHTY8 S.R.L.', 'il-panino-theme' ); ?></span>
+                <a href="<?php echo esc_url( 'tel:+3904099751200' ); ?>" class="c-footer__company-phone"><?php echo esc_html__( '04099751200', 'il-panino-theme' ); ?></a>
+                <span class="c-footer__company-address"><?php echo esc_html__( 'Via Galliera 91/A, Bologna, BO, 40121', 'il-panino-theme' ); ?></span>
+            </div>
+
         </div>
     </div>
 </footer>
