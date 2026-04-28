@@ -19,6 +19,10 @@
         max-height: 45%;
         width: auto;
 
+        &.top-25 {
+            top: 25%;
+        }
+
         img {
             height: 100%;
             width: auto;
