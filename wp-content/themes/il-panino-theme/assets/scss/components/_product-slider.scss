@@ -115,7 +115,7 @@
     .is-active & {
         opacity: 1;
         visibility: visible;
-        scale: 1.15;
+        scale: 1.35;
         filter: blur(0px);
         z-index: 4;
 
@@ -128,7 +128,7 @@
     .is-prev &,
     .is-next & {
         visibility: visible;
-        scale: 0.85;
+        scale: 0.78;
         opacity: 0.8;
         filter: blur(0px) brightness(0.9);
         z-index: 3;
@@ -246,8 +246,13 @@
 
     // Position: sempre in basso a destra
     &--bottom-right {
-        bottom: 5%;
-        right: 15%;
+        bottom: 12%;
+        right: 8%;
+
+        @media (max-width: 768px) {
+            bottom: 8%;
+            right: 5%;
+        }
     }
 }
 
@@ -292,7 +297,7 @@
     }
 
     .splide__track {
-        padding-bottom: 2rem !important; // Extra space so scaled active slide description is not clipped
+        padding-bottom: 3.5rem !important; // Extra space so scaled active slide (1.35x) description is not clipped
 
         @media (max-width: 768px) {
             padding-bottom: 0!important;
