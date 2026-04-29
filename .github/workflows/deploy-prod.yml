@@ -1,0 +1,76 @@
+name: Deploy to Production (VHosting)
+
+on:
+  push:
+    branches:
+      - prod
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to VHosting
+    runs-on: ubuntu-latest
+
+    env:
+      VHOSTING_HOST: web.saturno.vhosting-it.com
+      VHOSTING_USER: ilpanin1
+      REMOTE_HOME: /data/vhosts/ilpaninobologna.it
+      WP_PHP: /opt/plesk/php/8.4/bin/php
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: wp-content/themes/il-panino-theme/package-lock.json
+
+      - name: Install dependencies & build SCSS
+        working-directory: wp-content/themes/il-panino-theme
+        run: |
+          npm ci
+          npm run build:scss
+
+      - name: Setup SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.VHOSTING_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "$VHOSTING_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Test SSH connection
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o IdentitiesOnly=yes "$VHOSTING_USER@$VHOSTING_HOST" "echo connected; whoami; pwd"
+
+      - name: Deploy theme to VHosting
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o IdentitiesOnly=yes" \
+            --exclude='node_modules/' \
+            --exclude='package.json' \
+            --exclude='package-lock.json' \
+            --exclude='.git/' \
+            --exclude='assets/scss/' \
+            wp-content/themes/il-panino-theme/ \
+            "$VHOSTING_USER@$VHOSTING_HOST:$REMOTE_HOME/httpdocs/wp-content/themes/il-panino-theme/"
+
+      - name: Deploy plugins to VHosting
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o IdentitiesOnly=yes" \
+            --exclude='.git/' \
+            wp-content/plugins/ \
+            "$VHOSTING_USER@$VHOSTING_HOST:$REMOTE_HOME/httpdocs/wp-content/plugins/"
+
+      - name: Flush WP cache + rewrite rules
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o IdentitiesOnly=yes "$VHOSTING_USER@$VHOSTING_HOST" \
+            "cd $REMOTE_HOME/httpdocs && $WP_PHP -d memory_limit=512M /usr/local/bin/wp cache flush && $WP_PHP -d memory_limit=512M /usr/local/bin/wp rewrite flush --hard"
