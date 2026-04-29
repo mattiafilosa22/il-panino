@@ -95,6 +95,7 @@ $acf_components = array(
     'heading-menu',
     'instagram-feed',
     'menu-banner',
+    'section-visibility',
     'section-spacing',
 );
 
@@ -126,6 +127,21 @@ function il_panino_get_spacing_classes( $section_key ) {
         }
     }
     return implode(' ', $classes);
+}
+
+/**
+ * Helper: Check if a section component should be hidden.
+ *
+ * Reads the ACF true_false field `<section_key>_hidden` set on the current page.
+ *
+ * @param string $section_key Section key (e.g. 'hero_banner', 'menu_core').
+ * @return bool True if the section should be hidden, false otherwise.
+ */
+function il_panino_is_section_hidden( $section_key ) {
+    if ( ! function_exists('get_field') ) {
+        return false;
+    }
+    return (bool) get_field( $section_key . '_hidden' );
 }
 
 /**
