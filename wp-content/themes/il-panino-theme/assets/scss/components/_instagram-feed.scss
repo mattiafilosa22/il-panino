@@ -39,6 +39,23 @@
         align-items: center !important;
         justify-content: center !important;
         text-align: center;
+
+        // On small viewports the gap between the section subtitle and the
+        // first slider card looks excessive; halve the bottom margin so the
+        // header (follow button) sits closer to the feed.
+        @media (max-width: 576px) {
+            margin-bottom: 1rem;
+        }
+    }
+
+    // Tighten the gap between the section subtitle and the slider on mobile.
+    // The subtitle inherits its bottom margin from the `section-subtitle`
+    // mixin (utils/_typography.scss) — we don't want to touch the shared
+    // mixin, so we override locally only on small viewports.
+    &__subtitle {
+        @media (max-width: 576px) {
+            margin-bottom: 1rem;
+        }
     }
 
     // Hide the IG logo + @username block — the section title already says
@@ -148,6 +165,14 @@
         @media (max-width: 768px) {
             padding: 0 56px;
         }
+
+        // On phones the 56px side padding eats too much of the viewport,
+        // pushing the visible card off-center. Bring it back to a small,
+        // symmetrical gutter so a 260px card on a ~390px viewport reads as
+        // visually centered with even breathing room on both sides.
+        @media (max-width: 576px) {
+            padding: 0 1rem;
+        }
     }
 
     .FeedGridLayout__grid {
@@ -202,17 +227,31 @@
         padding-bottom: 0 !important;
 
         @media (max-width: 768px) {
-            flex: 0 0 220px !important;
-            max-width: 220px !important;
-            width: 220px !important;
-            height: 220px !important;
+            flex: 0 0 240px !important;
+            max-width: 240px !important;
+            width: 240px !important;
+            height: 240px !important;
         }
 
-        @media (max-width: 480px) {
-            flex: 0 0 180px !important;
-            max-width: 180px !important;
-            width: 180px !important;
-            height: 180px !important;
+        // Phones: bump the card to ~260px so it dominates the viewport with
+        // small symmetric margins (e.g. 260 card on 390 viewport with 1rem
+        // root padding ≈ 49px each side after subtracting the visible card,
+        // visually balanced and clearly the focal point).
+        @media (max-width: 576px) {
+            flex: 0 0 260px !important;
+            max-width: 260px !important;
+            width: 260px !important;
+            height: 260px !important;
+        }
+
+        // Ultra-narrow phones (e.g. iPhone SE 1st gen, 320px). 260px card
+        // would leave virtually no margin; pull back to 240px so there's
+        // still a visible gutter framing the card.
+        @media (max-width: 360px) {
+            flex: 0 0 240px !important;
+            max-width: 240px !important;
+            width: 240px !important;
+            height: 240px !important;
         }
     }
 
@@ -357,6 +396,18 @@
             &:active:not(:disabled) {
                 transform: translateY(-50%) scale(0.96);
             }
+        }
+
+        // Phones: with the slider root padding back to 1rem, the arrows are
+        // pinned to the viewport edges. Anchor them to the edges of the
+        // root padding (left/right: 0) so they sit just outside the
+        // scrollable strip without overlapping the card content meaningfully.
+        @media (max-width: 576px) {
+            // Card is now 260x260; recenter vertically.
+            top: 50%;
+
+            &--prev { left: 0; }
+            &--next { right: 0; }
         }
     }
 }

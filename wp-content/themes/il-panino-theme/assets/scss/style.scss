@@ -11,6 +11,9 @@ Text Domain: il-panino-theme
 // ==========================================================================
 // 1. Utilities / Variables
 // ==========================================================================
+// Self-hosted @font-face declarations come first so the browser can start
+// fetching woff2 assets as soon as the stylesheet parses.
+@use "utils/fonts";
 @use "utils/variables";
 
 // ==========================================================================
