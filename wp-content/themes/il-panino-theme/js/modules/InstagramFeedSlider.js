@@ -15,6 +15,18 @@ const prefersReducedMotion = () =>
     && typeof window.matchMedia === 'function'
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Spotlight renders the "Follow on Instagram" CTA in two placements:
+//   .FeedHeader__follow-button .DesignedButton__button   (header)
+//   .FeedLayout__follow-btn   .DesignedButton__button    (footer placement)
+// Both share the .DesignedButton__button class, which is also used by other
+// Spotlight CTAs (e.g. "Load more"), so we MUST filter by current text.
+const FOLLOW_BUTTON_SELECTORS = [
+    '.FeedHeader__follow-button .DesignedButton__button',
+    '.FeedLayout__follow-btn .DesignedButton__button',
+];
+const FOLLOW_BUTTON_PATTERN = /^\s*follow on instagram\s*$/i;
+const FOLLOW_BUTTON_REPLACEMENT = 'Seguici su Instagram';
+
 export default class InstagramFeedSlider {
     constructor(section) {
         this.section = section;
@@ -25,8 +37,10 @@ export default class InstagramFeedSlider {
         this.observer = null;
         this.gridMediaObserver = null;
         this.resizeObserver = null;
+        this.followLabelObserver = null;
         this.scheduledFrame = null;
         this.scheduledTrack = null;
+        this.scheduledFollowLabel = null;
         this.enhanced = false;
         this.trackedImages = new WeakSet();
         this.boundUpdate = () => this.scheduleUpdate();
@@ -41,6 +55,12 @@ export default class InstagramFeedSlider {
         if (previous && previous !== this) previous.destroy();
         this.section.__instagramFeedSlider = this;
 
+        // Localize Spotlight's "Follow on Instagram" CTA. This runs independently
+        // of the grid enhancement: the button can render before, after, or be
+        // re-rendered by the plugin (e.g. when Spotlight refreshes the feed).
+        this.localizeFollowButtons();
+        this.watchFollowButtons();
+
         const existing = this.section.querySelector('.FeedGridLayout__grid');
         if (existing) {
             this.enhance(existing);
@@ -52,6 +72,45 @@ export default class InstagramFeedSlider {
             if (grid && !this.enhanced) this.enhance(grid);
         });
         this.observer.observe(this.section, { childList: true, subtree: true });
+    }
+
+    /**
+     * Replace the "Follow on Instagram" label with its Italian counterpart on
+     * every known placement Spotlight emits. Idempotent: skips buttons whose
+     * text is already localized, which also breaks any feedback loop with the
+     * MutationObserver in watchFollowButtons().
+     */
+    localizeFollowButtons() {
+        if (!this.section) return;
+        const buttons = this.section.querySelectorAll(FOLLOW_BUTTON_SELECTORS.join(', '));
+        buttons.forEach((btn) => {
+            const current = btn.textContent;
+            if (current === FOLLOW_BUTTON_REPLACEMENT) return;
+            if (!FOLLOW_BUTTON_PATTERN.test(current)) return;
+            btn.textContent = FOLLOW_BUTTON_REPLACEMENT;
+        });
+    }
+
+    /**
+     * Observe the section for DOM changes so we re-localize the follow CTA
+     * whenever Spotlight (re-)renders it. Scoped to this.section — never the
+     * document body — and gated through requestAnimationFrame to coalesce
+     * mutation bursts that the plugin emits while building the feed.
+     */
+    watchFollowButtons() {
+        if (!this.section || this.followLabelObserver) return;
+        this.followLabelObserver = new MutationObserver(() => {
+            if (this.scheduledFollowLabel) return;
+            this.scheduledFollowLabel = requestAnimationFrame(() => {
+                this.scheduledFollowLabel = null;
+                this.localizeFollowButtons();
+            });
+        });
+        this.followLabelObserver.observe(this.section, {
+            childList: true,
+            subtree: true,
+            characterData: true,
+        });
     }
 
     enhance(grid) {
@@ -215,8 +274,10 @@ export default class InstagramFeedSlider {
         if (this.observer) this.observer.disconnect();
         if (this.gridMediaObserver) this.gridMediaObserver.disconnect();
         if (this.resizeObserver) this.resizeObserver.disconnect();
+        if (this.followLabelObserver) this.followLabelObserver.disconnect();
         if (this.scheduledFrame) cancelAnimationFrame(this.scheduledFrame);
         if (this.scheduledTrack) cancelAnimationFrame(this.scheduledTrack);
+        if (this.scheduledFollowLabel) cancelAnimationFrame(this.scheduledFollowLabel);
         window.removeEventListener('resize', this.boundUpdate);
         if (this.grid) {
             this.grid.removeEventListener('scroll', this.boundUpdate);
