@@ -98,7 +98,19 @@
     }
 
     &__body {
-        padding: 1.25rem 1.25rem 1.5rem;
+        // Establishes the positioning context for the absolutely positioned
+        // `__badge`, which is taken out of the flow so the title (`__name`)
+        // sits at the same Y coordinate whether or not the badge is rendered.
+        position: relative;
+        // Reserve vertical space for the optional `__badge` directly on the
+        // body's top padding so the layout is identical in both states:
+        //   1.25rem        original top padding
+        // + 0.7rem         badge font-size
+        // + 0.4rem         badge padding-y (0.2rem * 2)
+        // + 2px            badge border (1px * 2)
+        // + 0.6rem         visual gap between badge and title
+        // Right/bottom/left padding stay at their original values.
+        padding: calc(1.25rem + 0.7rem + 0.4rem + 2px + 0.6rem) 1.25rem 1.5rem;
     }
 
     &__name {
@@ -109,14 +121,6 @@
         color: var(--color-text-dark);
         margin: 0 0 0.75rem;
         line-height: 1.15;
-        // Always reserve the vertical space occupied by the optional
-        // `__badge` so cards align horizontally regardless of the badge
-        // presence. Value mirrors the badge box-model:
-        //   font-size 0.7rem + padding-y 0.4rem + border 2px = ~19.6px
-        //   plus a 0.6rem gap below the badge = ~29.2px total.
-        // The badge's own margin-bottom is zeroed (see `&__badge`) so the
-        // gap is owned exclusively by this padding-top in both states.
-        padding-top: calc(0.7rem + 0.4rem + 2px + 0.6rem);
     }
 
     &__sizes {
@@ -252,6 +256,14 @@
     // Badge (base) — used for labels on top of the card body (e.g. vegan)
     // ------------------------------------------------------------------
     &__badge {
+        // Pulled out of the flow and pinned to the top-left of `__body`,
+        // aligned with the body's original 1.25rem inset. The space the
+        // badge would have occupied is reserved by the body's `padding-top`,
+        // so cards with and without a badge keep their titles perfectly
+        // aligned across the grid row.
+        position: absolute;
+        top: 1.25rem;
+        left: 1.25rem;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -263,9 +275,10 @@
         padding: 0.2rem 0.6rem;
         border-radius: 50px;
         line-height: 1;
-        // The vertical gap below the badge is handled by `__name`'s
-        // `padding-top`, so the layout stays identical whether the badge
-        // is rendered or not. Margins kept at 0 to avoid double-spacing.
+        // Margins zeroed: the badge is absolutely positioned, so spacing
+        // around it is owned by `__body`'s padding-top and the `top`/`left`
+        // offsets above. Margins here would have no visual effect but are
+        // kept explicit to prevent inherited resets from creeping in.
         margin: 0;
         background-color: var(--color-text-dark);
         color: var(--color-bg-header);
