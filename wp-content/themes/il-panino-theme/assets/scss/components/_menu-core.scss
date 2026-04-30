@@ -109,6 +109,14 @@
         color: var(--color-text-dark);
         margin: 0 0 0.75rem;
         line-height: 1.15;
+        // Always reserve the vertical space occupied by the optional
+        // `__badge` so cards align horizontally regardless of the badge
+        // presence. Value mirrors the badge box-model:
+        //   font-size 0.7rem + padding-y 0.4rem + border 2px = ~19.6px
+        //   plus a 0.6rem gap below the badge = ~29.2px total.
+        // The badge's own margin-bottom is zeroed (see `&__badge`) so the
+        // gap is owned exclusively by this padding-top in both states.
+        padding-top: calc(0.7rem + 0.4rem + 2px + 0.6rem);
     }
 
     &__sizes {
@@ -255,7 +263,10 @@
         padding: 0.2rem 0.6rem;
         border-radius: 50px;
         line-height: 1;
-        margin: 0 0 0.6rem;
+        // The vertical gap below the badge is handled by `__name`'s
+        // `padding-top`, so the layout stays identical whether the badge
+        // is rendered or not. Margins kept at 0 to avoid double-spacing.
+        margin: 0;
         background-color: var(--color-text-dark);
         color: var(--color-bg-header);
 
@@ -272,13 +283,13 @@
 
     // ------------------------------------------------------------------
     // Vegan modifier — same card chrome as the default, but the image
-    // backdrop is recolored in dark green to signal the variant. All
-    // textual children keep their default colors for consistency with
-    // the rest of the grid.
+    // backdrop is recolored in neon green to match the vegan badge and
+    // give the card a coherent visual identity. All textual children
+    // keep their default colors for consistency with the rest of the grid.
     // ------------------------------------------------------------------
     &--vegan {
         .c-menu-card__image-wrap {
-            background-color: #3B6035;
+            background-color: #00E676;
         }
     }
 }
