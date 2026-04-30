@@ -156,6 +156,18 @@
         color: var(--color-text-dark);
         line-height: 1.5;
         margin: 0 0 0.5rem;
+        // Fixed height to keep CTA aligned across cards in the grid.
+        // ~2 lines of body copy at 0.9rem / 1.5 line-height; overflow is
+        // clamped to 2 lines with an ellipsis so longer ACF descriptions
+        // are truncated visibly instead of being cut mid-glyph.
+        min-height: 43px;
+        max-height: 43px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        line-clamp: 2;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
     &__allergeni {
@@ -247,11 +259,14 @@
         background-color: var(--color-text-dark);
         color: var(--color-bg-header);
 
-        // Vegan variant: light pill inverted against the dark green card bg
+        // Vegan variant: bright neon-green pill to flag plant-based items
         &--vegan {
-            background-color: var(--color-bg-header);
-            color: #3B6035;
-            border: 1px solid rgba(#3B6035, 0.25);
+            background-color: #00E676;
+            color: #0A2E14;
+            // Transparent border keeps box-model parity with other badges
+            // that may declare a visible 1px border, so vertical alignment
+            // and total size stay consistent across the row.
+            border: 1px solid transparent;
         }
     }
 
