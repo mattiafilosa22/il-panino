@@ -17,11 +17,11 @@
     --color-pill-text: #FFF8E7;
     /* Light text inside the dark pill */
 
-    --font-heading: 'Bebas Neue', sans-serif;
-    --font-body: sans-serif;
-    /* Usiamo un generico per il body se non specificato */
-    --font-menu: 'Quicksand', 'Nunito', sans-serif;
-    /* Font per il menu */
+    /* Self-hosted via @font-face (see utils/_fonts.scss).
+       Fallback stacks ensure readable text while web fonts load (font-display: swap). */
+    --font-heading: 'Bebas Neue', 'Impact', system-ui, sans-serif;
+    --font-body: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-menu: 'Quicksand', 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
     --transition-speed: 0.3s;
 
