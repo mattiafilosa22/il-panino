@@ -25,8 +25,9 @@ add_action( 'after_setup_theme', 'il_panino_theme_setup' );
  * Enqueue scripts and styles.
  */
 function il_panino_theme_scripts() {
-    // Caricamento Fonts: Bebas Neue, Quicksand, Nunito
-    wp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&family=Quicksand:wght@400;600;700&display=swap', array(), null );
+    // Fonts (Bebas Neue, Quicksand, Nunito) are self-hosted under
+    // /assets/fonts/ and declared via @font-face in assets/scss/utils/_fonts.scss.
+    // No external request to fonts.googleapis.com / fonts.gstatic.com is needed.
 
     // Bootstrap 5 CSS
     wp_enqueue_style( 'bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', array(), '5.3.3' );
@@ -103,6 +104,28 @@ foreach ( $acf_components as $component ) {
     $file = get_template_directory() . '/inc/acf/' . $component . '.php';
     if ( file_exists( $file ) ) {
         require_once $file;
+    }
+}
+
+/**
+ * Load SEO modules (Schema.org JSON-LD, meta tags, business data store).
+ *
+ * Order matters: data layer first, then Customizer registration, then the
+ * wp_head renderers (meta tags + JSON-LD). The renderers detect third-party
+ * SEO plugins (Yoast, Rank Math, SEOPress, AIOSEO) and bail out to avoid
+ * duplicate output.
+ */
+$seo_modules = array(
+    'local-business-data',
+    'local-business-customizer',
+    'meta-tags',
+    'schema-restaurant',
+);
+
+foreach ( $seo_modules as $seo_module ) {
+    $seo_file = get_template_directory() . '/inc/seo/' . $seo_module . '.php';
+    if ( file_exists( $seo_file ) ) {
+        require_once $seo_file;
     }
 }
 
