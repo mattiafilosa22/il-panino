@@ -131,8 +131,8 @@
         box-shadow: none !important;
         cursor: pointer;
         transition: background-color var(--transition-speed) ease,
-                    border-color var(--transition-speed) ease,
-                    transform var(--transition-speed) ease;
+            border-color var(--transition-speed) ease,
+            transform var(--transition-speed) ease;
 
         @media (max-width: 576px) {
             font-size: 0.95rem !important;
@@ -200,10 +200,12 @@
         &::-webkit-scrollbar {
             height: 6px;
         }
+
         &::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.06);
             border-radius: 3px;
         }
+
         &::-webkit-scrollbar-thumb {
             background: var(--color-primary);
             border-radius: 3px;
@@ -269,7 +271,7 @@
         overflow: hidden;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         transition: transform var(--transition-speed) ease,
-                    box-shadow var(--transition-speed) ease;
+            box-shadow var(--transition-speed) ease;
         height: 100%;
         width: 100%;
 
@@ -320,13 +322,13 @@
         z-index: 5;
         // Layered shadow: subtle depth + a tighter inner shadow for lift on light bg
         box-shadow: 0 6px 18px rgba(64, 32, 16, 0.18),
-                    0 2px 4px rgba(64, 32, 16, 0.12);
+            0 2px 4px rgba(64, 32, 16, 0.12);
         transition: background-color var(--transition-speed) ease,
-                    border-color var(--transition-speed) ease,
-                    color var(--transition-speed) ease,
-                    transform var(--transition-speed) ease,
-                    box-shadow var(--transition-speed) ease,
-                    opacity var(--transition-speed) ease;
+            border-color var(--transition-speed) ease,
+            color var(--transition-speed) ease,
+            transform var(--transition-speed) ease,
+            box-shadow var(--transition-speed) ease,
+            opacity var(--transition-speed) ease;
         padding: 0;
 
         svg {
@@ -370,8 +372,13 @@
         }
 
         @media (max-width: 1200px) {
-            &--prev { left: 6px; }
-            &--next { right: 6px; }
+            &--prev {
+                left: 6px;
+            }
+
+            &--next {
+                right: 6px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -386,8 +393,13 @@
                 height: 18px;
             }
 
-            &--prev { left: 4px; }
-            &--next { right: 4px; }
+            &--prev {
+                left: 4px;
+            }
+
+            &--next {
+                right: 4px;
+            }
 
             &:hover:not(:disabled) {
                 transform: translateY(-50%) scale(1.08);
@@ -404,10 +416,15 @@
         // scrollable strip without overlapping the card content meaningfully.
         @media (max-width: 576px) {
             // Card is now 260x260; recenter vertically.
-            top: 50%;
+            top: 42%;
 
-            &--prev { left: 0; }
-            &--next { right: 0; }
+            &--prev {
+                left: 0;
+            }
+
+            &--next {
+                right: 0;
+            }
         }
     }
 }
