@@ -9,6 +9,10 @@
     &__filters {
         display: flex;
         flex-wrap: wrap;
+        // Center the pill buttons horizontally. On desktop with one row this
+        // looks balanced; on mobile, where flex-wrap stacks them on 2-3 rows,
+        // it prevents the ragged left-aligned look the user reported.
+        justify-content: center;
         gap: 0.75rem;
         margin-bottom: 3rem;
     }
